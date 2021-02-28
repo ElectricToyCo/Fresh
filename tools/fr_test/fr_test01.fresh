@@ -1,0 +1,37 @@
+
+const Color BurntUmber ff2341f
+
+include "fr_test02.fresh"
+
+// Here's the stage.
+//
+object StageDig theStage {
+	isDragEnabled true
+	minStageDistanceForDrag 1
+	classPath buggerage
+	Extends whatthe
+	children [
+		object MovieClip $^_fadeup {
+	/*		ignoreFrameAttachment false
+	*/
+			texture Texture'launch_overlay'
+			keyframes [
+				object Keyframe {
+					rel-s 4.0
+					children [
+						
+					]
+				}
+			]
+
+			text << END object
+Me big fat bumb.
+You are an artichoke.
+Afro-deeziac " \" chum END
+		}
+		object Sprite {
+			scale 2.25
+			position "10, -5"
+		}
+	]
+}

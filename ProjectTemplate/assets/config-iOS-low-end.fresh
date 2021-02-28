@@ -1,0 +1,8 @@
+// freshshortname Application Configuration - iOS LOW END
+
+include "assets/config-iOS.fresh"
+
+object AppStageConfig config {
+	desiredFramesPerSecond "30"
+}
+

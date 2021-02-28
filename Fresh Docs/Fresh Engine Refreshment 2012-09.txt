@@ -1,0 +1,33 @@
+
+~ FRESH ENGINE REFRESHMENT LIST ~
+
+The Destringifier CASTLE:
+
+	Containers support empty text
+	Arithmetic expressions
+	Strings should be quoted, at least for the console (e.g. setting text on a TextField from the console)
+	Trailing delimiters in containers should be ignored
+	Loose text in between XML nodes should be noted
+	Exceptions should be sent from the Destringifier in a sensible way.
+
+Interpreter:
+	Takes a string and interprets it. Might use existing language like Python. 
+	[Optional] The interpreter returns an output value (possibly void). The Destringifier would then have an option to invoke the interpreter to deal with a string value.
+	The primary effect of the interpreter is to call object mutators. This requires an expanded approach to DECLARE_MUTATOR/DECLARE_ACCESSOR (probably unified) that can handle arbitrary parameters and types (variadic templates ahoy!)
+
+Get a solid Log-Assert-Exception philosophy (with better comprehension of exceptions thrown in)
+
+Object Loading:
+
+	Add a syntax for ObjectIds to store and search against the ordinal of an object, in cases where multiple objects of the same name exist.
+	Create a stack-based system for loading and postLoading so that multiple manifests may be loaded at once.
+	Ensure that namespaces work correctly for console name searches (I don't think they do) and object names in XML files (I think they might). Thoroughly test and understand namespaces.
+	Consider using namespaces instead of the "current object being loaded" concept (the $^ syntax). Use this to support going up farther on the ancestry, e.g. $^^^ or whatever.
+	
+MovieClips:
+	
+	Allow a movie clip to talk about its descendants, not just children. This seems super-powerful: the feature I've been missing all these years. It raises violently the ongoing question of what should happen to children/descendants that are *not* mentioned in a keyframe. The current policy is to hide them and this is sometimes tedious, but it would become unworkable if descendants were also subject to that behavior. There is an overall ambiguity of whether keyframes should represent an additional space between the parent and the child, or a mechanism for overruling the state of the child; this ambiguity becomes acute with descendants because now we must ask whether the keyframe coordinates are in root space or parent-of-descendant space.
+
+Editor
+	Create one. Start simple.
+

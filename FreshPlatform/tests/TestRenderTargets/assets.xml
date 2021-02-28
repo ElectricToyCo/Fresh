@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<assets>
+	<object class="Font" name="FontMonaco26.png">
+		<fontMetricsFlePath>FontMonaco26.dat</fontMetricsFlePath>
+	</object>
+	
+	<object class="VertexStructure" name="VertexStructurePos2">
+		<attributes>[{nComponents=2|type=CT_Float|usage=AU_Position|name=position}]</attributes>
+	</object>
+	
+	<object class="VertexStructure" name="VertexStructurePos3">
+		<attributes>[{nComponents=3|type=CT_Float|usage=AU_Position|name=position}]</attributes>
+	</object>
+	
+	<object class="VertexStructure" name="VertexStructurePos2TexCoord2">
+		<attributes>[{nComponents=2|type=CT_Float|usage=AU_Position|name=position} |
+									   {nComponents=2|type=CT_Float|usage=AU_TexCoord|name=texCoord}]</attributes>
+	</object>
+	
+	<object class="VertexStructure" name="VertexStructurePos3Col4">
+		<attributes>[{nComponents=3|type=CT_Float|usage=AU_Position|name=position} |
+									   {nComponents=4|type=CT_Float|usage=AU_Color|name=color}]</attributes>
+	</object>
+	
+	<object class="VertexStructure" name="VS_Pos3TexCoord2Col4">
+		<attributes>[
+			{nComponents=3|type=CT_Float|usage=AU_Position|name=position} |
+			{nComponents=2|type=CT_Float|usage=AU_TexCoord|name=texCoord} |
+			{nComponents=4|type=CT_Float|usage=AU_Color   |name=color}
+		]</attributes>
+	</object>
+	
+	<object class="ShaderProgram" name="PlainVanilla">
+		<vertexShaderSourcePath>BaseShaders/PlainVanilla.vsh</vertexShaderSourcePath>
+		<fragmentShaderSourcePath>BaseShaders/PlainVanilla.fsh</fragmentShaderSourcePath>
+		<vertexStructure>VertexStructurePos2TexCoord2</vertexStructure>
+	</object>
+	
+	<object class="ShaderProgram" name="PlainVanillaUntextured">
+		<vertexShaderSourcePath>BaseShaders/PlainVanillaUntextured.vsh</vertexShaderSourcePath>
+		<fragmentShaderSourcePath>BaseShaders/PlainVanillaUntextured.fsh</fragmentShaderSourcePath>
+		<vertexStructure>VertexStructurePos2</vertexStructure>
+	</object>
+	
+	<object class="ShaderProgram" name="PlainVanilla3d">
+		<vertexShaderSourcePath>Shaders/PlainVanilla3d.vsh</vertexShaderSourcePath>
+		<fragmentShaderSourcePath>Shaders/PlainVanilla3d.fsh</fragmentShaderSourcePath>
+		<vertexStructure>VS_Pos3TexCoord2Col4</vertexStructure>
+	</object>
+	
+	<object class="ShaderProgram" name="Lens">
+		<vertexShaderSourcePath>Shaders/PlainVanilla3d.vsh</vertexShaderSourcePath>
+		<fragmentShaderSourcePath>Shaders/Lens.fsh</fragmentShaderSourcePath>
+		<vertexStructure>VS_Pos3TexCoord2Col4</vertexStructure>
+	</object>
+	
+</assets>

@@ -1,0 +1,22 @@
+// freshshortname assets 
+
+
+include "assets/freshscene2d_assets.fresh"
+include "assets/freshgame_assets.fresh"
+
+// Fonts and textures 
+
+object FontLoaderConfigured uni05_53_8 {
+	fontMetricsFilePath "uni05_53_8.fontmap"
+}
+object TextureLoaderConfigured uni05_53_8 {
+	basePath "assets/font"
+	filePath "uni05_53_8"
+}
+
+
+// Sounds 
+
+// Shaders 
+
+

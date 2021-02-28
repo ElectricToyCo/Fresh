@@ -1,0 +1,13 @@
+Fresh: Overriding classes with new default property values
+
+
+The Manifestation of the Problem
+================================
+
+When viewing an XML, you find values mentioned that shouldn't be, because they are "default". This causes, for example, saved files (e.g. saved castles) to have "sticky" values that don't update when the underlying classes change.
+
+There are, and must be, two solutions. The cheapest and simplest solution is to simply set the desired default value in the class inert object constructor. The inert object *is* the default object, and therefore whatever property values it has simply *are* the default values. Much of the time, this is all you need to know.
+
+However, there are fairly common cases where you can't know the correct default value during the inert constructor. Inert constructors are (typically) called during global initialization, which is before the initialization of e.g. graphics and sound systems. You cannot, therefore, set a default texture, shader, or audio cue in the inert constructor.
+
+The solution in these cases is to "doctor" the default value from within the normal constructor. The "doctoring" concept just accomplishes the idea that the default object should only be modified once, not for every constructor call. Otherwise it works the same way: you set the default object's value.

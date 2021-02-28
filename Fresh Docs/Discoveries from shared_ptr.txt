@@ -1,0 +1,115 @@
+What I'm Learning from shared_ptr/weak_ptr integration into Fresh.
+
+shared_ptr resists raw pointer assignment and casts (preferring get()) for two reasons:
+	1) get() in particular is less dangerous than an automatic cast, because it makes clear that you're leaving the protection of the system.
+	2) The lack of an intrusive control object (reference count etc.) makes conversion from raw to shared tricky. Once you're shared, you want to stay shared.
+
+The latter problem is no problem for my existing system.
+
+Using object references is unpleasant because it tends to lose shared_ptr "insiderness."
+
+Going from "this" to a particular shared_ptr< T > is the biggest hole in the shared system. It involves a presumably expensive and certainly long-winded "dynamic_pointer_cast< T >( shared_from_this() )"--totally unnecessary in my system.
+
+The automatic, correct type-checking constructors from related types in the hierarchy are the nicest features in the shared_ptr system that are lacking in mine. That is:
+
+	template< typename Y > SmartPtr( Y* other );	// Works if Y derived from T.
+	template< typename Y > SmartPtr( const SmartPtr< Y >& other );	// Works if Y derived from T.
+
+operator< are needed. Operator> are not.
+
+use_count() may be expensive with shared_ptr, but it isn't with my system.
+
+The lack of an automatic bool conversion on weak_ptr drives me crazy. But it's missing for threading support. Better than:
+
+	if( !wp.expired() )
+
+is
+	
+	if( auto sp = wp.lock() )
+
+A full explanation for the weird operator bool() on shared_ptr is here. http://www.artima.com/cppsource/safebool3.html Definitely worth doing.
+
+operator* returns T&, but operator-> returns T*. Is that normal? Oh, yes it is.
+
+std::dynamic_pointer_cast is much better than my crazy dynamic_freshptr_cast, both in interface and--presumably--implementation.
+
+If I go back to my own SmartPtr/WeakPtr implementations, I'm going to make these changes:
+
+*	Upgrade operator bool().
+*	Get rid of operator>
+*	Support templated construction from related types.
+*	Change to dynamic_pointer_cast semantics. Possibly the name too.
+*	Look at efficiency improvements regarding weak_ptr.
+*	Possibly move to make_shared. It's not necessary for me at all (it's necessary for shared_ptr for two reasons: 1) approaching intrusive pointer efficiency and 2) avoiding raw pointer exposure) but makes "new" more searchable and makes a future conversion easier.
+*	Probably move to get() instead of implicit conversion to T*. 
+
+Regarding this last point, conversion is less of an issue for me than for shared_ptr because I can easily find my way *back* to a SmartPtr from a raw pointer. But raw pointers are still dangerous, so get() is a helpful warning.
+
+I can safely differ from shared_ptr in:
+
+*	Accepting raw pointer assignments. (But I can template mine for broader conversion.)
+*	Offering operator bool() for WeakPtr.
+
+
+
+// Pointer casts
+//
+template<class _Tp, class _Up>
+inline _LIBCPP_INLINE_VISIBILITY
+shared_ptr<_Tp>
+static_pointer_cast(const shared_ptr<_Up>& __r) _NOEXCEPT
+{
+    return shared_ptr<_Tp>(__r, static_cast<_Tp*>(__r.get()));
+}
+
+template<class _Tp, class _Up>
+inline _LIBCPP_INLINE_VISIBILITY
+shared_ptr<_Tp>
+dynamic_pointer_cast(const shared_ptr<_Up>& __r) _NOEXCEPT
+{
+    _Tp* __p = dynamic_cast<_Tp*>(__r.get());
+    return __p ? shared_ptr<_Tp>(__r, __p) : shared_ptr<_Tp>();
+}
+
+template<class _Tp, class _Up>
+shared_ptr<_Tp>
+const_pointer_cast(const shared_ptr<_Up>& __r) _NOEXCEPT
+{
+    return shared_ptr<_Tp>(__r, const_cast<_Tp*>(__r.get()));
+}
+
+
+SmartPtr:
+
+	typedef _Tp element_type;
+
+	shared_ptr()
+	shared_ptr(nullptr_t)
+	template<class _Yp> explicit shared_ptr(_Yp* __p);
+
+Use enable_if and is_convertible from <type_traits>:
+
+	private:
+		struct __nat {int __for_bool_;};
+	public:
+	template<class _Yp>
+        shared_ptr(const shared_ptr<_Yp>& __r,
+                   typename enable_if<is_convertible<_Yp*, _Tp*>::value, __nat>::type = __nat());
+	template<class _Yp> explicit shared_ptr(const weak_ptr<_Yp>& __r,
+                   typename enable_if<is_convertible<_Yp*, _Tp*>::value, __nat>::type= __nat());
+
+	template<class _Yp> shared_ptr& operator=(const shared_ptr<_Yp>& __r)
+	template<class _Yp> shared_ptr& operator=(shared_ptr<_Yp>&& __r);
+
+	element_type* get() const;
+
+	// They have:
+	operator bool() const {return get() != 0;}
+
+
+WeakPtr's conversion stuff is a bit different:
+
+template<class _Yp> weak_ptr(shared_ptr<_Yp> const& __r,
+                   typename enable_if<is_convertible<_Yp*, _Tp*>::value, __nat*>::type = 0)
+
+WeakPtr works without lists! The weak_ptr just adds and deletes a weak ref count on the control block. The control block stays around until the object is gone. This is one advantage of their solution. For mine, I actually have to delete the Object right away, which means I have to tell the weakptrs to nullify themselves. They don't have to delete what the WeakPtrs are looking at, so they can they don't have to notify them. Oddly, though, they don't release_weak on the control block until the weakptr dies, which might be never. So that's a little expensive. Maybe my solution isn't so terribly bad after all.

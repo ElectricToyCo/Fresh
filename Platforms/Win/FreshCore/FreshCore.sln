@@ -1,0 +1,52 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.22823.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FreshCore", "FreshCore\FreshCore.vcxproj", "{F10E3E46-A8FC-4AD4-82B6-743805942A2D}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "tinyxml", "tinyxml\tinyxml.vcxproj", "{FCE27BC0-2F93-449E-BB47-DCCEDCC4003F}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FreshPlatform", "..\FreshPlatform\FreshPlatform.vcxproj", "{168BD219-DA31-498F-86B4-BB06DA589315}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FreshScene2D", "..\FreshScene2D\FreshScene2D.vcxproj", "{7083E655-3581-4E10-A968-C00031DCE3C1}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "freealut", "..\freealut\freealut.vcxproj", "{89621DAF-136D-4E59-93CC-663249FFA961}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FreshGame", "..\FreshGame\FreshGame.vcxproj", "{EE7AE5A5-E389-48C5-9E8E-FB2408A32E74}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F10E3E46-A8FC-4AD4-82B6-743805942A2D}.Debug|Win32.ActiveCfg = Debug|Win32
+		{F10E3E46-A8FC-4AD4-82B6-743805942A2D}.Debug|Win32.Build.0 = Debug|Win32
+		{F10E3E46-A8FC-4AD4-82B6-743805942A2D}.Release|Win32.ActiveCfg = Release|Win32
+		{F10E3E46-A8FC-4AD4-82B6-743805942A2D}.Release|Win32.Build.0 = Release|Win32
+		{FCE27BC0-2F93-449E-BB47-DCCEDCC4003F}.Debug|Win32.ActiveCfg = Debug|Win32
+		{FCE27BC0-2F93-449E-BB47-DCCEDCC4003F}.Debug|Win32.Build.0 = Debug|Win32
+		{FCE27BC0-2F93-449E-BB47-DCCEDCC4003F}.Release|Win32.ActiveCfg = Release|Win32
+		{FCE27BC0-2F93-449E-BB47-DCCEDCC4003F}.Release|Win32.Build.0 = Release|Win32
+		{168BD219-DA31-498F-86B4-BB06DA589315}.Debug|Win32.ActiveCfg = Debug|Win32
+		{168BD219-DA31-498F-86B4-BB06DA589315}.Debug|Win32.Build.0 = Debug|Win32
+		{168BD219-DA31-498F-86B4-BB06DA589315}.Release|Win32.ActiveCfg = Release|Win32
+		{168BD219-DA31-498F-86B4-BB06DA589315}.Release|Win32.Build.0 = Release|Win32
+		{7083E655-3581-4E10-A968-C00031DCE3C1}.Debug|Win32.ActiveCfg = Debug|Win32
+		{7083E655-3581-4E10-A968-C00031DCE3C1}.Debug|Win32.Build.0 = Debug|Win32
+		{7083E655-3581-4E10-A968-C00031DCE3C1}.Release|Win32.ActiveCfg = Release|Win32
+		{7083E655-3581-4E10-A968-C00031DCE3C1}.Release|Win32.Build.0 = Release|Win32
+		{89621DAF-136D-4E59-93CC-663249FFA961}.Debug|Win32.ActiveCfg = Debug|Win32
+		{89621DAF-136D-4E59-93CC-663249FFA961}.Debug|Win32.Build.0 = Debug|Win32
+		{89621DAF-136D-4E59-93CC-663249FFA961}.Release|Win32.ActiveCfg = Release|Win32
+		{89621DAF-136D-4E59-93CC-663249FFA961}.Release|Win32.Build.0 = Release|Win32
+		{EE7AE5A5-E389-48C5-9E8E-FB2408A32E74}.Debug|Win32.ActiveCfg = Debug|Win32
+		{EE7AE5A5-E389-48C5-9E8E-FB2408A32E74}.Debug|Win32.Build.0 = Debug|Win32
+		{EE7AE5A5-E389-48C5-9E8E-FB2408A32E74}.Release|Win32.ActiveCfg = Release|Win32
+		{EE7AE5A5-E389-48C5-9E8E-FB2408A32E74}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

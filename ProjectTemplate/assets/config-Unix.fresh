@@ -1,0 +1,8 @@
+// freshshortname Application Configuration - Unix 
+
+include "assets/config.fresh"
+
+object AppStageConfig config {
+}
+
+

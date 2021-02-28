@@ -1,0 +1,159 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{168BD219-DA31-498F-86B4-BB06DA589315}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>FreshPlatform</RootNamespace>
+    <TargetPlatformVersion>8.1</TargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140_xp</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140_xp</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup />
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>DEV_MODE=1;_CRT_SECURE_NO_WARNINGS;WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(ProjectDir)\..\..\..\lib\mpg123;$(ProjectDir)\..\..\..\lib\freealut\include;$(ProjectDir)\..\..\..\lib\OpenAL\include;$(ProjectDir)\..\..\..\lib\lodepng;$(ProjectDir)\..\..\..\lib\Win\glew\include;$(ProjectDir)\..\..\..\lib\tinyxml_src;$(ProjectDir)\..\..\..\FreshCore</AdditionalIncludeDirectories>
+      <DisableSpecificWarnings>4101;4624</DisableSpecificWarnings>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(ProjectDir)\..\..\..\lib\mpg123;$(ProjectDir)\..\..\..\lib\freealut\include;$(ProjectDir)\..\..\..\lib\OpenAL\include;$(ProjectDir)\..\..\..\lib\lodepng;$(ProjectDir)\..\..\..\lib\Win\glew\include;$(ProjectDir)\..\..\..\lib\tinyxml_src;$(ProjectDir)\..\..\..\FreshCore</AdditionalIncludeDirectories>
+      <DisableSpecificWarnings>4101;4624</DisableSpecificWarnings>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <Text Include="ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\FreshPlatform\Application.cpp" />
+    <ClCompile Include="..\..\..\FreshPlatform\AudioCue.cpp" />
+    <ClCompile Include="..\..\..\FreshPlatform\AudioSound.cpp" />
+    <ClCompile Include="..\..\..\FreshPlatform\AudioSystem.cpp" />
+    <ClCompile Include="..\..\..\FreshPlatform\Color.cpp" />
+    <ClCompile Include="..\..\..\FreshPlatform\EventDispatcher.cpp" />
+    <ClCompile Include="..\..\..\FreshPlatform\EventKeyboard.cpp" />
+    <ClCompile Include="..\..\..\FreshPlatform\EventTouch.cpp" />
+    <ClCompile Include="..\..\..\FreshPlatform\Font.cpp" />
+    <ClCompile Include="..\..\..\FreshPlatform\FreshGraphicsUtil.cpp" />
+    <ClCompile Include="..\..\..\FreshPlatform\FreshOpenGL.cpp" />
+    <ClCompile Include="..\..\..\FreshPlatform\FreshVersioning.cpp" />
+    <ClCompile Include="..\..\..\FreshPlatform\Gamepad.cpp" />
+    <ClCompile Include="..\..\..\FreshPlatform\Keyboard.cpp" />
+    <ClCompile Include="..\..\..\FreshPlatform\Leaderboard.cpp" />
+    <ClCompile Include="..\..\..\FreshPlatform\MusicManager.cpp" />
+    <ClCompile Include="..\..\..\FreshPlatform\Platforms\FreshGameCenter_Null.cpp" />
+    <ClCompile Include="..\..\..\FreshPlatform\Platforms\FreshSocial_Null.cpp" />
+    <ClCompile Include="..\..\..\FreshPlatform\Platforms\ImageLoader_Generic.cpp" />
+    <ClCompile Include="..\..\..\FreshPlatform\Platforms\Win\Application_Win32.cpp" />
+    <ClCompile Include="..\..\..\FreshPlatform\Platforms\Win\Gamepad_Win32.cpp" />
+    <ClCompile Include="..\..\..\FreshPlatform\Renderer.cpp" />
+    <ClCompile Include="..\..\..\FreshPlatform\RenderTarget.cpp" />
+    <ClCompile Include="..\..\..\FreshPlatform\Shader.cpp" />
+    <ClCompile Include="..\..\..\FreshPlatform\ShaderProgram.cpp" />
+    <ClCompile Include="..\..\..\FreshPlatform\ShaderUniformUpdater.cpp" />
+    <ClCompile Include="..\..\..\FreshPlatform\ShaderUniformUpdaterConcrete.cpp" />
+    <ClCompile Include="..\..\..\FreshPlatform\SimpleMesh.cpp" />
+    <ClCompile Include="..\..\..\FreshPlatform\Texture.cpp" />
+    <ClCompile Include="..\..\..\FreshPlatform\VertexBuffer.cpp" />
+    <ClCompile Include="..\..\..\FreshPlatform\VertexStructure.cpp" />
+    <ClCompile Include="..\..\..\FreshPlatform\VirtualKeys.cpp" />
+    <ClCompile Include="..\..\..\lib\lodepng\lodepng.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\FreshPlatform\Application.h" />
+    <ClInclude Include="..\..\..\FreshPlatform\AudioCue.h" />
+    <ClInclude Include="..\..\..\FreshPlatform\AudioSound.h" />
+    <ClInclude Include="..\..\..\FreshPlatform\AudioSystem.h" />
+    <ClInclude Include="..\..\..\FreshPlatform\Color.h" />
+    <ClInclude Include="..\..\..\FreshPlatform\Event.h" />
+    <ClInclude Include="..\..\..\FreshPlatform\EventDispatcher.h" />
+    <ClInclude Include="..\..\..\FreshPlatform\EventKeyboard.h" />
+    <ClInclude Include="..\..\..\FreshPlatform\EventTouch.h" />
+    <ClInclude Include="..\..\..\FreshPlatform\Font.h" />
+    <ClInclude Include="..\..\..\FreshPlatform\FreshGameCenter.h" />
+    <ClInclude Include="..\..\..\FreshPlatform\FreshGraphicsUtil.h" />
+    <ClInclude Include="..\..\..\FreshPlatform\FreshOpenAL.h" />
+    <ClInclude Include="..\..\..\FreshPlatform\FreshOpenGL.h" />
+    <ClInclude Include="..\..\..\FreshPlatform\FreshSocial.h" />
+    <ClInclude Include="..\..\..\FreshPlatform\FreshVersioning.h" />
+    <ClInclude Include="..\..\..\FreshPlatform\Gamepad.h" />
+    <ClInclude Include="..\..\..\FreshPlatform\ImageLoader.h" />
+    <ClInclude Include="..\..\..\FreshPlatform\Keyboard.h" />
+    <ClInclude Include="..\..\..\FreshPlatform\Leaderboard.h" />
+    <ClInclude Include="..\..\..\FreshPlatform\MusicManager.h" />
+    <ClInclude Include="..\..\..\FreshPlatform\PlatformPropertyTraits.h" />
+    <ClInclude Include="..\..\..\FreshPlatform\Platforms\ImageLoader_Common.h" />
+    <ClInclude Include="..\..\..\FreshPlatform\Renderer.h" />
+    <ClInclude Include="..\..\..\FreshPlatform\RenderTarget.h" />
+    <ClInclude Include="..\..\..\FreshPlatform\Shader.h" />
+    <ClInclude Include="..\..\..\FreshPlatform\ShaderProgram.h" />
+    <ClInclude Include="..\..\..\FreshPlatform\ShaderUniformUpdater.h" />
+    <ClInclude Include="..\..\..\FreshPlatform\ShaderUniformUpdaterConcrete.h" />
+    <ClInclude Include="..\..\..\FreshPlatform\SimpleMesh.h" />
+    <ClInclude Include="..\..\..\FreshPlatform\stb_image.h" />
+    <ClInclude Include="..\..\..\FreshPlatform\TextMetrics.h" />
+    <ClInclude Include="..\..\..\FreshPlatform\Texture.h" />
+    <ClInclude Include="..\..\..\FreshPlatform\VertexBuffer.h" />
+    <ClInclude Include="..\..\..\FreshPlatform\VertexStructure.h" />
+    <ClInclude Include="..\..\..\FreshPlatform\VirtualKeys.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

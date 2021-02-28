@@ -1,0 +1,8 @@
+// freshshortname Application Configuration - Windows 
+
+include "assets/config.fresh"
+
+object AppStageConfig config {
+}
+
+

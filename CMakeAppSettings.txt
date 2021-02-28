@@ -1,0 +1,206 @@
+set( FRESH_DIR "${PROJECT_SOURCE_DIR}/Fresh" )
+
+add_subdirectory( ${FRESH_DIR} ${CMAKE_CURRENT_BINARY_DIR}/Fresh )
+
+include( ${FRESH_DIR}/CMakeBaseSettings.txt )
+
+include_directories( ${FRESH_DIR}/FreshCore )
+include_directories( ${FRESH_DIR}/FreshPlatform )
+include_directories( ${FRESH_DIR}/FreshScene2D )
+include_directories( ${FRESH_DIR}/FreshGame )
+include_directories( ${FRESH_DIR}/FreshScript )
+include_directories( ${FRESH_DIR}/lib/tinyxml_src )
+include_directories( ${FRESH_DIR}/lib/zlib/include )
+include_directories( ${FRESH_DIR}/lib/libpng )
+include_directories( ${FRESH_DIR}/lib/mpg123 )
+include_directories( ${FRESH_DIR}/lib/lodepng )
+include_directories( ${FRESH_DIR}/lib/lua )
+include_directories( ${FRESH_DIR}/lib )
+
+#### The game project files themselves
+
+file( GLOB SourceFiles ${PROJECT_SOURCE_DIR}/src/*.* ${PROJECT_SOURCE_DIR}/src/editor/*.* )
+
+if( IOS )
+	set( CURL_LIBRARIES ${FRESH_DIR}/lib/curl/libcurl.a )
+	find_library( OpenGLES2 OpenGLES2 REQUIRED )
+	include_directories( ${OPENGLES2_INCLUDE_DIR} )
+elseif( ANDROID )
+	find_library( OpenGLES2 OpenGLES2 REQUIRED )
+	include_directories( ${OPENGLES2_INCLUDE_DIR} )
+	message( "OpenGL=" ${OpenGLES2} )
+
+	set( ANDROID_LIBRARY_DEPS GLESv2 log)
+elseif( EMSCRIPTEN )
+	set( LINKER_FLAGS "-o ${APP_NAME}.js -s USE_WEBGL2=1 -lopenal" )
+elseif( RASBPIAN )
+	find_library( OpenGLES2 OpenGLES2 REQUIRED )
+	include_directories( ${OPENGLES2_INCLUDE_DIR} )
+else()
+	find_package( OpenGL )
+	include_directories( ${OPENGL_INCLUDE_DIR} )
+endif()
+
+# ALUT Support on Windows and Emscripten
+if( WIN32 OR EMSCRIPTEN OR RASPBIAN )
+	message( "Using freealut for Windows or Emscripten or Raspbian." )
+	include_directories( ${FRESH_DIR}/lib/freealut/include )
+	file( GLOB ALUTSources ${FRESH_DIR}/lib/freealut/src/*.cpp )
+	add_library( ALUT ${ALUTSources} )
+	set( ALUT_LIBRARY ALUT )
+endif()
+
+if( WIN32 )
+
+	set( WINMM winmm.lib )
+
+	# OpenAL on Windows
+	include_directories( ${FRESH_DIR}/lib/Win/OpenAL/include )
+	#set( OPENAL_LIBRARY ${FRESH_DIR}/lib/Win/OpenAL/libs/Win32/OpenAL32.lib )
+	set( OPENAL_LIBRARY ${FRESH_DIR}/lib/Win/OpenAL/OpenAL32.dll ${FRESH_DIR}/lib/Win/OpenAL/wrap_oal.dll )
+
+	# GLEW on Windows
+	set( GLEW_LIBRARY ${FRESH_DIR}/lib/Win/glew/libglew32.dll.a )
+	include_directories( ${FRESH_DIR}/lib/Win/glew/include )
+
+	# Winsock # TODO - trying to "just use" them.
+#	find_library( WINSOCK_LIB ws2_32 )
+#	if( NOT WINSOCK_LIB )
+#    	message( "Could not locate the winsock library (ws2_32)")
+#  	endif()
+
+	set( WINSOCK ws2_32 )
+
+	set( CURL_LIBRARIES ${FRESH_DIR}/lib/Win/curl/lib64/libcurldll.a )
+
+	file( GLOB RequiredWindowsLibraryDLLs ${FRESH_DIR}/lib/Win/curl/bin/*.dll ${FRESH_DIR}/lib/Win/glew/*.dll ${FRESH_DIR}/lib/Win/OpenAL/*.dll ${FRESH_DIR}/lib/Win/Additional/*.dll )
+
+	# zlib
+	set( ZLIB ${FRESH_DIR}/lib/zlib/lib/libz.a )
+
+elseif( ANDROID )
+
+	#TODO Android OpenAL support
+
+else()		# Non-Windows/Non-Android platforms
+
+	find_package( OpenAL )
+	if( OPENAL_FOUND )
+		include_directories( ${OPENAL_INCLUDE_DIR} )
+	else()
+		message( "Could not find OpenAL." )
+	endif()
+
+	set(THREADS_PREFER_PTHREAD_FLAG ON)
+	find_package(Threads)
+	set( THREAD_LIBRARY "Threads::Threads" )
+
+	if( APPLE )
+		find_library( COCOA_LIBRARY Cocoa )
+		find_library( IOKIT IOKit )
+		find_library( AUDIOTOOLBOX AudioToolbox )
+	elseif( EMSCRIPTEN )
+		set( GLEW_LIBRARY "" )
+		set( CURL_LIBRARIES "" )
+		set( OPENAL_LIBRARY "" )
+	elseif( RASBPIAN )
+		set( GLEW_LIBRARY "" )
+		set( RPI_LIBS "GLESv2 egl libbcm_host.so libvcos.so" )
+	else()
+		SET( CMAKE_MODULE_PATH ${FRESH_DIR}/tools )
+		find_package( GLEW )
+		find_package( ALUT )
+	endif()
+
+endif()
+
+file( GLOB ResourceFiles resources/* ${RequiredWindowsLibraryDLLs})
+file( GLOB Assets assets/* )
+
+#if( APPLE AND ${CMAKE_GENERATOR} MATCHES "Unix Makefiles" )
+	set( ResourcesLocation "Resources" )
+#endif()
+
+set_source_files_properties( ${ResourceFiles} ${Assets} PROPERTIES MACOSX_PACKAGE_LOCATION ${ResourcesLocation} )
+
+if( ANDROID )
+
+	add_library( ${APP_NAME}
+		SHARED
+		${SourceFiles}
+		${ResourceFiles} )
+
+else()
+
+	add_executable( ${APP_NAME}
+		#WIN32						# *Comment* this line to show a console; *uncomment* to hide the console.
+		MACOSX_BUNDLE
+		${SourceFiles}
+		${ResourceFiles}
+	)
+
+endif()
+
+if( UNIX )
+	message( "Building for Unix." )
+	find_package( X11 REQUIRED )
+	message( "X11 is ${X11_LIBRARIES}" )
+
+	find_package(GLUT)
+endif()
+
+if( APPLE )
+	find_library( COCOA_LIBRARY Cocoa )
+	find_library( IOKIT_LIBRARY IOKit )
+	find_library( AUDIOTOOLBOX_LIBRARY AudioToolbox )
+	mark_as_advanced( COCOA_LIBRARY IOKIT_LIBRARY AUDIOTOOLBOX_LIBRARY )
+endif()
+
+my_link_whole_library( ${APP_NAME} FreshScript )
+my_link_whole_library( ${APP_NAME} FreshGame )
+my_link_whole_library( ${APP_NAME} FreshScene2D )
+my_link_whole_library( ${APP_NAME} FreshPlatform )
+my_link_whole_library( ${APP_NAME} FreshCore )
+
+target_link_libraries( ${APP_NAME}
+	tinyxml
+	lodepng
+	lua
+	mpg123
+	${RPI_LIBS}
+	${WINSOCK}
+	${WINMM}
+	${OPENGL_LIBRARIES}
+	${ALUT_LIBRARY}
+	${OPENAL_LIBRARY}
+	${THREAD_LIBRARY}
+	${GLEW_LIBRARY}
+	${MINGW_STDTHREADS}
+#	${CURL_LIBRARIES}
+#	${ZLIB}
+#	${ANDROID_LIBRARY_DEPS}
+#	${COCOA_LIBRARY} ${IOKIT} ${AUDIOTOOLBOX} 				# Apple-specific
+	${X11_LIBRARIES}
+	${LINKER_FLAGS}
+)
+
+set( PRODUCT_DIR "${CMAKE_CURRENT_BINARY_DIR}/${APP_NAME}_app" )
+
+file( COPY ${ResourceFiles} DESTINATION ${PRODUCT_DIR} )
+file( COPY ${Assets} DESTINATION ${PRODUCT_DIR}/assets )
+
+if( WIN32 )
+	target_link_libraries( ${APP_NAME} ALUT )
+
+	# Copy Windows required DLLs
+	file( COPY ${FRESH_DIR}/lib/Win/libgcc_s_seh-1.dll DESTINATION ${PRODUCT_DIR} )
+	file( COPY ${FRESH_DIR}/lib/Win/libwinpthread-1.dll DESTINATION ${PRODUCT_DIR} )
+	file( COPY ${FRESH_DIR}/lib/Win/libstdc++-6.dll DESTINATION ${PRODUCT_DIR} )
+endif()
+
+if( NOT EMSCRIPTEN )
+	install( TARGETS ${APP_NAME} DESTINATION ${PRODUCT_DIR}  )
+endif()
+
+# Update version.txt
+# TODO

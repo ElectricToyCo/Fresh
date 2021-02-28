@@ -1,0 +1,324 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="FreshCore">
+      <UniqueIdentifier>{5b5d5c05-5382-463f-b442-54393f3ebd4e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FreshGraphics">
+      <UniqueIdentifier>{8e66b89b-d39d-4325-bcca-16545bf4112d}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\FreshCore\tinyxml_src\tinystr.cpp">
+      <Filter>FreshCore</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\FreshCore\tinyxml_src\tinyxml.cpp">
+      <Filter>FreshCore</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\FreshCore\tinyxml_src\tinyxmlerror.cpp">
+      <Filter>FreshCore</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\FreshCore\tinyxml_src\tinyxmlparser.cpp">
+      <Filter>FreshCore</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\FreshCore\Asset.cpp">
+      <Filter>FreshCore</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\FreshCore\FreshPlatform.cpp">
+      <Filter>FreshCore</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\FreshCore\FreshXML.cpp">
+      <Filter>FreshCore</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\FreshCore\Matrix4.cpp">
+      <Filter>FreshCore</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\FreshCore\MatrixStack.cpp">
+      <Filter>FreshCore</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\FreshCore\Object.cpp">
+      <Filter>FreshCore</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\FreshCore\ObjectId.cpp">
+      <Filter>FreshCore</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\FreshCore\ObjectLinker.cpp">
+      <Filter>FreshCore</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\FreshCore\ObjectManager.cpp">
+      <Filter>FreshCore</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\FreshCore\ObjectStore.cpp">
+      <Filter>FreshCore</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\FreshCore\ObjectStreamFormatter.cpp">
+      <Filter>FreshCore</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\FreshCore\Profiler.cpp">
+      <Filter>FreshCore</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\FreshCore\Vector2.cpp">
+      <Filter>FreshCore</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\FreshCore\Vector3.cpp">
+      <Filter>FreshCore</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\FreshCore\Vector4.cpp">
+      <Filter>FreshCore</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\FreshCore\Platforms\Win\FreshFile.cpp">
+      <Filter>FreshCore</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\FreshCore\Platforms\Win\FreshTime.cpp">
+      <Filter>FreshCore</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\FreshCore\Platforms\Win\FreshDebug.cpp">
+      <Filter>FreshCore</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\ShaderProgram.cpp">
+      <Filter>FreshGraphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\ShaderProgramGL.cpp">
+      <Filter>FreshGraphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\ShaderProgramNull.cpp">
+      <Filter>FreshGraphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\ShaderUniformUpdater.cpp">
+      <Filter>FreshGraphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\ShaderUniformUpdaterConcrete.cpp">
+      <Filter>FreshGraphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Texture.cpp">
+      <Filter>FreshGraphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Color.cpp">
+      <Filter>FreshGraphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\FreshGraphicsTesting.cpp">
+      <Filter>FreshGraphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Renderer.cpp">
+      <Filter>FreshGraphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\RendererGL.cpp">
+      <Filter>FreshGraphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\RendererGLES1.cpp">
+      <Filter>FreshGraphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\RendererGLES2.cpp">
+      <Filter>FreshGraphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Shader.cpp">
+      <Filter>FreshGraphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\ShaderGL.cpp">
+      <Filter>FreshGraphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Platforms\Win\FreshImageLoader.cpp">
+      <Filter>FreshGraphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Platforms\Win\Application_Win32.cpp">
+      <Filter>FreshGraphics</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\..\..\FreshCore\tinyxml_src\tinystr.h">
+      <Filter>FreshCore</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\FreshCore\tinyxml_src\tinyxml.h">
+      <Filter>FreshCore</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\FreshCore\Archive.h">
+      <Filter>FreshCore</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\FreshCore\Asset.h">
+      <Filter>FreshCore</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\FreshCore\FreshDebug.h">
+      <Filter>FreshCore</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\FreshCore\FreshFile.h">
+      <Filter>FreshCore</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\FreshCore\FreshMath.h">
+      <Filter>FreshCore</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\FreshCore\FreshPlatform.h">
+      <Filter>FreshCore</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\FreshCore\FreshTime.h">
+      <Filter>FreshCore</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\FreshCore\FreshVector.h">
+      <Filter>FreshCore</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\FreshCore\FreshXML.h">
+      <Filter>FreshCore</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\FreshCore\Matrix4.h">
+      <Filter>FreshCore</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\FreshCore\Matrix4.inl.h">
+      <Filter>FreshCore</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\FreshCore\MatrixStack.h">
+      <Filter>FreshCore</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\FreshCore\Object.h">
+      <Filter>FreshCore</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\FreshCore\Object.inl.h">
+      <Filter>FreshCore</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\FreshCore\ObjectId.h">
+      <Filter>FreshCore</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\FreshCore\ObjectLinker.h">
+      <Filter>FreshCore</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\FreshCore\ObjectManager.h">
+      <Filter>FreshCore</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\FreshCore\ObjectMethod.h">
+      <Filter>FreshCore</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\FreshCore\ObjectMethodAbstract.h">
+      <Filter>FreshCore</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\FreshCore\ObjectPtr.h">
+      <Filter>FreshCore</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\FreshCore\ObjectStore.h">
+      <Filter>FreshCore</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\FreshCore\ObjectStreamFormatter.h">
+      <Filter>FreshCore</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\FreshCore\Profiler.h">
+      <Filter>FreshCore</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\FreshCore\Property.h">
+      <Filter>FreshCore</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\FreshCore\PropertyAbstract.h">
+      <Filter>FreshCore</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\FreshCore\Rectangle.h">
+      <Filter>FreshCore</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\FreshCore\Singleton.h">
+      <Filter>FreshCore</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\FreshCore\SmartPtr.h">
+      <Filter>FreshCore</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\FreshCore\SmartPtr.inl.h">
+      <Filter>FreshCore</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\FreshCore\SubjectObserver.h">
+      <Filter>FreshCore</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\FreshCore\Tweener.h">
+      <Filter>FreshCore</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\FreshCore\TypeTraits.h">
+      <Filter>FreshCore</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\FreshCore\Vector2.h">
+      <Filter>FreshCore</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\FreshCore\Vector2.inl.h">
+      <Filter>FreshCore</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\FreshCore\Vector3.h">
+      <Filter>FreshCore</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\FreshCore\Vector3.inl.h">
+      <Filter>FreshCore</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\FreshCore\Vector4.h">
+      <Filter>FreshCore</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\FreshCore\Vector4.inl.h">
+      <Filter>FreshCore</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\FreshCore\WeakPtr.h">
+      <Filter>FreshCore</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\FreshCore\WeakPtr.inl.h">
+      <Filter>FreshCore</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\ShaderProgram.h">
+      <Filter>FreshGraphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\ShaderProgramGL.h">
+      <Filter>FreshGraphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\ShaderProgramNull.h">
+      <Filter>FreshGraphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\ShaderUniformUpdater.h">
+      <Filter>FreshGraphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\ShaderUniformUpdaterConcrete.h">
+      <Filter>FreshGraphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Texture.h">
+      <Filter>FreshGraphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Application.h">
+      <Filter>FreshGraphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Color.h">
+      <Filter>FreshGraphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\FreshGraphicsTesting.h">
+      <Filter>FreshGraphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\FreshImageLoader.h">
+      <Filter>FreshGraphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\FreshOpenGL.h">
+      <Filter>FreshGraphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Renderer.h">
+      <Filter>FreshGraphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Renderer.inl.h">
+      <Filter>FreshGraphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\RendererGL.h">
+      <Filter>FreshGraphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\RendererGLES1.h">
+      <Filter>FreshGraphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\RendererGLES2.h">
+      <Filter>FreshGraphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Shader.h">
+      <Filter>FreshGraphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\ShaderGL.h">
+      <Filter>FreshGraphics</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

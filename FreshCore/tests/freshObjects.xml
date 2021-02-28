@@ -1,0 +1,14 @@
+<objects>
+	<object class='TestObjectC' name='loadedObjectC1'>
+		<property type='float' name='position'>[5|6|7]</property>
+		<property type='int' name='grid'>[[1|2|3|4]|[10|20|30|40]]</property>
+		<property type='TestObjectB::Ptr' name='friends'>[null|TestObjectB'testObjectB3']</property>
+		<property type='TestObjectA::Ptr' name='m_testObjectA'>TestObjectA'instance6'</property>
+		<property type='SmartPtr<TestObjectB>' name='m_other'>TestObjectC'objectC1'</property>
+	</object>
+	<object class='TestObjectD'>	<!-- anonymous object -->
+		<property type='std::list<TestObjectC::Ptr>' name='m_listObjectCs'>[TestObjectC'loadedObjectC1'|null|TestObjectC'objectC1']</property>
+		<property type='MapStringsToInts' name='m_mapInts'>{bargain=192|tex=256}</property>
+		<property type='std::vector<float>' name='m_arrVecFloats'>[[1|2|3|4]|[5|6]]</property>
+	</object>
+</objects>

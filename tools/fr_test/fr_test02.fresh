@@ -1,0 +1,5 @@
+class Smooch extends Varmint Fiend 
+{
+	color Red
+	position "5, 15"
+}

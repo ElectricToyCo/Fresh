@@ -1,0 +1,78 @@
+<!-- TestShaders -->
+
+<?xml version="1.0" encoding="UTF-8" ?>
+<objects root="Stage'theStage'">
+	<object class="Stage" name="theStage">
+		<stageDimensions>1024,0</stageDimensions>
+		<children>
+			<object class='ParticleEmitter' name='test emitter'>
+				<blendMode>BM_Alpha</blendMode>
+				<startingParticles>10</startingParticles>
+				<cycleDuration>2</cycleDuration>
+				<vecKeyframesColor>[{0|00000000}|{0.2|FFFFFFFF}|{0.5|FFFFFFFF}|{1|00000000}]</vecKeyframesColor>
+				<vecKeyframesScale>[{0|(1,1)}|{1|(4,4)}]</vecKeyframesScale>
+				<particleTexture>Texture'default64'</particleTexture>
+				<baseScale>(16)</baseScale>
+				<particleForce>(10,-40)</particleForce>
+				<spawnSpeedRange>[-1,1]</spawnSpeedRange>
+				<spawnRotationRange>[-360,360]</spawnRotationRange>
+				<spawnScaleRange>[(0.5,0.5),(2,2)]</spawnScaleRange>
+				<velocityDamping>0.01</velocityDamping>
+				<position>-200,200</position>
+				<isTouchEnabled>false</isTouchEnabled>
+			</object>
+			<object class='DevStatsDisplay'>
+				<position>-502, -374</position>
+				<children>
+					<object class='TextField' name='text'>
+						<font>Font'FontMonaco26'</font>
+					</object>
+				</children>
+				<textField>TextField'text'</textField>
+			</object>
+
+			<object class='MovieClip' name='animation host'>
+				
+				<children>
+					<object class='Sprite' name='moving sprite'>
+						<texture>Texture'default64'</texture>
+					</object>
+				</children>
+				
+				<passthrough>
+					<keyframe t='0'>
+						<child name='moving sprite'>
+							<trans>-100,-100</trans>
+						</child>
+						<tween />
+					</keyframe>
+					<keyframe t='60'>
+						<child name='moving sprite'>
+							<trans> 100,-100</trans>
+						</child>
+						<tween />
+					</keyframe>
+					<keyframe t='120'>
+						<child name='moving sprite'>
+							<trans> 100, 100</trans>
+						</child>
+						<tween />
+					</keyframe>
+					<keyframe t='180'>
+						<child name='moving sprite'>
+							<trans>-100, 100</trans>
+						</child>
+						<tween />
+					</keyframe>
+					<keyframe t='239'>		<!-- This is 180 + 60 - 1, extending this part of the animation before looping back to frame 0. -->
+						<child name='moving sprite'>
+							<trans>-100,-100</trans>
+						</child>
+						<tween />
+					</keyframe>
+				</passthrough>
+			</object>
+			
+		</children>
+	</object>
+</objects>

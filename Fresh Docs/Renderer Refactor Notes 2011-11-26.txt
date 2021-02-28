@@ -1,0 +1,36 @@
+FRESH RENDERER
+--------------
+
+The Fresh Renderer system was originally factored from a prior system I had built in preparation for teaching DirectX and OpenGL rendering classes at the Guildhall. The system was based on a set of abstract common interfaces--class Renderer, Texture, VertexStructure, and such--that were then implemented specifically for OpenGL and DirectX respectively. 
+
+When I began work on Fresh, DirectX support was no longer needed, at least for the moment, so I stripped out the DirectX portion of the Rendering system. This left me with class Renderer and class RendererGL.
+
+Later I moved to support the programmable pipeline via OpenGL ES 2.0. This warranted another fork in the class hierarchy:
+
+	Renderer
+	   ^
+	   |
+	RendererGL
+           ^
+	   |
+	---------
+	|	|
+RendererGLES1  RendererGLES2
+
+A great deal of sophistication has gone into supporting this four-class system. For example, ObjectManager's Class Name Remapping feature supports the ability of any Rendering system to offer its own particular flavor of VertexStructures, for example, as the concrete implementation of "VertexStructure."
+
+Despite the value of this system, it is evident that supporting four classes--indeed, many more due to the fact that VertexStructure, RenderTarget, and other support classes must also be repeated down the hierarchy--is a major cost to bear. Without a clear benefit for its current complexity, the hierarchy should be simplified.
+
+For all future iOS development, the programmable pipeline alone is sufficient. No currently-supported iOS device is limited to OpenGL ES 1.0 features. This implies that reducing all rendering to the RendererGLES2 class would be adequate for present needs.
+
+Moreover, DirectX would only be required if I offered my games on the Xbox. It is extremely unlikely that this would happen in the foreseeable future; even if it did, the cost of porting the rendering system would not be vast, nor would it be much reduced by having an abstract Renderer class in place. Therefore the topmost "Renderer" layer is purely redundant.
+
+An Android port might require a fixed function GL ES 1.0 interface, but similar reasoning applies here. The chance of a port is fairly small. The cost of a port would not be vast. The benefit of current efforts would not be of adequate help to offset their costs, even if they proved beneficial, which is uncertain.
+
+On Mac and PC, which *are* significant and immediate targets, a programmable pipeline is likewise uniformly available. It does, however, have a different interface: OpenGL 4.0. The GLSL language, for example, is quite different in 4.0 than in ES 2.0. Therefore, a minor fork of Rendering interfaces is warranted.
+
+Therefore, I will now reduce the rendering system to three classes: Renderer (which is necessarily a GL-specific implementation), RendererES2, and Renderer4.
+
+I will also somewhat relax my prior restrictions on directly including OpenGL in non-Rendering files. It will still be prudent to consolidate OpenGL-aware code to a few rendering classes, but a limited amount of special-case OpenGL calls may be made elsewhere.
+
+As for process, I will actually collapse the existing Renderer-RendererGL-RendererGLES2 classes into a single "Renderer" class. I will later (in terms of days) refactor this class into the GLES2 and GL4 subclasses when the need arises; that is, when doing some Mac port work.

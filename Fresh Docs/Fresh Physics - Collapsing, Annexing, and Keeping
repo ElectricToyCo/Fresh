@@ -1,0 +1,23 @@
+Fresh Physics - Collapsing, Annexing, and Keeping
+
+Fresh Physics supports mechanisms for easily adding constraints to objects in the editor, as well as for supporting "composite objects" and collapsible ragdolls. Let's begin with this last feature.
+
+Characters often live in a non-collapsed, kinematic mode until a later event that causes them to collapse (die). Because of this need to "keep" their physical children until later, PhysicsBodies can begin in a "Keep" physics creation mode. In this mode, all PhysicsBody descendants are "hidden away"--not even given bodies--until some later time, and therefore effectively act like mere MovieClips. The "Keep" physics mode is therefore simple in implementation and narrow in application.
+
+The second simplest mode provides support for composite objects. Multiple PhysicsBodies can be combined in the editor as children of a single "parent" body. If this parent's physics creation mode is "Annex", it will actually destroy the "body" aspect of all its physics children and steal their shapes, transforming them into local space and treating them as its own. This causes a composite, rigid body with multiple shapes all owned by a single physics body (cpBody).
+
+What about descendant PhysicsBodies in this case? It depends on the creation policies of the intervening ancestors. If a child of the root "keeps" its children, the grandchildren will be "protected" from annexation, but also inelgible from later collapse. If a child "collapses" its children, the root will end up annexing these newly-collapsed children. An annexing ancestor, therefore, is "destructive" to all of its descendants.
+
+Collapsing bodies is the most complex physics creation mode. 
+
+Two or three quite distinct needs.
+
+	Adding constraints
+	"Bundling" bodies either for sprite/shape composition (annex) or temporary hiding until collapse (ragdolling)
+
+It's the coincidental overlap between joints and temporary retention/collapsing in ragdolls that has driven the system so far.
+
+Desires:
+
+	Can add constraints to the world and to other objects with the need for hierarchy. (jointTarget + object browser is one such mechanism.)
+	Grouping may be automatic (for uniting, e.g., ragdolls) or manual.

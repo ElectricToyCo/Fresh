@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Application>
+	<desiredFramesPerSecond>60</desiredFramesPerSecond>
+	<desiredTitle>TestShaders</desiredTitle>
+	<rendererClass>Renderer</rendererClass>
+	<assetDatabaseResourcePath>asset-database.xml</assetDatabaseResourcePath>
+	<stageManifest>stage.xml</stageManifest>
+</Application>

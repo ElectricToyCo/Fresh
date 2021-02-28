@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<asset-database>
+
+	<defaults>
+		<object class="AssetLoaderDefaults" name="AudioCue">
+			<basePath></basePath>
+			<extension>caf</extension>
+		</object>
+		<object class="AssetLoaderDefaults" name="Texture">
+			<basePath></basePath>
+			<extension>png</extension>
+		</object>
+		<object class="AssetLoaderDefaults" name="Font">
+			<basePath></basePath>
+		</object>
+	</defaults>
+	
+	<include url="assets.xml" />
+	
+</asset-database>

@@ -1,0 +1,27 @@
+*~
+*.tags
+build
+build-VS10
+emscripten-build/
+Debug
+Release
+CMakeFiles
+CMakeScripts
+CMakeCache.txt
+.metadata/
+
+# Android Studio
+*.apk
+.idea/
+.gradle
+gradle
+/*/local.properties
+/*/out
+/*/*/build
+build
+/*/*/production
+*.iml
+*.iws
+*.ipr
+*~
+*.swp

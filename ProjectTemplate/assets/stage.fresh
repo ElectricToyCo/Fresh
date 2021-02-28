@@ -1,0 +1,89 @@
+// freshshortname Normal Stage 
+
+object AppStage theStage {
+
+	stageDimensions "960,0"
+
+	children [
+
+		// TODO Example stage 
+		object MovieClip $^_spinner {
+			scale "200"
+
+			children [
+			
+				object MovieClip $^_pulsar {
+					
+					children [
+						object Sprite {
+							texture "Texture'white_simple'"
+						}
+					]
+
+					passthrough [
+						object keyframe {
+							children [
+								object child "$1" {
+									color "Red"
+								}
+							]
+							tween object Linear {
+							}
+						}
+						object keyframe {
+							rel_s "1.0"
+							children [
+								// 1 second later 
+								object child "$1" {
+									color "Green"
+								}
+							]
+							tween object Linear {
+							}
+						}
+						object keyframe {
+							rel_s "1.0"
+							children [
+								object child "$1" {
+									color "Blue"
+								}
+							]
+							tween object Linear {
+							}
+						}
+						object keyframe {
+							rel_s "1.0"
+							children [
+								object child "$1" {
+									color "Red"
+								}
+							]
+							tween object Linear {
+							}
+						}
+					]
+				}
+			]
+
+			passthrough [
+				object keyframe {
+					children [
+						object child "$1" {
+							rotation "0"
+						}
+					]
+					tween object Linear {
+					}
+				}
+				object keyframe {
+					rel_s "6.1"
+					children [
+						object child "$1" {
+							rotation "359"
+						}
+					]
+				}
+			]
+		}
+	]
+}

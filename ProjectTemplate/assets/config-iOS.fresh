@@ -1,0 +1,8 @@
+// freshshortname Application Configuration - iOS 
+
+include "assets/config.fresh"
+
+object AppStageConfig config {
+	logFileName ""// Disable log file on iOS 
+}
+

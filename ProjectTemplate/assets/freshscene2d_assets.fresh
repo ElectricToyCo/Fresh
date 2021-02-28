@@ -1,0 +1,110 @@
+// FreshScene2D assets 
+
+
+class VertexStructureLoader extends AssetLoader_Default {
+	assetClass "VertexStructure"
+}
+
+object VertexStructureLoader VS_Pos2 {
+	passthrough {
+		attributes [
+			"{ nComponents=2, type=Float, usage=Position, name=position }"
+		]
+	}
+}
+object VertexStructureLoader VS_Pos2TexCoord2 {
+	passthrough {
+		attributes [
+			"{ nComponents=2, type=Float, usage=Position, name=position }"
+			"{ nComponents=2, type=Float, usage=TexCoord, name=texCoord }"
+		]
+	}
+}
+object VertexStructureLoader VS_Pos2Col4 {
+	passthrough {
+		attributes [
+			"{ nComponents=2, type=Float, usage=Position, name=position }"
+			"{ nComponents=4, type=Float, usage=Color, name=color }"
+		]
+	}
+}
+
+object SimpleMeshLoader SM_ZeroCenteredDiameter1 {
+	vertexStructure "VS_Pos2TexCoord2"
+	primitiveType "TriangleStrip"
+	components [
+		-0.5  0.5  0.0  1.0
+		 0.5  0.5  1.0  1.0
+		-0.5 -0.5  0.0  0.0
+		 0.5 -0.5  1.0  0.0
+	]
+}
+
+object ShaderProgramLoader PlainVanilla {
+	vertexShaderSourcePath "assets/shaders/PlainVanilla.vsh"
+	fragmentShaderSourcePath "assets/shaders/PlainVanilla.fsh"
+	vertexStructure "VS_Pos2TexCoord2"
+
+	passthrough {
+		uniformUpdaters [
+			object ShaderUniformUpdaterConcrete_mat4 {
+				uniformName "projectionMatrix"
+				boundObject "Renderer'renderer'"
+				objectMemberName "getProjectionMatrix"
+			}
+			object ShaderUniformUpdaterConcrete_mat4 {
+				uniformName "modelViewMatrix"
+				boundObject "Renderer'renderer'"
+				objectMemberName "getModelViewMatrix"
+			}
+			object ShaderUniformUpdaterConcrete_mat4 {
+				uniformName "textureMatrix"
+				boundObject "Renderer'renderer'"
+				objectMemberName "getTextureMatrix"
+			}
+			object ShaderUniformUpdaterConcrete_Color {
+				uniformName "color_multiply"
+				boundObject "Renderer'renderer'"
+				objectMemberName "getColorMultiply"
+			}
+			object ShaderUniformUpdaterConcrete_Color {
+				uniformName "color_additive"
+				boundObject "Renderer'renderer'"
+				objectMemberName "getColorAdditive"
+			}
+		]
+	}
+}
+
+object ShaderProgramLoader PlainVanillaUntextured {
+	vertexShaderSourcePath "assets/shaders/PlainVanillaUntextured.vsh"
+	fragmentShaderSourcePath "assets/shaders/PlainVanillaUntextured.fsh"
+	vertexStructure "VS_Pos2Col4"
+
+	passthrough {
+		uniformUpdaters [
+			object ShaderUniformUpdaterConcrete_mat4 {
+				uniformName "projectionMatrix"
+				boundObject "Renderer'renderer'"
+				objectMemberName "getProjectionMatrix"
+			}
+			object ShaderUniformUpdaterConcrete_mat4 {
+				uniformName "modelViewMatrix"
+				boundObject "Renderer'renderer'"
+				objectMemberName "getModelViewMatrix"
+			}
+			object ShaderUniformUpdaterConcrete_Color {
+				uniformName "color_multiply"
+				boundObject "Renderer'renderer'"
+				objectMemberName "getColorMultiply"
+			}
+			object ShaderUniformUpdaterConcrete_Color {
+				uniformName "color_additive"
+				boundObject "Renderer'renderer'"
+				objectMemberName "getColorAdditive"
+			}
+		]
+	}
+}
+
+

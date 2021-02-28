@@ -1,0 +1,398 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		1F9BE89316E1384800E27463 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1F9BE89216E1384800E27463 /* main.cpp */; };
+		1F9BE89516E1384800E27463 /* test_FreshCore.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1F9BE89416E1384800E27463 /* test_FreshCore.1 */; };
+		1F9BE8B516E1386900E27463 /* libFreshCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F9BE8A816E1385800E27463 /* libFreshCore.a */; };
+		1F9BE8B616E1386C00E27463 /* libtinyxml.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F9BE8B416E1385800E27463 /* libtinyxml.a */; };
+		1F9BE8BE16E13D9500E27463 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F9BE8BD16E13D9500E27463 /* IOKit.framework */; };
+		1F9BE8C216E13DF300E27463 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F9BE8C116E13DF300E27463 /* Cocoa.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		1F9BE8A716E1385800E27463 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1F9BE89B16E1385800E27463 /* Fresh.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = EF4DFEABF7274A07BA31BCA0;
+			remoteInfo = FreshCore;
+		};
+		1F9BE8A916E1385800E27463 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1F9BE89B16E1385800E27463 /* Fresh.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = A33A36DD525543FE836885BF;
+			remoteInfo = FreshPlatform;
+		};
+		1F9BE8AB16E1385800E27463 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1F9BE89B16E1385800E27463 /* Fresh.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = D0DDEFB55D6C449F9319DC61;
+			remoteInfo = FreshScene2D;
+		};
+		1F9BE8AD16E1385800E27463 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1F9BE89B16E1385800E27463 /* Fresh.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = F06E4CE276DF46698A02BED9;
+			remoteInfo = FreshTelemetry;
+		};
+		1F9BE8AF16E1385800E27463 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1F9BE89B16E1385800E27463 /* Fresh.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 18EB97A09DCA425F83317048;
+			remoteInfo = TestApp;
+		};
+		1F9BE8B116E1385800E27463 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1F9BE89B16E1385800E27463 /* Fresh.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 496BB23D55FA4B6F81F8CFC9;
+			remoteInfo = TestShaders;
+		};
+		1F9BE8B316E1385800E27463 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1F9BE89B16E1385800E27463 /* Fresh.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 63459A449B6C46CCB51C7A97;
+			remoteInfo = tinyxml;
+		};
+		1F9BE8B716E1387500E27463 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1F9BE89B16E1385800E27463 /* Fresh.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 0C8C8184751E425CBC39A985;
+			remoteInfo = FreshCore;
+		};
+		1F9BE8B916E1387500E27463 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1F9BE89B16E1385800E27463 /* Fresh.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 1C14A79EC04845598CF5EB6D;
+			remoteInfo = tinyxml;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		1F9BE88D16E1384800E27463 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+				1F9BE89516E1384800E27463 /* test_FreshCore.1 in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		1F9BE88F16E1384800E27463 /* test_FreshCore */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = test_FreshCore; sourceTree = BUILT_PRODUCTS_DIR; };
+		1F9BE89216E1384800E27463 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		1F9BE89416E1384800E27463 /* test_FreshCore.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = test_FreshCore.1; sourceTree = "<group>"; };
+		1F9BE89B16E1385800E27463 /* Fresh.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Fresh.xcodeproj; path = "../../../Fresh-Xcode/Fresh.xcodeproj"; sourceTree = "<group>"; };
+		1F9BE8BD16E13D9500E27463 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
+		1F9BE8C116E13DF300E27463 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		1F9BE88C16E1384800E27463 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1F9BE8C216E13DF300E27463 /* Cocoa.framework in Frameworks */,
+				1F9BE8BE16E13D9500E27463 /* IOKit.framework in Frameworks */,
+				1F9BE8B616E1386C00E27463 /* libtinyxml.a in Frameworks */,
+				1F9BE8B516E1386900E27463 /* libFreshCore.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		1F9BE88616E1384800E27463 = {
+			isa = PBXGroup;
+			children = (
+				1F9BE8C116E13DF300E27463 /* Cocoa.framework */,
+				1F9BE8BD16E13D9500E27463 /* IOKit.framework */,
+				1F9BE89B16E1385800E27463 /* Fresh.xcodeproj */,
+				1F9BE89116E1384800E27463 /* test_FreshCore */,
+				1F9BE89016E1384800E27463 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		1F9BE89016E1384800E27463 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				1F9BE88F16E1384800E27463 /* test_FreshCore */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		1F9BE89116E1384800E27463 /* test_FreshCore */ = {
+			isa = PBXGroup;
+			children = (
+				1F9BE89216E1384800E27463 /* main.cpp */,
+				1F9BE89416E1384800E27463 /* test_FreshCore.1 */,
+			);
+			path = test_FreshCore;
+			sourceTree = "<group>";
+		};
+		1F9BE89C16E1385800E27463 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				1F9BE8A816E1385800E27463 /* libFreshCore.a */,
+				1F9BE8AA16E1385800E27463 /* libFreshPlatform.a */,
+				1F9BE8AC16E1385800E27463 /* libFreshScene2D.a */,
+				1F9BE8AE16E1385800E27463 /* libFreshTelemetry.a */,
+				1F9BE8B016E1385800E27463 /* TestApp.app */,
+				1F9BE8B216E1385800E27463 /* TestShaders.app */,
+				1F9BE8B416E1385800E27463 /* libtinyxml.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		1F9BE88E16E1384800E27463 /* test_FreshCore */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1F9BE89816E1384800E27463 /* Build configuration list for PBXNativeTarget "test_FreshCore" */;
+			buildPhases = (
+				1F9BE88B16E1384800E27463 /* Sources */,
+				1F9BE88C16E1384800E27463 /* Frameworks */,
+				1F9BE88D16E1384800E27463 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				1F9BE8B816E1387500E27463 /* PBXTargetDependency */,
+				1F9BE8BA16E1387500E27463 /* PBXTargetDependency */,
+			);
+			name = test_FreshCore;
+			productName = test_FreshCore;
+			productReference = 1F9BE88F16E1384800E27463 /* test_FreshCore */;
+			productType = "com.apple.product-type.tool";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		1F9BE88716E1384800E27463 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0460;
+				ORGANIZATIONNAME = "Jeff Wofford";
+			};
+			buildConfigurationList = 1F9BE88A16E1384800E27463 /* Build configuration list for PBXProject "test_FreshCore" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 1F9BE88616E1384800E27463;
+			productRefGroup = 1F9BE89016E1384800E27463 /* Products */;
+			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 1F9BE89C16E1385800E27463 /* Products */;
+					ProjectRef = 1F9BE89B16E1385800E27463 /* Fresh.xcodeproj */;
+				},
+			);
+			projectRoot = "";
+			targets = (
+				1F9BE88E16E1384800E27463 /* test_FreshCore */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		1F9BE8A816E1385800E27463 /* libFreshCore.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libFreshCore.a;
+			remoteRef = 1F9BE8A716E1385800E27463 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		1F9BE8AA16E1385800E27463 /* libFreshPlatform.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libFreshPlatform.a;
+			remoteRef = 1F9BE8A916E1385800E27463 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		1F9BE8AC16E1385800E27463 /* libFreshScene2D.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libFreshScene2D.a;
+			remoteRef = 1F9BE8AB16E1385800E27463 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		1F9BE8AE16E1385800E27463 /* libFreshTelemetry.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libFreshTelemetry.a;
+			remoteRef = 1F9BE8AD16E1385800E27463 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		1F9BE8B016E1385800E27463 /* TestApp.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = TestApp.app;
+			remoteRef = 1F9BE8AF16E1385800E27463 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		1F9BE8B216E1385800E27463 /* TestShaders.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = TestShaders.app;
+			remoteRef = 1F9BE8B116E1385800E27463 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		1F9BE8B416E1385800E27463 /* libtinyxml.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libtinyxml.a;
+			remoteRef = 1F9BE8B316E1385800E27463 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
+
+/* Begin PBXSourcesBuildPhase section */
+		1F9BE88B16E1384800E27463 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1F9BE89316E1384800E27463 /* main.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		1F9BE8B816E1387500E27463 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = FreshCore;
+			targetProxy = 1F9BE8B716E1387500E27463 /* PBXContainerItemProxy */;
+		};
+		1F9BE8BA16E1387500E27463 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = tinyxml;
+			targetProxy = 1F9BE8B916E1387500E27463 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		1F9BE89616E1384800E27463 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					../..,
+					../../../lib/tinyxml_src,
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		1F9BE89716E1384800E27463 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					../..,
+					../../../lib/tinyxml_src,
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		1F9BE89916E1384800E27463 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		1F9BE89A16E1384800E27463 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		1F9BE88A16E1384800E27463 /* Build configuration list for PBXProject "test_FreshCore" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1F9BE89616E1384800E27463 /* Debug */,
+				1F9BE89716E1384800E27463 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1F9BE89816E1384800E27463 /* Build configuration list for PBXNativeTarget "test_FreshCore" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1F9BE89916E1384800E27463 /* Debug */,
+				1F9BE89A16E1384800E27463 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 1F9BE88716E1384800E27463 /* Project object */;
+}

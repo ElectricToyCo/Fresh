@@ -1,0 +1,7 @@
+// freshshortname strings 
+
+object StringTable strings {
+	table {
+		AppTitle "freshshortname"
+	}
+}

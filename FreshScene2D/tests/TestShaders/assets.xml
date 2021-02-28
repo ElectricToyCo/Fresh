@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<objects>
+	
+	<object class="FontLoader" name="FontMonaco26">
+		<passthrough><fontMetricsFilePath>FontMonaco26.dat</fontMetricsFilePath></passthrough>
+	</object>
+	<object class="TextureLoader" name="default64">
+		<extension>bmp</extension>
+	</object>
+
+	<!-- FreshScene2D required assets -->
+	
+	<object class="AssetLoader_Default" name="VS_Pos2">
+		<passthrough><attributes>[{nComponents=2|type=CT_Float|usage=AU_Position|name=position }]</attributes></passthrough>
+	</object>
+	<object class="AssetLoader_Default" name="VS_Pos2TexCoord2">
+		<passthrough><attributes>[{nComponents=2|type=CT_Float|usage=AU_Position|name=position } |
+			{nComponents=2|type=CT_Float|usage=AU_TexCoord|name=texCoord }]</attributes></passthrough>
+	</object>
+	<object class="AssetLoader_Default" name="VS_Pos2Col4">
+		<passthrough><attributes>[{nComponents=2|type=CT_Float|usage=AU_Position|name=position } |
+			{nComponents=4|type=CT_Float|usage=AU_Color|name=color }]</attributes></passthrough>
+	</object>
+	
+	<object class="SimpleMeshLoader" name="SM_ZeroCenteredDiameter1">
+		<vertexStructure>VS_Pos2TexCoord2</vertexStructure>
+		<primitiveType>PT_TriangleStrip</primitiveType>
+		<components>[-0.5| 0.5| 0.0| 1.0|
+			0.5| 0.5| 1.0| 1.0|
+			-0.5|-0.5| 0.0| 0.0|
+			0.5|-0.5| 1.0| 0.0
+			]</components>
+	</object>
+
+	<object class="ShaderProgramLoader" name="PlainVanilla">
+		<vertexShaderSourcePath>PlainVanilla.vsh</vertexShaderSourcePath>
+		<fragmentShaderSourcePath>PlainVanilla.fsh</fragmentShaderSourcePath>
+		<vertexStructure>VS_Pos2TexCoord2</vertexStructure>
+
+		<passthrough>
+			<uniformUpdaters>
+				<object class="ShaderUniformUpdaterConcrete_mat4">
+					<uniformName>projectionMatrix</uniformName>
+					<boundObject>Renderer'renderer'</boundObject>
+					<objectMemberName>getProjectionMatrix</objectMemberName>
+				</object>
+				<object class="ShaderUniformUpdaterConcrete_mat4">
+					<uniformName>modelViewMatrix</uniformName>
+					<boundObject>Renderer'renderer'</boundObject>
+					<objectMemberName>getModelViewMatrix</objectMemberName>
+				</object>
+				<object class="ShaderUniformUpdaterConcrete_mat4">
+					<uniformName>textureMatrix</uniformName>
+					<boundObject>Renderer'renderer'</boundObject>
+					<objectMemberName>getTextureMatrix</objectMemberName>
+				</object>
+				<object class="ShaderUniformUpdaterConcrete_Color">
+					<uniformName>color_multiply</uniformName>
+					<boundObject>Renderer'renderer'</boundObject>
+					<objectMemberName>getColorMultiply</objectMemberName>
+				</object>
+				<object class="ShaderUniformUpdaterConcrete_Color">
+					<uniformName>color_additive</uniformName>
+					<boundObject>Renderer'renderer'</boundObject>
+					<objectMemberName>getColorAdditive</objectMemberName>
+				</object>
+			</uniformUpdaters>
+		</passthrough>
+	</object>
+
+	<object class="ShaderProgramLoader" name="PlainVanillaUntextured">
+		<vertexShaderSourcePath>PlainVanillaUntextured.vsh</vertexShaderSourcePath>
+		<fragmentShaderSourcePath>PlainVanillaUntextured.fsh</fragmentShaderSourcePath>
+		<vertexStructure>VS_Pos2Col4</vertexStructure>
+		
+		<passthrough>
+			<uniformUpdaters>
+				<object class="ShaderUniformUpdaterConcrete_mat4"> 
+					<uniformName>projectionMatrix</uniformName>
+					<boundObject>Renderer'renderer'</boundObject>
+					<objectMemberName>getProjectionMatrix</objectMemberName>
+				</object>
+				<object class="ShaderUniformUpdaterConcrete_mat4"> 
+					<uniformName>modelViewMatrix</uniformName>
+					<boundObject>Renderer'renderer'</boundObject>
+					<objectMemberName>getModelViewMatrix</objectMemberName>
+				</object>
+				<object class="ShaderUniformUpdaterConcrete_Color"> 
+					<uniformName>color_multiply</uniformName>
+					<boundObject>Renderer'renderer'</boundObject>
+					<objectMemberName>getColorMultiply</objectMemberName>
+				</object>
+				<object class="ShaderUniformUpdaterConcrete_Color">
+					<uniformName>color_additive</uniformName>
+					<boundObject>Renderer'renderer'</boundObject>
+					<objectMemberName>getColorAdditive</objectMemberName>
+				</object>
+			</uniformUpdaters>
+		</passthrough>
+	</object>
+	
+	<!-- END FreshScene2D required assets  -->
+	
+</objects>

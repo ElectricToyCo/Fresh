@@ -1,0 +1,14 @@
+# Ignore Xcode stuff:
+build/*
+*.mode*
+*.pbxuser
+project.xcworkspace
+xcuserdata
+
+# Ignore Finder stuff:
+.DS_Store
+profile
+
+# Ignore leftovers from other SCM systems:
+CVS
+.svn

@@ -1,0 +1,195 @@
+<html>
+	<head>
+		<script async src="https://www.googletagmanager.com/gtag/js?id=UA-35317955-1"></script>
+		<script>
+			window.dataLayer = window.dataLayer || [];
+			function gtag(){dataLayer.push(arguments);}
+			gtag('js', new Date());
+			gtag('config', 'UA-35317955-1');
+		</script>
+
+		<meta charset="utf-8">
+
+		<title>FRESH APP TITLE</title>
+		<meta name="description" content="The Electric Toy Company">
+		<meta name="author" content="Jeff Wofford">
+		<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=0"/>
+
+		<script>
+			goFullscreen = null;
+		
+			function bailout() {
+				window.location.replace( '/' );
+			}
+
+			function onGameStarting() {
+				console.log( 'game done loading' );
+
+				// Hide loading message.
+				document.getElementById( 'loading-message' ).style.display = 'none';
+
+				clearInterval( loadingInterval );
+			}			
+		</script>
+
+		<style>
+			body {/* display: flex; *//* flex-direction: column; */margin: 0;padding: 0;color: #f1ede5;background-color: #292827;font-family: Futura-Medium, Helvetica, sans-serif;font-size: 12pt;}
+			
+			a {color: #E65E5E; text-decoration: none;font-weight: bold; font-style: italic; }
+			a:hover { text-decoration: underline; }
+			a:visited { color: #E65E5E; }
+			header { min-height: 1.5em; text-align: center; padding: 16px; background: #4C4139; margin-bottom: 24px; box-shadow: 0 0px 25px rgba(0,0,0,0.5); }
+			.back-to-main { font-family: Futura-Medium, Helvetica, sans-serif; float: left; }
+			.back-to-main a { font-style: normal; }
+			.back-to-main a:visited { color: #E65E5E; }
+			.game-title { font-family: Rosewood, Gill Sans, Helvetica, sans-serif; font-size: 24pt; }
+			.game-subtitle { font-family: Futura-Medium, Gill Sans, sans-serif; font-size: 12pt; }
+
+			main {width: 100%;max-width: 100vw;margin: 0 auto;text-align: center;padding: 0;}
+
+			.game-presentation {display: inline-block;position: relative;min-height: 360px;z-index: 10;}
+
+			canvas {margin: auto; display: block;width: 640px;max-width: 100vw;max-height: 100vh;background: black;box-shadow: 0 10px 35px rgba(0,0,0,0.5);}
+
+			canvas:fullscreen { margin: auto; max-width: 100%; width: 100%; max-height: 100%; height: auto; }
+			canvas:-webkit-full-screen { margin: auto; max-width: 100%; width: 100%; max-height: 100%; height: auto; }
+			
+			.button { cursor: pointer; cursor: hand; }
+
+			#start-prompt { text-align: center;position: absolute;width: 100%;left: 0;top: 10vw;z-index: 200; }
+			#start-prompt-contents { margin: 0 auto; }
+			#start-prompt-contents img { width: 48px; }
+
+			#loading-message { display: none; pointer-events: none; text-align: center;;position: absolute;width: 100%;left: 0;top: 15vw;z-index: 100;}
+			#loading-message-contents { margin: 0 auto; }
+
+			.common-game-controls {width: 100%;height: 36px;text-align: center;}
+			.common-game-controls .contents { float:right; box-shadow: 0 10px 35px rgba(0,0,0,0.5); }
+			.common-game-controls .contents .button { width:48px;height:100%;display:inline-block; margin: 1px;padding: 4px;text-align: center;color:#fff;background-color:#8F7C70; font-size: 12pt; }
+			.common-game-controls .contents .button:hover { background-color: #aaa; }
+			.common-game-controls .contents .button:link { background-color: #aaa; }
+			.button.fullscreen {}
+
+			.game-description { min-height: 10em; padding: 1em; padding-top: 0; text-align: justify; }
+
+			footer { flex-shrink: 0; margin: 0; background: #4C4139; width: 100%; padding-top: 12px; padding-bottom: 12px; text-align: center; font-size: 10pt; font-family: Futura-Medium, Gill Sans, Helvetica, sans-serif; box-shadow: 0 0px 25px rgba(0,0,0,0.5);}
+
+			footer span { white-space: nowrap; }
+			
+			.vignette {
+				z-index: 1;
+				pointer-events: none;
+				position: fixed;
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: 100%;
+				box-shadow: 0 0 100px rgba(0,0,0,0.9) inset;
+			}
+
+			@media screen and (max-width: 725px) {
+				body { font-size: 14pt; }
+			}
+
+		</style>
+
+	</head>
+	<body>
+		<header>
+			<noscript>Sorry, this site requires that Javascript be enabled in your browser.</noscript>
+			<div class='meta'>
+				<div class='back-to-main'><a href='/'>&lt; Back</a></div>
+			</div>
+			<div class='game-title'></div>
+			<div class='game-subtitle'></div>
+		</header>
+		<main>
+			<div class='game-presentation'>
+				<canvas class="emscripten" id="canvas" oncontextmenu="event.preventDefault()"></canvas>
+				<div class='common-game-controls'><div class='contents'>
+					<div class='button fullscreen' onclick="if( goFullscreen ) { goFullscreen(); } else { Module.requestFullScreen(true, false); }">FS</div>
+				</div></div>
+				<div id="start-prompt"><div class='button' id='start-prompt-contents' onclick='startGame()'><div id='start-prompt-text'>Play Game</div></div></div>
+				<div id="loading-message"><div id='loading-message-contents'>loading</div></div>
+
+				<script type="text/javascript">
+					Module = { 
+						print: function(text) { console.log( text ); },
+						printErr: function(text) { console.error( text ); },
+						canvas: document.getElementById( "canvas" ),
+					};
+				</script>
+
+				<script id='game-script' async></script>
+			</div>
+			<div class='game-description'></div>
+		</main>
+		<div id='footer'></div>
+		<div class='vignette'></div>
+
+		<script>
+			// key blocker. prevent cursor keys from scrolling page while playing game.
+			
+			function onKeyDown_blocker(event) {
+				event = event || window.event;
+				var o = document.activeElement;
+				if (!o || o == document.body || o.tagName == "canvas")
+				{
+					if ([32, 37, 38, 39, 40].indexOf(event.keyCode) > -1)
+					{
+						if (event.preventDefault) event.preventDefault();
+					}
+				}
+			}
+
+			document.addEventListener('keydown', onKeyDown_blocker, false);
+
+			const gameShortName = 'freshshortname';
+			console.log( gameShortName );
+
+			const gameTitle = 'FRESH APP TITLE';
+			document.title = 'The E.T.C.: ' + gameTitle;
+			document.getElementsByClassName( 'game-title' )[0].innerHTML = gameTitle;
+
+			const subtitle = '';
+			const description = 'Created in less than 48 hours for Ludum Dare 42. TODO!!!';
+
+			document.getElementsByClassName( 'game-subtitle' )[0].innerHTML = subtitle || '';
+			document.getElementsByClassName( 'game-description' )[0].innerHTML = description || '';				
+			
+			const url = 'index.js';
+			
+			// Load the game.
+			startGame = function() {
+
+				console.log( 'starting game' )
+				
+				const canvas = document.getElementById( 'canvas' );
+				document.getElementById( 'loading-message' ).style.display = 'block';
+
+				goFullscreen = function() {
+					console.log( 'Using canvas fullscreen' );
+					const canvas = document.getElementById( 'canvas' );
+					if( canvas.requestFullscreen ) { canvas.requestFullscreen(); }
+					else if( canvas.mozRequestFullScreen ) { canvas.mozRequestFullScreen(); }
+					else if( canvas.webkitRequestFullScreen ) { canvas.webkitRequestFullScreen(); }							
+					else if( canvas.msRequestFullscreen ) { canvas.msRequestFullscreen(); }							
+				}					
+
+				// Start loading cycle display
+				//
+				loadingTickCount = 0
+				loadingInterval = setInterval( function() {
+					loadingTickCount += 1;
+					const count = loadingTickCount % 4;
+					document.getElementById( 'loading-message' ).innerHTML = '&nbsp;'.repeat( count ) + 'loading' + '.'.repeat( count );
+				}, 200 /* ms */ );
+
+				document.getElementById( 'start-prompt' ).style.display = 'none';
+				document.getElementById( 'game-script' ).src = url;
+			}
+
+		</script>	
+
+	</body>
+</html>

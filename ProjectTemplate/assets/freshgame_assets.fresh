@@ -1,0 +1,199 @@
+// FreshGame assets 
+
+object ShaderProgramLoader SP_Pos2Only {
+	vertexShaderSourceText << EOF
+		uniform mat4 projectionMatrix;
+		uniform mat4 modelViewMatrix;
+		attribute vec2 position;
+
+		void main()
+		{
+			gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 0.0, 1.0 );
+		}
+	EOF
+
+	fragmentShaderSourceText << EOF
+		void main()
+		{
+			gl_FragColor = vec4( 1, 1, 1, 1 );
+		}
+	EOF
+
+	vertexStructure "VS_Pos2"
+
+	passthrough {
+		uniformUpdaters [
+			object ShaderUniformUpdaterConcrete_mat4 {
+				uniformName "projectionMatrix"
+				boundObject "Renderer'renderer'"
+				objectMemberName "getProjectionMatrix"
+			}
+			object ShaderUniformUpdaterConcrete_mat4 {
+				uniformName "modelViewMatrix"
+				boundObject "Renderer'renderer'"
+				objectMemberName "getModelViewMatrix"
+			}
+		]
+	}
+}
+
+
+object ShaderProgramLoader SP_LightDiffuse {
+	vertexShaderSourceText << EOF
+		uniform mat4 projectionModelViewMatrix;
+		uniform mat4 textureMatrix;
+
+		attribute vec2 position;
+		attribute vec2 texCoord;
+
+		varying lowp vec4 fragment_texCoord;
+
+		void main()
+		{
+			gl_Position = projectionModelViewMatrix * vec4( position, 0.0, 1.0 );
+
+			fragment_texCoord = textureMatrix * vec4( texCoord, 0.0, 1.0 );
+		}
+	EOF
+
+	fragmentShaderSourceText << EOF
+		uniform sampler2D diffuseTexture;
+		uniform lowp vec4 color_multiply;
+
+		varying lowp vec4 fragment_texCoord;
+
+		void main()
+		{
+			gl_FragColor = color_multiply * texture2D( diffuseTexture, fragment_texCoord.st );
+		}
+	EOF
+
+	vertexStructure "VS_Pos2TexCoord2"
+
+	passthrough {
+
+		uniformUpdaters [
+
+			object ShaderUniformUpdaterConcrete_mat4 {
+				uniformName "projectionModelViewMatrix"
+				boundObject "Renderer'renderer'"
+				objectMemberName "getProjectionModelViewMatrix"
+			}
+			object ShaderUniformUpdaterConcrete_mat4 {
+				uniformName "textureMatrix"
+				boundObject "Renderer'renderer'"
+				objectMemberName "getTextureMatrix"
+			}
+			object ShaderUniformUpdaterConcrete_Color {
+				uniformName "color_multiply"
+				boundObject "Renderer'renderer'"
+				objectMemberName "getColorMultiply"
+			}
+		]
+	}
+}
+
+object ShaderProgramLoader SP_FloorTile {
+	vertexShaderSourceText << EOF
+		uniform mat4 projectionModelViewMatrix;
+		uniform mat4 textureMatrix;
+
+		attribute vec2 position;
+		attribute vec2 texCoord;
+
+		varying lowp vec4 fragment_texCoord;
+
+		void main()
+		{
+			gl_Position = projectionModelViewMatrix * vec4( position, 0.0, 1.0 );
+
+			fragment_texCoord = textureMatrix * vec4( texCoord, 0.0, 1.0 );
+		}
+	EOF
+
+	fragmentShaderSourceText << EOF
+		uniform sampler2D diffuseTexture;
+		uniform lowp vec4 color_multiply;
+
+		varying lowp vec4 fragment_texCoord;
+
+		void main()
+		{
+			gl_FragColor = color_multiply * texture2D( diffuseTexture, fragment_texCoord.st );
+		}
+	EOF
+
+	vertexStructure "VS_Pos2TexCoord2"
+
+	passthrough {
+
+		uniformUpdaters [
+			object ShaderUniformUpdaterConcrete_mat4 {
+				uniformName "projectionModelViewMatrix"
+				boundObject "Renderer'renderer'"
+				objectMemberName "getProjectionModelViewMatrix"
+			}
+			object ShaderUniformUpdaterConcrete_mat4 {
+				uniformName "textureMatrix"
+				boundObject "Renderer'renderer'"
+				objectMemberName "getTextureMatrix"
+			}
+			object ShaderUniformUpdaterConcrete_Color {
+				uniformName "color_multiply"
+				boundObject "Renderer'renderer'"
+				objectMemberName "getColorMultiply"
+			}
+		]
+	}
+}
+
+// For Lighting 
+
+object SimpleMeshLoader SM_ZeroCenteredDiameter2 {
+	vertexStructure "VS_Pos2TexCoord2"
+	primitiveType "TriangleStrip"
+	components [
+		-1  1  0  1 
+		 1  1  1  1 
+		-1 -1  0  0 
+		 1 -1  1  0
+	]
+}
+
+object SimpleMeshLoader SM_WholeScreenQuad {
+	vertexStructure "VS_Pos2TexCoord2"
+	primitiveType "TriangleStrip"
+	components [
+		-1 -1  0  0
+		 1 -1  1  0
+		-1  1  0  1
+		 1  1  1  1
+	]
+}
+
+object ShaderProgramLoader SP_WholeScreen {
+	vertexShaderSourceText << EOF
+		attribute vec2 position;
+		attribute vec2 texCoord;
+
+		varying lowp vec2 fragment_texCoord;
+
+		void main()
+		{
+			gl_Position = vec4( position, 0.0, 1.0 );
+			fragment_texCoord = texCoord;
+		}
+	EOF
+	fragmentShaderSourceText << EOF
+		uniform sampler2D diffuseTexture;
+
+		varying lowp vec2 fragment_texCoord;
+
+		void main()
+		{
+			gl_FragColor = texture2D( diffuseTexture, fragment_texCoord );
+		}
+	EOF
+
+	vertexStructure "VS_Pos2TexCoord2"
+}

@@ -1,0 +1,982 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		1F51FC1F1A3245EE008EEAA1 /* AppStage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1F51FC1C1A3245EE008EEAA1 /* AppStage.cpp */; };
+		1F80BB961CBDBFF6006D5042 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F80BB941CBDBFF6006D5042 /* Crashlytics.framework */; };
+		1F80BB971CBDBFF6006D5042 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F80BB951CBDBFF6006D5042 /* Fabric.framework */; };
+		1F9E825418C92E3000BF7B00 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F9E825318C92E3000BF7B00 /* Foundation.framework */; };
+		1F9E825618C92E3000BF7B00 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F9E825518C92E3000BF7B00 /* CoreGraphics.framework */; };
+		1F9E825818C92E3000BF7B00 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F9E825718C92E3000BF7B00 /* UIKit.framework */; };
+		1F9E825C18C92E3000BF7B00 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F9E825B18C92E3000BF7B00 /* OpenGLES.framework */; };
+		1F9E829418C92EDA00BF7B00 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F9E829318C92EDA00BF7B00 /* OpenAL.framework */; };
+		1F9E829618C92EE100BF7B00 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F9E829518C92EE100BF7B00 /* AudioToolbox.framework */; };
+		1F9E829918C9317C00BF7B00 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F9E829818C9317C00BF7B00 /* Security.framework */; };
+		1F9E829B18C9318400BF7B00 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F9E829A18C9318400BF7B00 /* Social.framework */; };
+		1F9E829D18C9318B00BF7B00 /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F9E829C18C9318B00BF7B00 /* GameKit.framework */; };
+		1F9E84A118C9343E00BF7B00 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F9E84A018C9343E00BF7B00 /* libz.dylib */; };
+		1F9E84DA18C937AA00BF7B00 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F9E84D918C937AA00BF7B00 /* QuartzCore.framework */; };
+		1FB8F8501A2D177900DC1B59 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1FB8F84F1A2D177900DC1B59 /* main.cpp */; };
+		1FB8F8521A2D179800DC1B59 /* assets in Resources */ = {isa = PBXBuildFile; fileRef = 1FB8F8511A2D179800DC1B59 /* assets */; };
+		1FD08E2320B082DF00829C8E /* libFreshCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1FD08E0420B0827600829C8E /* libFreshCore.a */; };
+		1FD08E2420B082DF00829C8E /* libFreshGame.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1FD08E0A20B0827600829C8E /* libFreshGame.a */; };
+		1FD08E2520B082DF00829C8E /* libFreshPlatform.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1FD08E0620B0827600829C8E /* libFreshPlatform.a */; };
+		1FD08E2620B082DF00829C8E /* libFreshScene2D.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1FD08E0820B0827600829C8E /* libFreshScene2D.a */; };
+		1FD08E2720B082DF00829C8E /* libtinyxml.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1FD08E0C20B0827600829C8E /* libtinyxml.a */; };
+		1FD08E4820B083F400829C8E /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1FD08E4720B083F300829C8E /* AVFoundation.framework */; };
+		1FD08E4A20B0840400829C8E /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1FD08E4920B0840400829C8E /* StoreKit.framework */; };
+		1FD08E4B20B084B600829C8E /* libFreshCore macOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1FD08E0E20B0827600829C8E /* libFreshCore macOS.a */; };
+		1FD08E4C20B084B600829C8E /* libFreshGame macOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1FD08E1420B0827600829C8E /* libFreshGame macOS.a */; };
+		1FD08E4D20B084B600829C8E /* libFreshPlatform macOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1FD08E1020B0827600829C8E /* libFreshPlatform macOS.a */; };
+		1FD08E4E20B084B600829C8E /* libFreshScene2D macOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1FD08E1220B0827600829C8E /* libFreshScene2D macOS.a */; };
+		1FD08E4F20B084B600829C8E /* libtinyxml macOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1FD08E1620B0827600829C8E /* libtinyxml macOS.a */; };
+		1FD08E5120B084B700829C8E /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1FD08E5020B084B700829C8E /* Carbon.framework */; };
+		1FD08E5520B084D800829C8E /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1FD08E5420B084D800829C8E /* OpenAL.framework */; };
+		1FD08E5720B084E000829C8E /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1FD08E5620B084DF00829C8E /* AudioToolbox.framework */; };
+		1FD08E6A20B085F800829C8E /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1FD08E6820B085F800829C8E /* Crashlytics.framework */; };
+		1FD08E6B20B085F800829C8E /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1FD08E6920B085F800829C8E /* Fabric.framework */; };
+		1FD08E7020B0872000829C8E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1FD08E6F20B0872000829C8E /* Assets.xcassets */; };
+		1FD08E7120B0872300829C8E /* AppStage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1F51FC1C1A3245EE008EEAA1 /* AppStage.cpp */; };
+		1FD08E7220B0872300829C8E /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1FB8F84F1A2D177900DC1B59 /* main.cpp */; };
+		1FD08E7420B0875000829C8E /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 1FD08E7320B0875000829C8E /* libz.tbd */; };
+		1FD08E7520B0876F00829C8E /* assets in Resources */ = {isa = PBXBuildFile; fileRef = 1FB8F8511A2D179800DC1B59 /* assets */; };
+		1FD08E7720B087A800829C8E /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1FD08E7620B087A800829C8E /* MainMenu.xib */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		1FD08E0320B0827600829C8E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1FD08DF620B0827500829C8E /* Fresh.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 60A43C3882C745669B18563D;
+			remoteInfo = FreshCore;
+		};
+		1FD08E0520B0827600829C8E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1FD08DF620B0827500829C8E /* Fresh.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 521D38557FAB4C21A8D4FDA1;
+			remoteInfo = FreshPlatform;
+		};
+		1FD08E0720B0827600829C8E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1FD08DF620B0827500829C8E /* Fresh.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = D64052F5347841949D0B06FE;
+			remoteInfo = FreshScene2D;
+		};
+		1FD08E0920B0827600829C8E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1FD08DF620B0827500829C8E /* Fresh.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 1F51FBF21A3245AA008EEAA1;
+			remoteInfo = FreshGame;
+		};
+		1FD08E0B20B0827600829C8E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1FD08DF620B0827500829C8E /* Fresh.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 32C281DED9F6432DA178DFE5;
+			remoteInfo = tinyxml;
+		};
+		1FD08E0D20B0827600829C8E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1FD08DF620B0827500829C8E /* Fresh.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 1FF8FECF1F40FF4C0011D987;
+			remoteInfo = "FreshCore macOS";
+		};
+		1FD08E0F20B0827600829C8E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1FD08DF620B0827500829C8E /* Fresh.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 1FF8FEFE1F40FF590011D987;
+			remoteInfo = "FreshPlatform macOS";
+		};
+		1FD08E1120B0827600829C8E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1FD08DF620B0827500829C8E /* Fresh.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 1FF8FF261F40FF650011D987;
+			remoteInfo = "FreshScene2D macOS";
+		};
+		1FD08E1320B0827600829C8E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1FD08DF620B0827500829C8E /* Fresh.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 1FF8FF421F40FF700011D987;
+			remoteInfo = "FreshGame macOS";
+		};
+		1FD08E1520B0827600829C8E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1FD08DF620B0827500829C8E /* Fresh.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 1FF8FF4C1F40FF7E0011D987;
+			remoteInfo = "tinyxml macOS";
+		};
+		1FD08E1920B082D700829C8E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1FD08DF620B0827500829C8E /* Fresh.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = F8C3F0C8F97440FAAF30CFC0;
+			remoteInfo = FreshCore;
+		};
+		1FD08E1B20B082D700829C8E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1FD08DF620B0827500829C8E /* Fresh.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 8C41F52B7FD24FF085EE469E;
+			remoteInfo = FreshPlatform;
+		};
+		1FD08E1D20B082D700829C8E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1FD08DF620B0827500829C8E /* Fresh.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 601EC2C74C414C3DBA88C865;
+			remoteInfo = FreshScene2D;
+		};
+		1FD08E1F20B082D700829C8E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1FD08DF620B0827500829C8E /* Fresh.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 1F51FBF11A3245AA008EEAA1;
+			remoteInfo = FreshGame;
+		};
+		1FD08E2120B082D700829C8E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1FD08DF620B0827500829C8E /* Fresh.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 3ED43862263D4474A623B742;
+			remoteInfo = tinyxml;
+		};
+		1FD08E5E20B085E400829C8E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1FD08DF620B0827500829C8E /* Fresh.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 1FF8FEA01F40FF4C0011D987;
+			remoteInfo = "FreshCore macOS";
+		};
+		1FD08E6020B085E400829C8E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1FD08DF620B0827500829C8E /* Fresh.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 1FF8FED01F40FF590011D987;
+			remoteInfo = "FreshPlatform macOS";
+		};
+		1FD08E6220B085E400829C8E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1FD08DF620B0827500829C8E /* Fresh.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 1FF8FEFF1F40FF650011D987;
+			remoteInfo = "FreshScene2D macOS";
+		};
+		1FD08E6420B085E400829C8E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1FD08DF620B0827500829C8E /* Fresh.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 1FF8FF271F40FF700011D987;
+			remoteInfo = "FreshGame macOS";
+		};
+		1FD08E6620B085E400829C8E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1FD08DF620B0827500829C8E /* Fresh.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 1FF8FF431F40FF7E0011D987;
+			remoteInfo = "tinyxml macOS";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		1F51FC1C1A3245EE008EEAA1 /* AppStage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AppStage.cpp; sourceTree = "<group>"; };
+		1F51FC1D1A3245EE008EEAA1 /* AppStage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppStage.h; sourceTree = "<group>"; };
+		1F51FC1E1A3245EE008EEAA1 /* Essentials.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Essentials.h; sourceTree = "<group>"; };
+		1F80BB941CBDBFF6006D5042 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Crashlytics.framework; path = iOS/Crashlytics.framework; sourceTree = "<group>"; };
+		1F80BB951CBDBFF6006D5042 /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Fabric.framework; path = iOS/Fabric.framework; sourceTree = "<group>"; };
+		1F9E825018C92E3000BF7B00 /* FRESH APP TITLE - iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "FRESH APP TITLE - iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		1F9E825318C92E3000BF7B00 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		1F9E825518C92E3000BF7B00 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		1F9E825718C92E3000BF7B00 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		1F9E825B18C92E3000BF7B00 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
+		1F9E829318C92EDA00BF7B00 /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = System/Library/Frameworks/OpenAL.framework; sourceTree = SDKROOT; };
+		1F9E829518C92EE100BF7B00 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		1F9E829818C9317C00BF7B00 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		1F9E829A18C9318400BF7B00 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
+		1F9E829C18C9318B00BF7B00 /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
+		1F9E84A018C9343E00BF7B00 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		1F9E84A218C9349B00BF7B00 /* libcurl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcurl.a; path = "../../Fresh/lib/curl/ios-appstore/lib/libcurl.a"; sourceTree = "<group>"; };
+		1F9E84D918C937AA00BF7B00 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		1FB8F84F1A2D177900DC1B59 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		1FB8F8511A2D179800DC1B59 /* assets */ = {isa = PBXFileReference; lastKnownFileType = folder; name = assets; path = ../../assets; sourceTree = SOURCE_ROOT; };
+		1FD08DF620B0827500829C8E /* Fresh.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Fresh.xcodeproj; path = ../../Fresh/Platforms/Apple/Fresh.xcodeproj; sourceTree = "<group>"; };
+		1FD08E3920B0837D00829C8E /* FRESH APP TITLE - macOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "FRESH APP TITLE - macOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		1FD08E4720B083F300829C8E /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		1FD08E4920B0840400829C8E /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		1FD08E5020B084B700829C8E /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk/System/Library/Frameworks/Carbon.framework; sourceTree = DEVELOPER_DIR; };
+		1FD08E5420B084D800829C8E /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk/System/Library/Frameworks/OpenAL.framework; sourceTree = DEVELOPER_DIR; };
+		1FD08E5620B084DF00829C8E /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk/System/Library/Frameworks/AudioToolbox.framework; sourceTree = DEVELOPER_DIR; };
+		1FD08E6820B085F800829C8E /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Crashlytics.framework; path = macOS/Crashlytics.framework; sourceTree = "<group>"; };
+		1FD08E6920B085F800829C8E /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Fabric.framework; path = macOS/Fabric.framework; sourceTree = "<group>"; };
+		1FD08E6F20B0872000829C8E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = macOS/Assets.xcassets; sourceTree = SOURCE_ROOT; };
+		1FD08E7320B0875000829C8E /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk/usr/lib/libz.tbd; sourceTree = DEVELOPER_DIR; };
+		1FD08E7620B087A800829C8E /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MainMenu.xib; path = macOS/MainMenu.xib; sourceTree = SOURCE_ROOT; };
+		1FE0FE88192EFC7E00B86F2F /* libcurl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcurl.a; path = "../../../Fresh/lib/curl/ios-appstore/lib/libcurl.a"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		1F9E824D18C92E3000BF7B00 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1F80BB971CBDBFF6006D5042 /* Fabric.framework in Frameworks */,
+				1FD08E4A20B0840400829C8E /* StoreKit.framework in Frameworks */,
+				1FD08E4820B083F400829C8E /* AVFoundation.framework in Frameworks */,
+				1FD08E2320B082DF00829C8E /* libFreshCore.a in Frameworks */,
+				1FD08E2420B082DF00829C8E /* libFreshGame.a in Frameworks */,
+				1FD08E2520B082DF00829C8E /* libFreshPlatform.a in Frameworks */,
+				1FD08E2620B082DF00829C8E /* libFreshScene2D.a in Frameworks */,
+				1FD08E2720B082DF00829C8E /* libtinyxml.a in Frameworks */,
+				1F9E84DA18C937AA00BF7B00 /* QuartzCore.framework in Frameworks */,
+				1F9E84A118C9343E00BF7B00 /* libz.dylib in Frameworks */,
+				1F9E829D18C9318B00BF7B00 /* GameKit.framework in Frameworks */,
+				1F80BB961CBDBFF6006D5042 /* Crashlytics.framework in Frameworks */,
+				1F9E829B18C9318400BF7B00 /* Social.framework in Frameworks */,
+				1F9E829918C9317C00BF7B00 /* Security.framework in Frameworks */,
+				1F9E829618C92EE100BF7B00 /* AudioToolbox.framework in Frameworks */,
+				1F9E829418C92EDA00BF7B00 /* OpenAL.framework in Frameworks */,
+				1F9E825C18C92E3000BF7B00 /* OpenGLES.framework in Frameworks */,
+				1F9E825618C92E3000BF7B00 /* CoreGraphics.framework in Frameworks */,
+				1F9E825818C92E3000BF7B00 /* UIKit.framework in Frameworks */,
+				1F9E825418C92E3000BF7B00 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1FD08E3620B0837D00829C8E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1FD08E7420B0875000829C8E /* libz.tbd in Frameworks */,
+				1FD08E5720B084E000829C8E /* AudioToolbox.framework in Frameworks */,
+				1FD08E5520B084D800829C8E /* OpenAL.framework in Frameworks */,
+				1FD08E5120B084B700829C8E /* Carbon.framework in Frameworks */,
+				1FD08E6A20B085F800829C8E /* Crashlytics.framework in Frameworks */,
+				1FD08E6B20B085F800829C8E /* Fabric.framework in Frameworks */,
+				1FD08E4B20B084B600829C8E /* libFreshCore macOS.a in Frameworks */,
+				1FD08E4C20B084B600829C8E /* libFreshGame macOS.a in Frameworks */,
+				1FD08E4D20B084B600829C8E /* libFreshPlatform macOS.a in Frameworks */,
+				1FD08E4E20B084B600829C8E /* libFreshScene2D macOS.a in Frameworks */,
+				1FD08E4F20B084B600829C8E /* libtinyxml macOS.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		1F9E824718C92E3000BF7B00 = {
+			isa = PBXGroup;
+			children = (
+				1FD08DF620B0827500829C8E /* Fresh.xcodeproj */,
+				1FB8F8511A2D179800DC1B59 /* assets */,
+				1FB8F84E1A2D177900DC1B59 /* src */,
+				1FD08E6E20B0870A00829C8E /* macOS Resources */,
+				1F9E825218C92E3000BF7B00 /* Frameworks */,
+				1F9E825118C92E3000BF7B00 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		1F9E825118C92E3000BF7B00 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				1F9E825018C92E3000BF7B00 /* FRESH APP TITLE - iOS.app */,
+				1FD08E3920B0837D00829C8E /* FRESH APP TITLE - macOS.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		1F9E825218C92E3000BF7B00 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1FD08E7320B0875000829C8E /* libz.tbd */,
+				1FD08E6820B085F800829C8E /* Crashlytics.framework */,
+				1FD08E6920B085F800829C8E /* Fabric.framework */,
+				1FD08E5620B084DF00829C8E /* AudioToolbox.framework */,
+				1FD08E5420B084D800829C8E /* OpenAL.framework */,
+				1FD08E5020B084B700829C8E /* Carbon.framework */,
+				1FD08E4920B0840400829C8E /* StoreKit.framework */,
+				1FD08E4720B083F300829C8E /* AVFoundation.framework */,
+				1F80BB941CBDBFF6006D5042 /* Crashlytics.framework */,
+				1F80BB951CBDBFF6006D5042 /* Fabric.framework */,
+				1FE0FE88192EFC7E00B86F2F /* libcurl.a */,
+				1F9E84D918C937AA00BF7B00 /* QuartzCore.framework */,
+				1F9E84A218C9349B00BF7B00 /* libcurl.a */,
+				1F9E84A018C9343E00BF7B00 /* libz.dylib */,
+				1F9E829C18C9318B00BF7B00 /* GameKit.framework */,
+				1F9E829A18C9318400BF7B00 /* Social.framework */,
+				1F9E829818C9317C00BF7B00 /* Security.framework */,
+				1F9E829518C92EE100BF7B00 /* AudioToolbox.framework */,
+				1F9E829318C92EDA00BF7B00 /* OpenAL.framework */,
+				1F9E825318C92E3000BF7B00 /* Foundation.framework */,
+				1F9E825518C92E3000BF7B00 /* CoreGraphics.framework */,
+				1F9E825718C92E3000BF7B00 /* UIKit.framework */,
+				1F9E825B18C92E3000BF7B00 /* OpenGLES.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		1FB8F84E1A2D177900DC1B59 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				1F51FC1C1A3245EE008EEAA1 /* AppStage.cpp */,
+				1F51FC1D1A3245EE008EEAA1 /* AppStage.h */,
+				1F51FC1E1A3245EE008EEAA1 /* Essentials.h */,
+				1FB8F84F1A2D177900DC1B59 /* main.cpp */,
+			);
+			name = src;
+			path = ../../src;
+			sourceTree = "<group>";
+		};
+		1FD08DF720B0827500829C8E /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				1FD08E0420B0827600829C8E /* libFreshCore.a */,
+				1FD08E0620B0827600829C8E /* libFreshPlatform.a */,
+				1FD08E0820B0827600829C8E /* libFreshScene2D.a */,
+				1FD08E0A20B0827600829C8E /* libFreshGame.a */,
+				1FD08E0C20B0827600829C8E /* libtinyxml.a */,
+				1FD08E0E20B0827600829C8E /* libFreshCore macOS.a */,
+				1FD08E1020B0827600829C8E /* libFreshPlatform macOS.a */,
+				1FD08E1220B0827600829C8E /* libFreshScene2D macOS.a */,
+				1FD08E1420B0827600829C8E /* libFreshGame macOS.a */,
+				1FD08E1620B0827600829C8E /* libtinyxml macOS.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		1FD08E6E20B0870A00829C8E /* macOS Resources */ = {
+			isa = PBXGroup;
+			children = (
+				1FD08E7620B087A800829C8E /* MainMenu.xib */,
+				1FD08E6F20B0872000829C8E /* Assets.xcassets */,
+			);
+			name = "macOS Resources";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		1F9E824F18C92E3000BF7B00 /* FRESH APP TITLE - iOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1F9E828D18C92E3100BF7B00 /* Build configuration list for PBXNativeTarget "FRESH APP TITLE - iOS" */;
+			buildPhases = (
+				1F9E849F18C932F500BF7B00 /* Bump version script */,
+				1F9E824C18C92E3000BF7B00 /* Sources */,
+				1F9E824D18C92E3000BF7B00 /* Frameworks */,
+				1F9E824E18C92E3000BF7B00 /* Resources */,
+				1FD08E2920B0832A00829C8E /* Crashlytics Script */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				1FD08E1A20B082D700829C8E /* PBXTargetDependency */,
+				1FD08E1C20B082D700829C8E /* PBXTargetDependency */,
+				1FD08E1E20B082D700829C8E /* PBXTargetDependency */,
+				1FD08E2020B082D700829C8E /* PBXTargetDependency */,
+				1FD08E2220B082D700829C8E /* PBXTargetDependency */,
+			);
+			name = "FRESH APP TITLE - iOS";
+			productName = freshshortname;
+			productReference = 1F9E825018C92E3000BF7B00 /* FRESH APP TITLE - iOS.app */;
+			productType = "com.apple.product-type.application";
+		};
+		1FD08E3820B0837D00829C8E /* FRESH APP TITLE - macOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1FD08E4420B0837E00829C8E /* Build configuration list for PBXNativeTarget "FRESH APP TITLE - macOS" */;
+			buildPhases = (
+				1FD08E6D20B0862D00829C8E /* Bump version script */,
+				1FD08E3520B0837D00829C8E /* Sources */,
+				1FD08E3620B0837D00829C8E /* Frameworks */,
+				1FD08E3720B0837D00829C8E /* Resources */,
+				1FD08E6C20B0861500829C8E /* Crashlytics Script */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				1FD08E5F20B085E400829C8E /* PBXTargetDependency */,
+				1FD08E6120B085E400829C8E /* PBXTargetDependency */,
+				1FD08E6320B085E400829C8E /* PBXTargetDependency */,
+				1FD08E6520B085E400829C8E /* PBXTargetDependency */,
+				1FD08E6720B085E400829C8E /* PBXTargetDependency */,
+			);
+			name = "FRESH APP TITLE - macOS";
+			productName = "FRESH APP TITLE";
+			productReference = 1FD08E3920B0837D00829C8E /* FRESH APP TITLE - macOS.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		1F9E824818C92E3000BF7B00 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				CLASSPREFIX = fresh_namespace;
+				LastSwiftUpdateCheck = 0930;
+				LastUpgradeCheck = 0930;
+				ORGANIZATIONNAME = "FRESH COMPANY NAME";
+				TargetAttributes = {
+					1F9E824F18C92E3000BF7B00 = {
+						DevelopmentTeam = YRJU8RJCN6;
+					};
+					1FD08E3820B0837D00829C8E = {
+						CreatedOnToolsVersion = 9.3.1;
+						DevelopmentTeam = YRJU8RJCN6;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 1F9E824B18C92E3000BF7B00 /* Build configuration list for PBXProject "FreshApp" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 1F9E824718C92E3000BF7B00;
+			productRefGroup = 1F9E825118C92E3000BF7B00 /* Products */;
+			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 1FD08DF720B0827500829C8E /* Products */;
+					ProjectRef = 1FD08DF620B0827500829C8E /* Fresh.xcodeproj */;
+				},
+			);
+			projectRoot = "";
+			targets = (
+				1F9E824F18C92E3000BF7B00 /* FRESH APP TITLE - iOS */,
+				1FD08E3820B0837D00829C8E /* FRESH APP TITLE - macOS */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		1FD08E0420B0827600829C8E /* libFreshCore.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libFreshCore.a;
+			remoteRef = 1FD08E0320B0827600829C8E /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		1FD08E0620B0827600829C8E /* libFreshPlatform.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libFreshPlatform.a;
+			remoteRef = 1FD08E0520B0827600829C8E /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		1FD08E0820B0827600829C8E /* libFreshScene2D.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libFreshScene2D.a;
+			remoteRef = 1FD08E0720B0827600829C8E /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		1FD08E0A20B0827600829C8E /* libFreshGame.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libFreshGame.a;
+			remoteRef = 1FD08E0920B0827600829C8E /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		1FD08E0C20B0827600829C8E /* libtinyxml.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libtinyxml.a;
+			remoteRef = 1FD08E0B20B0827600829C8E /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		1FD08E0E20B0827600829C8E /* libFreshCore macOS.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libFreshCore macOS.a";
+			remoteRef = 1FD08E0D20B0827600829C8E /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		1FD08E1020B0827600829C8E /* libFreshPlatform macOS.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libFreshPlatform macOS.a";
+			remoteRef = 1FD08E0F20B0827600829C8E /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		1FD08E1220B0827600829C8E /* libFreshScene2D macOS.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libFreshScene2D macOS.a";
+			remoteRef = 1FD08E1120B0827600829C8E /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		1FD08E1420B0827600829C8E /* libFreshGame macOS.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libFreshGame macOS.a";
+			remoteRef = 1FD08E1320B0827600829C8E /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		1FD08E1620B0827600829C8E /* libtinyxml macOS.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libtinyxml macOS.a";
+			remoteRef = 1FD08E1520B0827600829C8E /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
+
+/* Begin PBXResourcesBuildPhase section */
+		1F9E824E18C92E3000BF7B00 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1FB8F8521A2D179800DC1B59 /* assets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1FD08E3720B0837D00829C8E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1FD08E7020B0872000829C8E /* Assets.xcassets in Resources */,
+				1FD08E7520B0876F00829C8E /* assets in Resources */,
+				1FD08E7720B087A800829C8E /* MainMenu.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		1F9E849F18C932F500BF7B00 /* Bump version script */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Bump version script";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/bash;
+			shellScript = "export PATH=/opt/local/bin:/opt/local/sbin:$PATH\n$SRCROOT/../../Fresh/tools/upver.rb ../../assets/ver/version_iOS.txt\ncp ../../assets/ver/version_iOS.txt ../../assets/ver/version.txt";
+		};
+		1FD08E2920B0832A00829C8E /* Crashlytics Script */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 8;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Crashlytics Script";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+			shellPath = /bin/sh;
+			shellScript = "if [ \"Release\" = \"${CONFIGURATION}\" ]; then\necho \"Running Crashlytics\"\n./iOS/Fabric.framework/run b7b144e0ea8a4e14411f1626b4daf025003574b7 65ab5cde5aafd50fa024877f098b89c0f959cc1eda7085ba923ccefcc4171b18\nfi";
+		};
+		1FD08E6C20B0861500829C8E /* Crashlytics Script */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 12;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Crashlytics Script";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "#if [ \"Release\" = \"${CONFIGURATION}\" ]; then\necho \"Running Crashlytics\"\n./macOS/Fabric.framework/run b7b144e0ea8a4e14411f1626b4daf025003574b7 65ab5cde5aafd50fa024877f098b89c0f959cc1eda7085ba923ccefcc4171b18\n#fi";
+		};
+		1FD08E6D20B0862D00829C8E /* Bump version script */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Bump version script";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "export PATH=/opt/local/bin:/opt/local/sbin:$PATH\n$SRCROOT/../../Fresh/tools/upver.rb ../../assets/ver/version_Mac.txt\ncp ../../assets/ver/version_Mac.txt ../../assets/ver/version.txt";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		1F9E824C18C92E3000BF7B00 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1F51FC1F1A3245EE008EEAA1 /* AppStage.cpp in Sources */,
+				1FB8F8501A2D177900DC1B59 /* main.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1FD08E3520B0837D00829C8E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1FD08E7220B0872300829C8E /* main.cpp in Sources */,
+				1FD08E7120B0872300829C8E /* AppStage.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		1FD08E1A20B082D700829C8E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = FreshCore;
+			targetProxy = 1FD08E1920B082D700829C8E /* PBXContainerItemProxy */;
+		};
+		1FD08E1C20B082D700829C8E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = FreshPlatform;
+			targetProxy = 1FD08E1B20B082D700829C8E /* PBXContainerItemProxy */;
+		};
+		1FD08E1E20B082D700829C8E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = FreshScene2D;
+			targetProxy = 1FD08E1D20B082D700829C8E /* PBXContainerItemProxy */;
+		};
+		1FD08E2020B082D700829C8E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = FreshGame;
+			targetProxy = 1FD08E1F20B082D700829C8E /* PBXContainerItemProxy */;
+		};
+		1FD08E2220B082D700829C8E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = tinyxml;
+			targetProxy = 1FD08E2120B082D700829C8E /* PBXContainerItemProxy */;
+		};
+		1FD08E5F20B085E400829C8E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "FreshCore macOS";
+			targetProxy = 1FD08E5E20B085E400829C8E /* PBXContainerItemProxy */;
+		};
+		1FD08E6120B085E400829C8E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "FreshPlatform macOS";
+			targetProxy = 1FD08E6020B085E400829C8E /* PBXContainerItemProxy */;
+		};
+		1FD08E6320B085E400829C8E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "FreshScene2D macOS";
+			targetProxy = 1FD08E6220B085E400829C8E /* PBXContainerItemProxy */;
+		};
+		1FD08E6520B085E400829C8E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "FreshGame macOS";
+			targetProxy = 1FD08E6420B085E400829C8E /* PBXContainerItemProxy */;
+		};
+		1FD08E6720B085E400829C8E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "tinyxml macOS";
+			targetProxy = 1FD08E6620B085E400829C8E /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		1F9E828B18C92E3100BF7B00 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				ENABLE_BITCODE = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+					"FRESH_TELEMETRY_ENABLED=1",
+					"DEV_MODE=1",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = "-all_load";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../../Fresh/**";
+			};
+			name = Debug;
+		};
+		1F9E828C18C92E3100BF7B00 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				ENABLE_BITCODE = NO;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = "FRESH_TELEMETRY_ENABLED=1";
+				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				OTHER_LDFLAGS = "-all_load";
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../../Fresh/**";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		1F9E828E18C92E3100BF7B00 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEVELOPMENT_TEAM = YRJU8RJCN6;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/iOS",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "iOS/FreshApp-Prefix.pch";
+				INFOPLIST_FILE = "iOS/FreshApp-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				PRODUCT_BUNDLE_IDENTIFIER = fresh.package.domain.freshshortname;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		1F9E828F18C92E3100BF7B00 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEVELOPMENT_TEAM = YRJU8RJCN6;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/iOS",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "iOS/FreshApp-Prefix.pch";
+				INFOPLIST_FILE = "iOS/FreshApp-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				PRODUCT_BUNDLE_IDENTIFIER = fresh.package.domain.freshshortname;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		1FD08E4520B0837E00829C8E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CODE_SIGN_ENTITLEMENTS = macOS/FRESH_APP_TITLE.entitlements;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = YRJU8RJCN6;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/macOS",
+				);
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				INFOPLIST_FILE = macOS/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = fresh.package.domain.freshshortname;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 4.0;
+			};
+			name = Debug;
+		};
+		1FD08E4620B0837E00829C8E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CODE_SIGN_ENTITLEMENTS = macOS/FRESH_APP_TITLE.entitlements;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = YRJU8RJCN6;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/macOS",
+				);
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				INFOPLIST_FILE = macOS/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = fresh.package.domain.freshshortname;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 4.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		1F9E824B18C92E3000BF7B00 /* Build configuration list for PBXProject "FreshApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1F9E828B18C92E3100BF7B00 /* Debug */,
+				1F9E828C18C92E3100BF7B00 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1F9E828D18C92E3100BF7B00 /* Build configuration list for PBXNativeTarget "FRESH APP TITLE - iOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1F9E828E18C92E3100BF7B00 /* Debug */,
+				1F9E828F18C92E3100BF7B00 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1FD08E4420B0837E00829C8E /* Build configuration list for PBXNativeTarget "FRESH APP TITLE - macOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1FD08E4520B0837E00829C8E /* Debug */,
+				1FD08E4620B0837E00829C8E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 1F9E824818C92E3000BF7B00 /* Project object */;
+}

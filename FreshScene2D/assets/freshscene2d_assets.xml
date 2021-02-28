@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!-- FreshScene2D assets -->
+
+<objects>
+	
+	<class name="VertexStructureLoader" extends="AssetLoader_Default">
+		<assetClass>VertexStructure</assetClass>
+	</class>
+	
+	<object class="VertexStructureLoader" name="VS_Pos2">
+		<passthrough><attributes>[{nComponents=2, type=Float, usage=Position, name=position }]</attributes></passthrough>
+	</object>
+	<object class="VertexStructureLoader" name="VS_Pos2TexCoord2">
+		<passthrough><attributes>[{nComponents=2, type=Float, usage=Position, name=position } ,
+			{nComponents=2, type=Float, usage=TexCoord, name=texCoord }]</attributes></passthrough>
+	</object>
+	<object class="VertexStructureLoader" name="VS_Pos2Col4">
+		<passthrough><attributes>[{nComponents=2, type=Float, usage=Position, name=position } ,
+			{nComponents=4, type=Float, usage=Color, name=color }]</attributes></passthrough>
+	</object>
+	
+	<object class="SimpleMeshLoader" name="SM_ZeroCenteredDiameter1">
+		<vertexStructure>VS_Pos2TexCoord2</vertexStructure>
+		<primitiveType>TriangleStrip</primitiveType>
+		<components>[-0.5,  0.5,  0.0,  1.0,
+			0.5,  0.5,  1.0,  1.0,
+			-0.5, -0.5,  0.0,  0.0,
+			0.5, -0.5,  1.0,  0.0
+			]</components>
+	</object>
+	
+	<object class="ShaderProgramLoader" name="PlainVanilla">
+		<vertexShaderSourcePath>assets/shaders/PlainVanilla.vsh</vertexShaderSourcePath>
+		<fragmentShaderSourcePath>assets/shaders/PlainVanilla.fsh</fragmentShaderSourcePath>
+		<vertexStructure>VS_Pos2TexCoord2</vertexStructure>
+		
+		<passthrough>
+			<uniformUpdaters>
+				<object class="ShaderUniformUpdaterConcrete_mat4">
+					<uniformName>projectionMatrix</uniformName>
+					<boundObject>Renderer'renderer'</boundObject>
+					<objectMemberName>getProjectionMatrix</objectMemberName>
+				</object>
+				<object class="ShaderUniformUpdaterConcrete_mat4">
+					<uniformName>modelViewMatrix</uniformName>
+					<boundObject>Renderer'renderer'</boundObject>
+					<objectMemberName>getModelViewMatrix</objectMemberName>
+				</object>
+				<object class="ShaderUniformUpdaterConcrete_mat4">
+					<uniformName>textureMatrix</uniformName>
+					<boundObject>Renderer'renderer'</boundObject>
+					<objectMemberName>getTextureMatrix</objectMemberName>
+				</object>
+				<object class="ShaderUniformUpdaterConcrete_Color">
+					<uniformName>color_multiply</uniformName>
+					<boundObject>Renderer'renderer'</boundObject>
+					<objectMemberName>getColorMultiply</objectMemberName>
+				</object>
+				<object class="ShaderUniformUpdaterConcrete_Color">
+					<uniformName>color_additive</uniformName>
+					<boundObject>Renderer'renderer'</boundObject>
+					<objectMemberName>getColorAdditive</objectMemberName>
+				</object>
+			</uniformUpdaters>
+		</passthrough>
+	</object>
+	
+	<object class="ShaderProgramLoader" name="PlainVanillaUntextured">
+		<vertexShaderSourcePath>assets/shaders/PlainVanillaUntextured.vsh</vertexShaderSourcePath>
+		<fragmentShaderSourcePath>assets/shaders/PlainVanillaUntextured.fsh</fragmentShaderSourcePath>
+		<vertexStructure>VS_Pos2Col4</vertexStructure>
+		
+		<passthrough>
+			<uniformUpdaters>
+				<object class="ShaderUniformUpdaterConcrete_mat4">
+					<uniformName>projectionMatrix</uniformName>
+					<boundObject>Renderer'renderer'</boundObject>
+					<objectMemberName>getProjectionMatrix</objectMemberName>
+				</object>
+				<object class="ShaderUniformUpdaterConcrete_mat4">
+					<uniformName>modelViewMatrix</uniformName>
+					<boundObject>Renderer'renderer'</boundObject>
+					<objectMemberName>getModelViewMatrix</objectMemberName>
+				</object>
+				<object class="ShaderUniformUpdaterConcrete_Color">
+					<uniformName>color_multiply</uniformName>
+					<boundObject>Renderer'renderer'</boundObject>
+					<objectMemberName>getColorMultiply</objectMemberName>
+				</object>
+				<object class="ShaderUniformUpdaterConcrete_Color">
+					<uniformName>color_additive</uniformName>
+					<boundObject>Renderer'renderer'</boundObject>
+					<objectMemberName>getColorAdditive</objectMemberName>
+				</object>
+			</uniformUpdaters>
+		</passthrough>
+	</object>
+	
+</objects>

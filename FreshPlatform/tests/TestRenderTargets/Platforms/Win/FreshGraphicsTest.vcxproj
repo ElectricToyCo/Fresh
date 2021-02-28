@@ -1,0 +1,193 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\..\..\FreshCore\Asset.cpp" />
+    <ClCompile Include="..\..\..\..\..\FreshCore\FreshPlatform.cpp" />
+    <ClCompile Include="..\..\..\..\..\FreshCore\FreshXML.cpp" />
+    <ClCompile Include="..\..\..\..\..\FreshCore\Matrix4.cpp" />
+    <ClCompile Include="..\..\..\..\..\FreshCore\MatrixStack.cpp" />
+    <ClCompile Include="..\..\..\..\..\FreshCore\Object.cpp" />
+    <ClCompile Include="..\..\..\..\..\FreshCore\ObjectId.cpp" />
+    <ClCompile Include="..\..\..\..\..\FreshCore\ObjectLinker.cpp" />
+    <ClCompile Include="..\..\..\..\..\FreshCore\ObjectManager.cpp" />
+    <ClCompile Include="..\..\..\..\..\FreshCore\ObjectStore.cpp" />
+    <ClCompile Include="..\..\..\..\..\FreshCore\ObjectStreamFormatter.cpp" />
+    <ClCompile Include="..\..\..\..\..\FreshCore\Platforms\Win\FreshDebug.cpp" />
+    <ClCompile Include="..\..\..\..\..\FreshCore\Platforms\Win\FreshFile.cpp" />
+    <ClCompile Include="..\..\..\..\..\FreshCore\Platforms\Win\FreshTime.cpp" />
+    <ClCompile Include="..\..\..\..\..\FreshCore\Profiler.cpp" />
+    <ClCompile Include="..\..\..\..\..\FreshCore\tinyxml_src\tinystr.cpp" />
+    <ClCompile Include="..\..\..\..\..\FreshCore\tinyxml_src\tinyxml.cpp" />
+    <ClCompile Include="..\..\..\..\..\FreshCore\tinyxml_src\tinyxmlerror.cpp" />
+    <ClCompile Include="..\..\..\..\..\FreshCore\tinyxml_src\tinyxmlparser.cpp" />
+    <ClCompile Include="..\..\..\..\..\FreshCore\Vector2.cpp" />
+    <ClCompile Include="..\..\..\..\..\FreshCore\Vector3.cpp" />
+    <ClCompile Include="..\..\..\..\..\FreshCore\Vector4.cpp" />
+    <ClCompile Include="..\..\..\..\Color.cpp" />
+    <ClCompile Include="..\..\..\..\FreshGraphicsTesting.cpp" />
+    <ClCompile Include="..\..\..\..\Platforms\Win\Application_Win32.cpp" />
+    <ClCompile Include="..\..\..\..\Platforms\Win\FreshImageLoader.cpp" />
+    <ClCompile Include="..\..\..\..\Renderer.cpp" />
+    <ClCompile Include="..\..\..\..\RendererGL.cpp" />
+    <ClCompile Include="..\..\..\..\RendererGLES1.cpp" />
+    <ClCompile Include="..\..\..\..\RendererGLES2.cpp" />
+    <ClCompile Include="..\..\..\..\Shader.cpp" />
+    <ClCompile Include="..\..\..\..\ShaderGL.cpp" />
+    <ClCompile Include="..\..\..\..\ShaderProgram.cpp" />
+    <ClCompile Include="..\..\..\..\ShaderProgramGL.cpp" />
+    <ClCompile Include="..\..\..\..\ShaderProgramNull.cpp" />
+    <ClCompile Include="..\..\..\..\ShaderUniformUpdater.cpp" />
+    <ClCompile Include="..\..\..\..\ShaderUniformUpdaterConcrete.cpp" />
+    <ClCompile Include="..\..\..\..\Texture.cpp" />
+    <ClCompile Include="..\..\main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\..\..\FreshCore\Archive.h" />
+    <ClInclude Include="..\..\..\..\..\FreshCore\Asset.h" />
+    <ClInclude Include="..\..\..\..\..\FreshCore\FreshDebug.h" />
+    <ClInclude Include="..\..\..\..\..\FreshCore\FreshFile.h" />
+    <ClInclude Include="..\..\..\..\..\FreshCore\FreshMath.h" />
+    <ClInclude Include="..\..\..\..\..\FreshCore\FreshPlatform.h" />
+    <ClInclude Include="..\..\..\..\..\FreshCore\FreshTime.h" />
+    <ClInclude Include="..\..\..\..\..\FreshCore\FreshVector.h" />
+    <ClInclude Include="..\..\..\..\..\FreshCore\FreshXML.h" />
+    <ClInclude Include="..\..\..\..\..\FreshCore\Matrix4.h" />
+    <ClInclude Include="..\..\..\..\..\FreshCore\Matrix4.inl.h" />
+    <ClInclude Include="..\..\..\..\..\FreshCore\MatrixStack.h" />
+    <ClInclude Include="..\..\..\..\..\FreshCore\Object.h" />
+    <ClInclude Include="..\..\..\..\..\FreshCore\Object.inl.h" />
+    <ClInclude Include="..\..\..\..\..\FreshCore\ObjectId.h" />
+    <ClInclude Include="..\..\..\..\..\FreshCore\ObjectLinker.h" />
+    <ClInclude Include="..\..\..\..\..\FreshCore\ObjectManager.h" />
+    <ClInclude Include="..\..\..\..\..\FreshCore\ObjectMethod.h" />
+    <ClInclude Include="..\..\..\..\..\FreshCore\ObjectMethodAbstract.h" />
+    <ClInclude Include="..\..\..\..\..\FreshCore\ObjectPtr.h" />
+    <ClInclude Include="..\..\..\..\..\FreshCore\ObjectStore.h" />
+    <ClInclude Include="..\..\..\..\..\FreshCore\ObjectStreamFormatter.h" />
+    <ClInclude Include="..\..\..\..\..\FreshCore\Profiler.h" />
+    <ClInclude Include="..\..\..\..\..\FreshCore\Property.h" />
+    <ClInclude Include="..\..\..\..\..\FreshCore\PropertyAbstract.h" />
+    <ClInclude Include="..\..\..\..\..\FreshCore\Rectangle.h" />
+    <ClInclude Include="..\..\..\..\..\FreshCore\Singleton.h" />
+    <ClInclude Include="..\..\..\..\..\FreshCore\SmartPtr.h" />
+    <ClInclude Include="..\..\..\..\..\FreshCore\SmartPtr.inl.h" />
+    <ClInclude Include="..\..\..\..\..\FreshCore\SubjectObserver.h" />
+    <ClInclude Include="..\..\..\..\..\FreshCore\tinyxml_src\tinystr.h" />
+    <ClInclude Include="..\..\..\..\..\FreshCore\tinyxml_src\tinyxml.h" />
+    <ClInclude Include="..\..\..\..\..\FreshCore\Tweener.h" />
+    <ClInclude Include="..\..\..\..\..\FreshCore\TypeTraits.h" />
+    <ClInclude Include="..\..\..\..\..\FreshCore\Vector2.h" />
+    <ClInclude Include="..\..\..\..\..\FreshCore\Vector2.inl.h" />
+    <ClInclude Include="..\..\..\..\..\FreshCore\Vector3.h" />
+    <ClInclude Include="..\..\..\..\..\FreshCore\Vector3.inl.h" />
+    <ClInclude Include="..\..\..\..\..\FreshCore\Vector4.h" />
+    <ClInclude Include="..\..\..\..\..\FreshCore\Vector4.inl.h" />
+    <ClInclude Include="..\..\..\..\..\FreshCore\WeakPtr.h" />
+    <ClInclude Include="..\..\..\..\..\FreshCore\WeakPtr.inl.h" />
+    <ClInclude Include="..\..\..\..\Application.h" />
+    <ClInclude Include="..\..\..\..\Color.h" />
+    <ClInclude Include="..\..\..\..\FreshGraphicsTesting.h" />
+    <ClInclude Include="..\..\..\..\FreshImageLoader.h" />
+    <ClInclude Include="..\..\..\..\FreshOpenGL.h" />
+    <ClInclude Include="..\..\..\..\Renderer.h" />
+    <ClInclude Include="..\..\..\..\Renderer.inl.h" />
+    <ClInclude Include="..\..\..\..\RendererGL.h" />
+    <ClInclude Include="..\..\..\..\RendererGLES1.h" />
+    <ClInclude Include="..\..\..\..\RendererGLES2.h" />
+    <ClInclude Include="..\..\..\..\Shader.h" />
+    <ClInclude Include="..\..\..\..\ShaderGL.h" />
+    <ClInclude Include="..\..\..\..\ShaderProgram.h" />
+    <ClInclude Include="..\..\..\..\ShaderProgramGL.h" />
+    <ClInclude Include="..\..\..\..\ShaderProgramNull.h" />
+    <ClInclude Include="..\..\..\..\ShaderUniformUpdater.h" />
+    <ClInclude Include="..\..\..\..\ShaderUniformUpdaterConcrete.h" />
+    <ClInclude Include="..\..\..\..\Texture.h" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{46CDF77D-509A-42AC-903F-71E191E47EFE}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>FreshGraphicsTest</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>DEV_MODE;_CRT_SECURE_NO_WARNINGS;WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\..\..;..\..\..\..\..\FreshCore;..\..\..\..\..\FreshCore\tinyxml_src;..\..\..\..\..\lib\Win\glew-1.5.6\include;..\..\..\..\..\lib\Win\DevIL-SDK-x86-1.7.8\include</AdditionalIncludeDirectories>
+      <DisableSpecificWarnings>4355</DisableSpecificWarnings>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>..\..\..\..\..\lib\Win\glew-1.5.6\lib;..\..\..\..\..\lib\Win\DevIL-SDK-x86-1.7.8\lib</AdditionalLibraryDirectories>
+      <OptimizeReferences>
+      </OptimizeReferences>
+      <ForceSymbolReferences>
+      </ForceSymbolReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;_CRT_SECURE_NO_WARNINGS;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\..\..;..\..\..\..\..\FreshCore;..\..\..\..\..\FreshCore\tinyxml_src;..\..\..\..\..\lib\Win\glew-1.5.6\include;..\..\..\..\..\lib\Win\DevIL-SDK-x86-1.7.8\include</AdditionalIncludeDirectories>
+      <DisableSpecificWarnings>4355</DisableSpecificWarnings>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>
+      </OptimizeReferences>
+      <AdditionalLibraryDirectories>..\..\..\..\..\lib\Win\glew-1.5.6\lib;..\..\..\..\..\lib\Win\DevIL-SDK-x86-1.7.8\lib</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

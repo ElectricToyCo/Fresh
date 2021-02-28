@@ -1,0 +1,22 @@
+// freshshortname asset classes
+
+class TextureLoaderConfigured extends TextureLoader {
+	basePath assets/art/
+	extension png
+	doMipMap false
+	filterMode Nearest
+}
+
+class AudioCueLoaderConfigured extends AudioCueLoader {
+	basePath assets/audio/
+	extension wav
+	maxSimultaneousSounds 8
+}
+
+class LongAudioCueLoaderConfigured extends AudioCueLoaderConfigured {
+	extension mp3
+}
+
+class FontLoaderConfigured extends FontLoader {
+	basePath assets/font/
+}

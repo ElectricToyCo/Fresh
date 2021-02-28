@@ -1,0 +1,7 @@
+// freshshortname Application Configuration - Web 
+
+include "assets/config.fresh"
+
+object AppStageConfig config {
+}
+

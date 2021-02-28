@@ -1,0 +1,206 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{F10E3E46-A8FC-4AD4-82B6-743805942A2D}</ProjectGuid>
+    <RootNamespace>FreshCore</RootNamespace>
+    <TargetPlatformVersion>8.1</TargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140_xp</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140_xp</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <TargetExt>.lib</TargetExt>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <TargetExt>.lib</TargetExt>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(ProjectDir)\..\..\..\..\lib\tinyxml_src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <DisableSpecificWarnings>4101;4800;4624</DisableSpecificWarnings>
+      <PreprocessorDefinitions>DEV_MODE=1;_CRT_SECURE_NO_WARNINGS;WIN32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(ProjectDir)\..\..\..\..\lib\tinyxml_src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <DisableSpecificWarnings>4101;4800;4624</DisableSpecificWarnings>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\..\FreshCore\Angle.h" />
+    <ClInclude Include="..\..\..\..\FreshCore\Archive.h" />
+    <ClInclude Include="..\..\..\..\FreshCore\Asset.h" />
+    <ClInclude Include="..\..\..\..\FreshCore\Assets.h" />
+    <ClInclude Include="..\..\..\..\FreshCore\ChangeHistory.h" />
+    <ClInclude Include="..\..\..\..\FreshCore\Classes.h" />
+    <ClInclude Include="..\..\..\..\FreshCore\ClassFilter.h" />
+    <ClInclude Include="..\..\..\..\FreshCore\ClassInfo.h" />
+    <ClInclude Include="..\..\..\..\FreshCore\CommandProcessor.h" />
+    <ClInclude Include="..\..\..\..\FreshCore\Constants.h" />
+    <ClInclude Include="..\..\..\..\FreshCore\CoreCommands.h" />
+    <ClInclude Include="..\..\..\..\FreshCore\CoreCppCompatability.h" />
+    <ClInclude Include="..\..\..\..\FreshCore\escaped_string.h" />
+    <ClInclude Include="..\..\..\..\FreshCore\FindPath.h" />
+    <ClInclude Include="..\..\..\..\FreshCore\FreshCloth.h" />
+    <ClInclude Include="..\..\..\..\FreshCore\FreshDebug.h" />
+    <ClInclude Include="..\..\..\..\FreshCore\FreshEssentials.h" />
+    <ClInclude Include="..\..\..\..\FreshCore\FreshException.h" />
+    <ClInclude Include="..\..\..\..\FreshCore\FreshFile.h" />
+    <ClInclude Include="..\..\..\..\FreshCore\FreshManifest.h" />
+    <ClInclude Include="..\..\..\..\FreshCore\FreshMath.h" />
+    <ClInclude Include="..\..\..\..\FreshCore\FreshPath.h" />
+    <ClInclude Include="..\..\..\..\FreshCore\FreshRandom.h" />
+    <ClInclude Include="..\..\..\..\FreshCore\FreshRange.h" />
+    <ClInclude Include="..\..\..\..\FreshCore\FreshTest.h" />
+    <ClInclude Include="..\..\..\..\FreshCore\FreshThread.h" />
+    <ClInclude Include="..\..\..\..\FreshCore\FreshTime.h" />
+    <ClInclude Include="..\..\..\..\FreshCore\FreshVector.h" />
+    <ClInclude Include="..\..\..\..\FreshCore\FreshXML.h" />
+    <ClInclude Include="..\..\..\..\FreshCore\Grid2.h" />
+    <ClInclude Include="..\..\..\..\FreshCore\IndentingStream.h" />
+    <ClInclude Include="..\..\..\..\FreshCore\MagicBool.h" />
+    <ClInclude Include="..\..\..\..\FreshCore\Matrix4.h" />
+    <ClInclude Include="..\..\..\..\FreshCore\Matrix4.inl.h" />
+    <ClInclude Include="..\..\..\..\FreshCore\MatrixStack.h" />
+    <ClInclude Include="..\..\..\..\FreshCore\NavierStokesSolver.h" />
+    <ClInclude Include="..\..\..\..\FreshCore\NavierStokesSolver.inl.h" />
+    <ClInclude Include="..\..\..\..\FreshCore\Object.h" />
+    <ClInclude Include="..\..\..\..\FreshCore\Object.inl.h" />
+    <ClInclude Include="..\..\..\..\FreshCore\ObjectFactory.h" />
+    <ClInclude Include="..\..\..\..\FreshCore\ObjectId.h" />
+    <ClInclude Include="..\..\..\..\FreshCore\ObjectLinker.h" />
+    <ClInclude Include="..\..\..\..\FreshCore\ObjectMethod.h" />
+    <ClInclude Include="..\..\..\..\FreshCore\ObjectMethodAbstract.h" />
+    <ClInclude Include="..\..\..\..\FreshCore\ObjectPtr.h" />
+    <ClInclude Include="..\..\..\..\FreshCore\Objects.h" />
+    <ClInclude Include="..\..\..\..\FreshCore\Objects.inl.h" />
+    <ClInclude Include="..\..\..\..\FreshCore\ObjectSingleton.h" />
+    <ClInclude Include="..\..\..\..\FreshCore\ObjectStreamFormatter.h" />
+    <ClInclude Include="..\..\..\..\FreshCore\Package.h" />
+    <ClInclude Include="..\..\..\..\FreshCore\Package.inl.h" />
+    <ClInclude Include="..\..\..\..\FreshCore\Packages.h" />
+    <ClInclude Include="..\..\..\..\FreshCore\Packages.inl.h" />
+    <ClInclude Include="..\..\..\..\FreshCore\PerlinNoise.h" />
+    <ClInclude Include="..\..\..\..\FreshCore\PolygonPartition.h" />
+    <ClInclude Include="..\..\..\..\FreshCore\Profiler.h" />
+    <ClInclude Include="..\..\..\..\FreshCore\Property.h" />
+    <ClInclude Include="..\..\..\..\FreshCore\PropertyAbstract.h" />
+    <ClInclude Include="..\..\..\..\FreshCore\PropertyTraits.h" />
+    <ClInclude Include="..\..\..\..\FreshCore\RayCaster.h" />
+    <ClInclude Include="..\..\..\..\FreshCore\Rectangle.h" />
+    <ClInclude Include="..\..\..\..\FreshCore\SerializeVector.h" />
+    <ClInclude Include="..\..\..\..\FreshCore\Singleton.h" />
+    <ClInclude Include="..\..\..\..\FreshCore\SmartPtr.h" />
+    <ClInclude Include="..\..\..\..\FreshCore\SmartPtr.inl.h" />
+    <ClInclude Include="..\..\..\..\FreshCore\SpatialHash.h" />
+    <ClInclude Include="..\..\..\..\FreshCore\StateMachine.h" />
+    <ClInclude Include="..\..\..\..\FreshCore\StreamedFunctionCaller.h" />
+    <ClInclude Include="..\..\..\..\FreshCore\StringTable.h" />
+    <ClInclude Include="..\..\..\..\FreshCore\StringTabulated.h" />
+    <ClInclude Include="..\..\..\..\FreshCore\StructSerialization.h" />
+    <ClInclude Include="..\..\..\..\FreshCore\SubjectObserver.h" />
+    <ClInclude Include="..\..\..\..\FreshCore\SwitchPtr.h" />
+    <ClInclude Include="..\..\..\..\FreshCore\SwitchPtr.inl.h" />
+    <ClInclude Include="..\..\..\..\FreshCore\TelnetServer.h" />
+    <ClInclude Include="..\..\..\..\FreshCore\Tweener.h" />
+    <ClInclude Include="..\..\..\..\FreshCore\TypeTraits.h" />
+    <ClInclude Include="..\..\..\..\FreshCore\Vector2.h" />
+    <ClInclude Include="..\..\..\..\FreshCore\Vector2.inl.h" />
+    <ClInclude Include="..\..\..\..\FreshCore\Vector3.h" />
+    <ClInclude Include="..\..\..\..\FreshCore\Vector3.inl.h" />
+    <ClInclude Include="..\..\..\..\FreshCore\Vector4.h" />
+    <ClInclude Include="..\..\..\..\FreshCore\Vector4.inl.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\..\FreshCore\Archive.cpp" />
+    <ClCompile Include="..\..\..\..\FreshCore\Asset.cpp" />
+    <ClCompile Include="..\..\..\..\FreshCore\Assets.cpp" />
+    <ClCompile Include="..\..\..\..\FreshCore\Classes.cpp" />
+    <ClCompile Include="..\..\..\..\FreshCore\ClassFilter.cpp" />
+    <ClCompile Include="..\..\..\..\FreshCore\ClassInfo.cpp" />
+    <ClCompile Include="..\..\..\..\FreshCore\CommandProcessor.cpp" />
+    <ClCompile Include="..\..\..\..\FreshCore\Constants.cpp" />
+    <ClCompile Include="..\..\..\..\FreshCore\CoreCommands.cpp" />
+    <ClCompile Include="..\..\..\..\FreshCore\FreshDebug.cpp" />
+    <ClCompile Include="..\..\..\..\FreshCore\FreshEssentials.cpp" />
+    <ClCompile Include="..\..\..\..\FreshCore\FreshException.cpp" />
+    <ClCompile Include="..\..\..\..\FreshCore\FreshFile.cpp" />
+    <ClCompile Include="..\..\..\..\FreshCore\FreshManifest.cpp" />
+    <ClCompile Include="..\..\..\..\FreshCore\FreshManifestXml.cpp" />
+    <ClCompile Include="..\..\..\..\FreshCore\FreshRandom.cpp" />
+    <ClCompile Include="..\..\..\..\FreshCore\FreshTime.cpp" />
+    <ClCompile Include="..\..\..\..\FreshCore\FreshXML.cpp" />
+    <ClCompile Include="..\..\..\..\FreshCore\IndentingStream.cpp" />
+    <ClCompile Include="..\..\..\..\FreshCore\Matrix4.cpp" />
+    <ClCompile Include="..\..\..\..\FreshCore\MatrixStack.cpp" />
+    <ClCompile Include="..\..\..\..\FreshCore\Object.cpp" />
+    <ClCompile Include="..\..\..\..\FreshCore\ObjectId.cpp" />
+    <ClCompile Include="..\..\..\..\FreshCore\ObjectLinker.cpp" />
+    <ClCompile Include="..\..\..\..\FreshCore\ObjectStreamFormatter.cpp" />
+    <ClCompile Include="..\..\..\..\FreshCore\Package.cpp" />
+    <ClCompile Include="..\..\..\..\FreshCore\Packages.cpp" />
+    <ClCompile Include="..\..\..\..\FreshCore\PerlinNoise.cpp" />
+    <ClCompile Include="..\..\..\..\FreshCore\Platforms\Win\FreshFile_Win.cpp" />
+    <ClCompile Include="..\..\..\..\FreshCore\Platforms\Win\TelnetServer_Win.cpp" />
+    <ClCompile Include="..\..\..\..\FreshCore\Profiler.cpp" />
+    <ClCompile Include="..\..\..\..\FreshCore\PropertyAbstract.cpp" />
+    <ClCompile Include="..\..\..\..\FreshCore\Rectangle.cpp" />
+    <ClCompile Include="..\..\..\..\FreshCore\StringTable.cpp" />
+    <ClCompile Include="..\..\..\..\FreshCore\StringTabulated.cpp" />
+    <ClCompile Include="..\..\..\..\FreshCore\Vector2.cpp" />
+    <ClCompile Include="..\..\..\..\FreshCore\Vector3.cpp" />
+    <ClCompile Include="..\..\..\..\FreshCore\Vector4.cpp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
