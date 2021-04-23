@@ -584,7 +584,7 @@ namespace fr
 			::UpdateWindow( m_hWnd );
 		}
 
-		Application::ExitCode runMainLoop( int argc, char* argv[] )
+		Application::ExitCode runMainLoop( int argc, const char* argv[] )
 		{
 			REQUIRES( !m_isInMainLoop );
 
@@ -994,7 +994,7 @@ namespace fr
 		m_impl->windowTitle( value );
 	}
 
-	Application::ExitCode Application::runMainLoop( int argc, char* argv[] )
+	Application::ExitCode Application::runMainLoop( int argc, const char* argv[] )
 	{
 		REQUIRES( !isMainLoopRunning() );
 		return m_impl->runMainLoop( argc, argv );
