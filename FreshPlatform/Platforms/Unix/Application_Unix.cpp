@@ -387,6 +387,26 @@ namespace fr
 									CWColormap | CWEventMask,	// Properties I set in windowAttributes.
 									&windowAttributes );
 
+			// Enforce constant aspect ratio.
+			//
+			XSizeHints* sizeHints = XAllocSizeHints();
+
+			sizeHints->flags = PAspect;
+			sizeHints->min_aspect.x = width;
+			sizeHints->min_aspect.y = height;
+			sizeHints->max_aspect.x = width;
+			sizeHints->max_aspect.y = height;
+
+			XSetWMNormalHints( m_display, m_window, sizeHints );
+
+			XFree(sizeHints);
+			sizeHints = nullptr;
+
+			// Register an "atom" to handle the window close ("delete") event.
+			//
+			m_atomDeleteWindowMessage = XInternAtom( m_display, "WM_DELETE_WINDOW", False );
+			XSetWMProtocols( m_display, m_window, &m_atomDeleteWindowMessage, 1 );
+
 			XMapWindow( m_display, m_window );
 
 			XStoreName( m_display, m_window, m_owner->config().desiredTitle().c_str() );
@@ -471,9 +491,16 @@ namespace fr
 				}
 				break;
 
-				case ResizeRequest:
-					// TODO
-				break;
+				// Detect "Quit" (actually WM_DELETE_WINDOW) message.
+				case ClientMessage:
+				{
+					if( static_cast< Atom >( event.xclient.data.l[0] ) == m_atomDeleteWindowMessage )
+					{
+						Application::instance().onTerminating();
+						shutdownOpenGL();
+						exit(0);
+					}
+				}
 			}
 		}
 
@@ -624,15 +651,18 @@ namespace fr
 		
 		void shutdownOpenGL()
 		{
-			glXMakeCurrent( m_display, None, nullptr );
-			glXDestroyContext( m_display, m_glContext );
-			m_glContext = nullptr;
+			if( m_display )
+			{
+				glXMakeCurrent( m_display, None, nullptr );
+				glXDestroyContext( m_display, m_glContext );
+				m_glContext = nullptr;
 
-			XDestroyWindow( m_display, m_window );
-			m_window = 0;
+				XDestroyWindow( m_display, m_window );
+				m_window = 0;
 
-			XCloseDisplay( m_display );
-			m_display = nullptr;
+				XCloseDisplay( m_display );
+				m_display = nullptr;
+			}
 		}
 
 	private:
@@ -648,6 +678,7 @@ namespace fr
 		Display* m_display;
 		Window m_window;
 		GLXContext m_glContext;
+		Atom m_atomDeleteWindowMessage;
 	};
 
 	std::string Application::getPromptedFilePath( bool forSaveElseOpen, const char* semicolonSeparatedFileExtensions )

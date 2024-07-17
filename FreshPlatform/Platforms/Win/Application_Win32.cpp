@@ -49,11 +49,11 @@ namespace
 
 	struct MultiTapCounter
 	{
-		MultiTapCounter( real maxTapDistanceSquared = 4*4, TimeType maxTapDelay = 0.5 ) 
+		MultiTapCounter( real maxTapDistanceSquared = 4*4, TimeType maxTapDelay = 0.5 )
 			:	m_maxTapDistanceSquared( maxTapDistanceSquared )
 			,	m_maxTapDelay( maxTapDelay )
-		{ 
-			reset(); 
+		{
+			reset();
 		}
 
 		size_t tapCount() const { return m_nTaps; }
@@ -90,7 +90,7 @@ namespace
 			}
 			else
 			{
-				return	distanceSquared( m_originalTouchPoint, location ) <= m_maxTapDistanceSquared && 
+				return	distanceSquared( m_originalTouchPoint, location ) <= m_maxTapDistanceSquared &&
 						eventTime - m_lastTouchTime <= m_maxTapDelay;
 			}
 		}
@@ -138,7 +138,7 @@ namespace
 
 	Keyboard::Key getKeyFromWPARAM( WPARAM wParam )
 	{
-		if( wParam >= '0' && wParam <= 'Z' ) return Keyboard::Key( wParam );		
+		if( wParam >= '0' && wParam <= 'Z' ) return Keyboard::Key( wParam );
 
 		switch( wParam )
 		{
@@ -200,7 +200,7 @@ namespace
 		case VK_RCONTROL: return Keyboard::RightCtrlCommand;
 		case VK_LMENU: return Keyboard::LeftAltOption;
 		case VK_RMENU: return Keyboard::RightAltOption;
-		case VK_OEM_1: return Keyboard::Semicolon;      
+		case VK_OEM_1: return Keyboard::Semicolon;
 		case VK_OEM_PLUS: return Keyboard::Equal;
 		case VK_OEM_COMMA: return Keyboard::Comma;
 		case VK_OEM_MINUS: return Keyboard::Minus;
@@ -226,7 +226,7 @@ namespace
 		{
 			return '0' + ( wParam - VK_NUMPAD0 );
 		}
-		if( wParam >= 'A' && wParam <= 'Z' ) 
+		if( wParam >= 'A' && wParam <= 'Z' )
 		{
 			return shift ? wParam : ( wParam + ( 'a' - 'A' ));
 		}
@@ -239,7 +239,7 @@ namespace
 		case VK_SUBTRACT: return '-';
 		case VK_DECIMAL: return '.';
 		case VK_DIVIDE: return '/';
-		case VK_OEM_1: return shift ? ':' : ';';      
+		case VK_OEM_1: return shift ? ':' : ';';
 		case VK_OEM_PLUS: return shift ? '+' : '=';
 		case VK_OEM_COMMA: return shift ? '<' : ',';
 		case VK_OEM_MINUS: return shift ? '_' : '-';
@@ -267,10 +267,10 @@ namespace
 	{
 		return getTouchPoint( hWnd, vec2( (real) getXFromLPARAM( lParam ), (real) getYFromLPARAM( lParam )));
 	}
-	
+
 	static void createAppTouches( const vec2& touchPoint, const vec2& lastTouchPoint, Application::Touches& outAppTouches, int nClicks )
 	{
-		outAppTouches.push_back( Application::Touch( 
+		outAppTouches.push_back( Application::Touch(
 													touchPoint,
 													lastTouchPoint,
 													vec2::ZERO,
@@ -280,172 +280,11 @@ namespace
 													reinterpret_cast< void* >( g_nMouseSequences )));
 	}
 
-	LRESULT CALLBACK WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam )
-	{
-		if( !Application::doesExist() )
-		{
-			return ::DefWindowProc(hWnd, message, wParam, lParam);
-		}
-	
-		switch( message )
-		{
-		case WM_SETFOCUS:
-			if( Application::doesExist() )
-			{
-				Application::instance().onGainedFocus();
-			}
-			break;
-		case WM_KILLFOCUS:
-			if( Application::doesExist() )
-			{
-				Application::instance().onLostFocus();
-			}
-			break;
-		case WM_LBUTTONDOWN:
-			{
-				++g_nMouseSequences;
+	// Here's dirty old 2024 Jeff Wofford throwing globals around like so much nitroglycerin.
+	//
+	ApplicationImplementation* g_applicationImplementation = nullptr;
 
-				vec2 touchPoint( getTouchPoint( hWnd, lParam ));
-
-				g_multiTapCounter.onDown( touchPoint );
-
-				Application::Touches appTouches;
-		
-				createAppTouches( touchPoint, touchPoint, appTouches, g_multiTapCounter.tapCount() );
-		
-				Application::instance().onTouchesBegin( appTouches.begin(), appTouches.end() );
-
-				g_lastMousePoint = touchPoint;
-				g_haveLastMousePoint = true;
-				return 0;
-			}
-		case WM_LBUTTONUP:
-			{
-				vec2 touchPoint( getTouchPoint( hWnd, lParam ));
-
-				g_multiTapCounter.onUp( touchPoint );
-
-				Application::Touches appTouches;
-
-				createAppTouches( touchPoint, g_lastMousePoint, appTouches, g_multiTapCounter.tapCount() );
-		
-				Application::instance().onTouchesEnd( appTouches.begin(), appTouches.end() );
-
-				g_haveLastMousePoint = false;
-				return 0;
-			}
-		case WM_MOUSEMOVE:
-			{
-				vec2 touchPoint( getTouchPoint( hWnd, lParam ));
-
-				Application::Touches appTouches;
-		
-				createAppTouches( touchPoint, g_lastMousePoint, appTouches, 0 );
-		
-				Application::instance().onTouchesMove( appTouches.begin(), appTouches.end() );
-
-				g_lastMousePoint = touchPoint;
-				g_haveLastMousePoint = true;
-				return 0;
-			}
-		case WM_MOUSELEAVE:
-			{
-				Application::Touches appTouches;
-
-				createAppTouches( g_lastMousePoint, g_lastMousePoint, appTouches, 0 );
-
-				Application::instance().onTouchesEnd( appTouches.begin(), appTouches.end() );
-
-				return 0;
-			}
-		case WM_MOUSEWHEEL:
-			{
-				Application::Touches appTouches;
-
-				// lParam mouse position is incorrect for multi-monitor setups (as Microsoft's help docs admit.)
-				// Use GetCursorPos().
-
-				POINT mouse;
-				::GetCursorPos( &mouse );
-				::ScreenToClient( hWnd, &mouse );
-
-				vec2 touchPoint( getTouchPoint( hWnd, vec2( (real) mouse.x, (real) mouse.y )));
-
-				vec2 wheelDelta( 0, -WHEEL_SCALAR * getWheelDeltaFromWPARAM( wParam ));
-
-				appTouches.push_back( Application::Touch( 
-															touchPoint,
-															g_lastMousePoint,
-															wheelDelta,
-															0,	// Which touch in the current group?
-															1,	// How many touches in the current group? (Always at most 1 for mouse.)
-															0,	// Click count (e.g. single click vs. double click. Assume 1.)
-															reinterpret_cast< void* >( g_nMouseSequences )));
-
-				Application::instance().onWheelMove( appTouches.begin(), appTouches.end() );
-				g_lastMousePoint = touchPoint;
-				return 0;
-			}
-		case WM_KEYDOWN:
-		case WM_SYSKEYDOWN:
-			{
-				Keyboard::Key key = getKeyFromWPARAM( wParam );
-
-				trace_keys( "KEYDOWN: " << key << " wParam: " << wParam );
-
-				const bool shift = isWinKeyDown( VK_SHIFT );
-				unsigned int c = getCharFromWPARAM( wParam, shift );
-				const bool isAHeldRepeat = ( lParam & ( 1 << 30 )) != 0;
-
-  				if( key != Keyboard::Unsupported )
-				{
-					Keyboard::onKeyStateChanged( key, true );
-				}
-				
-				EventKeyboard event( EventKeyboard::KEY_DOWN, nullptr, c, key, isWinKeyDown( VK_MENU ), isWinKeyDown( VK_CONTROL ), shift, isAHeldRepeat );
-				Application::instance().onKeyDown( event );
-				return 0;
-			}
-		case WM_KEYUP:
-		case WM_SYSKEYUP:
-			{
-				Keyboard::Key key = getKeyFromWPARAM( wParam );
-
-				trace_keys( "KEYUP: " << key << " wParam: " << wParam );
-
-				// Quit if using the standard system shortcut.
-				//
-				if( key == Keyboard::F4 && isWinKeyDown( VK_MENU ))
-				{
-					::PostQuitMessage( 0 );
-				}
-				else
-				{			
-					if( key != Keyboard::Unsupported )
-					{
-						Keyboard::onKeyStateChanged( key, false );
-					}
-
-					const bool shift = isWinKeyDown( VK_SHIFT );
-					unsigned int c = getCharFromWPARAM( wParam, shift );
-					EventKeyboard event( EventKeyboard::KEY_UP, nullptr, c, key, isWinKeyDown( VK_MENU ), isWinKeyDown( VK_CONTROL ), shift, false /* up is never a repeat */ );
-					Application::instance().onKeyUp( event );
-				}
-				return 0;
-			}
-		case WM_SIZE:
-			{
-				fr::Application::instance().onResize( getXFromLPARAM( lParam ), getYFromLPARAM( lParam ));
-				return 0;
-			}
-		case WM_DESTROY:
-			::PostQuitMessage( 0 );
-			return 0;
-		default:
-			return ::DefWindowProc(hWnd, message, wParam, lParam);
-		}
-		return 0;
-	}
+	LRESULT CALLBACK WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam );
 }
 
 namespace fr
@@ -466,6 +305,8 @@ namespace fr
 		,	m_hGLRenderingContext( 0 )
 		{
 			REQUIRES( owner );
+			ASSERT( !g_applicationImplementation );
+			g_applicationImplementation = this;
 
 			m_desiredClocksPerFrame = secondsToClocks( 1.0 / m_desiredFramesPerSecond );
 		}
@@ -475,6 +316,9 @@ namespace fr
 //			shutdownOpenGL();		// Don't bother shutting down GL. The OS will handle this, and doing this here causes ordering problems with global objects that are
 									// destroyed after the application is.
 			::ReleaseDC( m_hWnd, m_hDC );
+
+			ASSERT( g_applicationImplementation == this );
+			g_applicationImplementation = nullptr;
 		}
 
 		bool hasMainWindow() const
@@ -555,6 +399,10 @@ namespace fr
 				windowRect.bottom += windowRect.top;
 			}
 
+			int initialWidth = windowRect.right - windowRect.left;
+			int initialHeight = windowRect.bottom - windowRect.top;
+			m_desiredAspectRatio = static_cast<float>( initialWidth ) / initialHeight;
+
 			m_hWnd = ::CreateWindowEx(
 				WINDOWED_STYLE_EX,
 				wcx.lpszClassName,
@@ -562,8 +410,8 @@ namespace fr
 				WS_CLIPSIBLINGS | WS_CLIPCHILDREN | WINDOWED_STYLE,
 				ulCornerX,
 				ulCornerY,
-				windowRect.right - windowRect.left,
-				windowRect.bottom - windowRect.top,
+				initialWidth,
+				initialHeight,
 				NULL, NULL, wcx.hInstance, NULL );
 
 			ASSERT( m_hWnd != NULL );
@@ -584,6 +432,49 @@ namespace fr
 			::UpdateWindow( m_hWnd );
 		}
 
+		Application::ExitCode pumpWindowMessages()
+		{
+			MSG msg;
+
+			while( ::PeekMessage( &msg, NULL, 0, 0, PM_REMOVE ))
+			{
+				if( msg.message == WM_QUIT )
+				{
+					auto exitCode = static_cast< Application::ExitCode >( msg.wParam );
+					// Make sure exitCode is non-zero.
+					if(exitCode == 0)
+					{
+						exitCode = 1;
+					}
+					return exitCode;
+				}
+
+				::TranslateMessage( &msg );
+				::DispatchMessage( &msg );
+			}
+
+			return 0;
+		}
+
+		void maybeUpdateFrame()
+		{
+			// Is it time for another update?
+			if( getAbsoluteTimeClocks() >= m_nextUpdateTime )
+			{
+				m_nextUpdateTime = getAbsoluteTimeClocks() + m_desiredClocksPerFrame;
+
+				updateFrame();
+
+#ifdef DEBUG
+				GLint err = glGetError();
+				if( err != GL_NO_ERROR )
+				{
+					dev_error( "OpenGL Error during update" );
+				}
+#endif
+			}
+		}
+
 		Application::ExitCode runMainLoop( int argc, const char* argv[] )
 		{
 			REQUIRES( !m_isInMainLoop );
@@ -598,40 +489,17 @@ namespace fr
 
 			try
 			{
-				MSG msg;
 				while( true )
 				{
-					if( ::PeekMessage( &msg, NULL, 0, 0, PM_REMOVE ))
+					Application::ExitCode exitCode = pumpWindowMessages();
+					if(exitCode != 0)
 					{
-						if( msg.message == WM_QUIT )
-						{
-							break;
-						}
-
-						::TranslateMessage( &msg );
-						::DispatchMessage( &msg );
+						m_isInMainLoop = false;
+						return exitCode;
 					}
-					else
-					{
-						// Is it time for another update?
-						if( getAbsoluteTimeClocks() >= m_nextUpdateTime )
-						{
-							m_nextUpdateTime = getAbsoluteTimeClocks() + m_desiredClocksPerFrame;
 
-							updateFrame();
-
-	#ifdef DEBUG
-							GLint err = glGetError();
-							if( err != GL_NO_ERROR )
-							{
-								dev_error( "OpenGL Error during update" );
-							}
-	#endif
-						}
-					}
+					maybeUpdateFrame();
 				}
-				m_isInMainLoop = false;
-				return (int) msg.wParam;
 			}
 			catch( const std::exception& e )
 			{
@@ -652,7 +520,7 @@ namespace fr
 			::SwapBuffers( m_hDC );
 		}
 
-		std::string getPromptedFilePath( bool forSaveElseOpen, const char* semicolonSeparatedFileExtensions )		
+		std::string getPromptedFilePath( bool forSaveElseOpen, const char* semicolonSeparatedFileExtensions )
 		{
 			char initialFilter[] = "All Files\0.*\0Fresh Files";
 
@@ -741,7 +609,7 @@ namespace fr
 		{
 			// Assume a 17-in (diagonal) desktop. Could easily be larger or smaller.
 			//
-			const real monitorWidthInches = 14.57f;			
+			const real monitorWidthInches = 14.57f;
 			return getScreenDimensions().x / monitorWidthInches;
 		}
 
@@ -759,13 +627,13 @@ namespace fr
 				return m_owner->config().desiredTitle();
 			}
 		}
-		
+
 		void windowTitle( const std::string& value )
 		{
 			ASSERT( hasMainWindow() );
 			::SetWindowTextA( m_hWnd, value.c_str() );
 		}
-		
+
 		bool isMainLoopRunning() const
 		{
 			return m_isInMainLoop;
@@ -789,10 +657,10 @@ namespace fr
 			if( fullscreenElseWindowed )
 			{
 				::DEVMODE dmScreenSettings = {{0}};
-				dmScreenSettings.dmSize			= sizeof( dmScreenSettings );   
-				dmScreenSettings.dmPelsWidth    = resolutionX;          
-				dmScreenSettings.dmPelsHeight   = resolutionY;          
-				dmScreenSettings.dmBitsPerPel   = 32;                   
+				dmScreenSettings.dmSize			= sizeof( dmScreenSettings );
+				dmScreenSettings.dmPelsWidth    = resolutionX;
+				dmScreenSettings.dmPelsHeight   = resolutionY;
+				dmScreenSettings.dmBitsPerPel   = 32;
 				dmScreenSettings.dmFields	= DM_BITSPERPEL | DM_PELSWIDTH | DM_PELSHEIGHT;
 
 				BOOL success = ::ChangeDisplaySettings( &dmScreenSettings, CDS_FULLSCREEN );
@@ -817,7 +685,7 @@ namespace fr
 					// This will cause a WM_SIZE message to come in, which should
 					// update the OpenGL viewport and perhaps the projection.
 					//
-					::SetWindowPos( m_hWnd, HWND_TOP, 0, 0, resolutionX, resolutionY, 
+					::SetWindowPos( m_hWnd, HWND_TOP, 0, 0, resolutionX, resolutionY,
 						SWP_SHOWWINDOW | SWP_FRAMECHANGED );
 
 					m_isFullscreen = true;
@@ -839,16 +707,16 @@ namespace fr
 				windowRect.left = 0;
 				windowRect.right = resolutionX;
 				windowRect.bottom = resolutionY;
-			    
+
 				// Adjust the overall window size to support a client of the desired
 				// size.
-				::AdjustWindowRectEx( &windowRect, 
+				::AdjustWindowRectEx( &windowRect,
 					WINDOWED_STYLE, FALSE, WINDOWED_STYLE_EX );
 
-				::SetWindowPos( m_hWnd, HWND_TOP, 
+				::SetWindowPos( m_hWnd, HWND_TOP,
 					0, 0,		// UL corner of the window. Could change this.
-					windowRect.right - windowRect.left, 
-					windowRect.bottom - windowRect.top, 
+					windowRect.right - windowRect.left,
+					windowRect.bottom - windowRect.top,
 					SWP_SHOWWINDOW | SWP_FRAMECHANGED );
 
 				// Show the mouse cursor (optional).
@@ -866,6 +734,88 @@ namespace fr
 		void updateFrame()
 		{
 			m_owner->updateFrame();
+		}
+
+		void handleWindowSizing(WPARAM wParam, LPARAM lParam)
+		{
+			RECT* pRect = (RECT*)lParam;
+			int width = pRect->right - pRect->left;
+			int height = pRect->bottom - pRect->top;
+			
+			int newWidth = width;
+			int newHeight = height;
+			
+			switch (wParam)
+			{
+				case WMSZ_LEFT:
+				case WMSZ_RIGHT:
+					newHeight = static_cast<int>(width / m_desiredAspectRatio);
+					break;
+
+				case WMSZ_TOP:
+				case WMSZ_BOTTOM:
+					newWidth = static_cast<int>(height * m_desiredAspectRatio);
+					break;
+
+				case WMSZ_TOPLEFT:
+				case WMSZ_TOPRIGHT:
+				case WMSZ_BOTTOMLEFT:
+				case WMSZ_BOTTOMRIGHT:
+				{
+					float newAspectRatio = static_cast<float>(width) / height;
+					if (newAspectRatio > m_desiredAspectRatio) {
+						newHeight = static_cast<int>(width / m_desiredAspectRatio);
+					} else {
+						newWidth = static_cast<int>(height * m_desiredAspectRatio);
+					}
+					break;
+				}
+			}
+
+			// Adjust the rectangle to maintain the aspect ratio
+			
+			
+			int deltaX = newWidth - width;
+			int deltaY = newHeight - height;
+			int halfDX = deltaX / 2;
+			int halfDY = deltaY / 2;
+			int otherHalfX = deltaX - halfDX;
+			int otherHalfY = deltaY - halfDY;
+
+			switch (wParam)
+			{
+				case WMSZ_LEFT:
+				case WMSZ_RIGHT:
+					pRect->top 	  = pRect->top - halfDY;
+					pRect->bottom = pRect->bottom + otherHalfY;
+					break;
+
+				case WMSZ_TOP:
+				case WMSZ_BOTTOM:
+					pRect->right = pRect->right + halfDX;
+					pRect->left  = pRect->left - otherHalfX;
+					break;
+
+				case WMSZ_TOPLEFT:
+					pRect->left = pRect->right - newWidth;
+					pRect->top = pRect->bottom - newHeight;
+					break;
+
+				case WMSZ_TOPRIGHT:
+					pRect->right = pRect->left + newWidth;
+					pRect->top = pRect->bottom - newHeight;
+					break;
+
+				case WMSZ_BOTTOMLEFT:
+					pRect->left = pRect->right - newWidth;
+					pRect->bottom = pRect->top + newHeight;
+					break;
+
+				case WMSZ_BOTTOMRIGHT:
+					pRect->right = pRect->left + newWidth;
+					pRect->bottom = pRect->top + newHeight;
+					break;
+			}
 		}
 
 	protected:
@@ -914,6 +864,7 @@ namespace fr
 		bool m_isInMainLoop = false;
 		bool m_isFullscreen = false;
 		TimeType m_desiredFramesPerSecond = 0;
+		float m_desiredAspectRatio = 0;
 
 		SystemClock m_nextUpdateTime = 0;
 		SystemClock m_desiredClocksPerFrame = 0;
@@ -947,7 +898,7 @@ namespace fr
 	{
 		return false;	// No multitouch on PC.
 	}
-	
+
 	void Application::swapBuffers()
 	{
 		m_impl->swapBuffers();
@@ -957,7 +908,7 @@ namespace fr
 	{
 		return {};
 	}
-		
+
 	std::string Application::userLanguageCode() const
 	{
 		// TODO
@@ -988,7 +939,7 @@ namespace fr
 	{
 		return m_impl->windowTitle();
 	}
-	
+
 	void Application::windowTitle( const std::string& value )
 	{
 		m_impl->windowTitle( value );
@@ -1031,3 +982,185 @@ namespace fr
 	}
 }
 
+namespace 
+{
+	LRESULT CALLBACK WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam )
+	{
+		if( !Application::doesExist() )
+		{
+			return ::DefWindowProc(hWnd, message, wParam, lParam);
+		}
+
+		switch( message )
+		{
+		case WM_SETFOCUS:
+			if( Application::doesExist() )
+			{
+				Application::instance().onGainedFocus();
+			}
+			break;
+		case WM_KILLFOCUS:
+			if( Application::doesExist() )
+			{
+				Application::instance().onLostFocus();
+			}
+			break;
+		case WM_LBUTTONDOWN:
+			{
+				++g_nMouseSequences;
+
+				vec2 touchPoint( getTouchPoint( hWnd, lParam ));
+
+				g_multiTapCounter.onDown( touchPoint );
+
+				Application::Touches appTouches;
+
+				createAppTouches( touchPoint, touchPoint, appTouches, g_multiTapCounter.tapCount() );
+
+				Application::instance().onTouchesBegin( appTouches.begin(), appTouches.end() );
+
+				g_lastMousePoint = touchPoint;
+				g_haveLastMousePoint = true;
+				return 0;
+			}
+		case WM_LBUTTONUP:
+			{
+				vec2 touchPoint( getTouchPoint( hWnd, lParam ));
+
+				g_multiTapCounter.onUp( touchPoint );
+
+				Application::Touches appTouches;
+
+				createAppTouches( touchPoint, g_lastMousePoint, appTouches, g_multiTapCounter.tapCount() );
+
+				Application::instance().onTouchesEnd( appTouches.begin(), appTouches.end() );
+
+				g_haveLastMousePoint = false;
+				return 0;
+			}
+		case WM_MOUSEMOVE:
+			{
+				vec2 touchPoint( getTouchPoint( hWnd, lParam ));
+
+				Application::Touches appTouches;
+
+				createAppTouches( touchPoint, g_lastMousePoint, appTouches, 0 );
+
+				Application::instance().onTouchesMove( appTouches.begin(), appTouches.end() );
+
+				g_lastMousePoint = touchPoint;
+				g_haveLastMousePoint = true;
+				return 0;
+			}
+		case WM_MOUSELEAVE:
+			{
+				Application::Touches appTouches;
+
+				createAppTouches( g_lastMousePoint, g_lastMousePoint, appTouches, 0 );
+
+				Application::instance().onTouchesEnd( appTouches.begin(), appTouches.end() );
+
+				return 0;
+			}
+		case WM_MOUSEWHEEL:
+			{
+				Application::Touches appTouches;
+
+				// lParam mouse position is incorrect for multi-monitor setups (as Microsoft's help docs admit.)
+				// Use GetCursorPos().
+
+				POINT mouse;
+				::GetCursorPos( &mouse );
+				::ScreenToClient( hWnd, &mouse );
+
+				vec2 touchPoint( getTouchPoint( hWnd, vec2( (real) mouse.x, (real) mouse.y )));
+
+				vec2 wheelDelta( 0, -WHEEL_SCALAR * getWheelDeltaFromWPARAM( wParam ));
+
+				appTouches.push_back( Application::Touch(
+															touchPoint,
+															g_lastMousePoint,
+															wheelDelta,
+															0,	// Which touch in the current group?
+															1,	// How many touches in the current group? (Always at most 1 for mouse.)
+															0,	// Click count (e.g. single click vs. double click. Assume 1.)
+															reinterpret_cast< void* >( g_nMouseSequences )));
+
+				Application::instance().onWheelMove( appTouches.begin(), appTouches.end() );
+				g_lastMousePoint = touchPoint;
+				return 0;
+			}
+		case WM_KEYDOWN:
+		case WM_SYSKEYDOWN:
+			{
+				Keyboard::Key key = getKeyFromWPARAM( wParam );
+
+				trace_keys( "KEYDOWN: " << key << " wParam: " << wParam );
+
+				const bool shift = isWinKeyDown( VK_SHIFT );
+				unsigned int c = getCharFromWPARAM( wParam, shift );
+				const bool isAHeldRepeat = ( lParam & ( 1 << 30 )) != 0;
+
+  				if( key != Keyboard::Unsupported )
+				{
+					Keyboard::onKeyStateChanged( key, true );
+				}
+
+				EventKeyboard event( EventKeyboard::KEY_DOWN, nullptr, c, key, isWinKeyDown( VK_MENU ), isWinKeyDown( VK_CONTROL ), shift, isAHeldRepeat );
+				Application::instance().onKeyDown( event );
+				return 0;
+			}
+		case WM_KEYUP:
+		case WM_SYSKEYUP:
+			{
+				Keyboard::Key key = getKeyFromWPARAM( wParam );
+
+				trace_keys( "KEYUP: " << key << " wParam: " << wParam );
+
+				// Quit if using the standard system shortcut.
+				//
+				if( key == Keyboard::F4 && isWinKeyDown( VK_MENU ))
+				{
+					::PostQuitMessage( 0 );
+				}
+				else
+				{
+					if( key != Keyboard::Unsupported )
+					{
+						Keyboard::onKeyStateChanged( key, false );
+					}
+
+					const bool shift = isWinKeyDown( VK_SHIFT );
+					unsigned int c = getCharFromWPARAM( wParam, shift );
+					EventKeyboard event( EventKeyboard::KEY_UP, nullptr, c, key, isWinKeyDown( VK_MENU ), isWinKeyDown( VK_CONTROL ), shift, false /* up is never a repeat */ );
+					Application::instance().onKeyUp( event );
+				}
+				return 0;
+			}
+		case WM_SIZING:
+			{
+				ASSERT( g_applicationImplementation );
+				g_applicationImplementation->handleWindowSizing(wParam, lParam);
+
+				// Invalidate the window's client area to trigger a repaint
+				InvalidateRect(hWnd, NULL, TRUE);
+				UpdateWindow(hWnd);
+
+				g_applicationImplementation->maybeUpdateFrame();
+
+				return 0;
+			}
+		case WM_SIZE:
+			{
+				fr::Application::instance().onResize( getXFromLPARAM( lParam ), getYFromLPARAM( lParam ));
+				return 0;
+			}
+		case WM_DESTROY:
+			::PostQuitMessage( 0 );
+			return 0;
+		default:
+			return ::DefWindowProc(hWnd, message, wParam, lParam);
+		}
+		return 0;
+	}
+}

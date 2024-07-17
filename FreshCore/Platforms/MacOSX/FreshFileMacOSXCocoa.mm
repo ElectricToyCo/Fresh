@@ -49,7 +49,7 @@ namespace fr
 	path getDocumentBasePath()
 	{
 		NSString *documentsDirectory = nil;
-		NSArray *paths = NSSearchPathForDirectoriesInDomains( NSDocumentDirectory, NSUserDomainMask, YES );
+		NSArray *paths = NSSearchPathForDirectoriesInDomains( NSApplicationSupportDirectory, NSUserDomainMask, YES );
 		if ([paths count] > 0)  
 		{
 			documentsDirectory = [paths objectAtIndex:0];
@@ -59,8 +59,6 @@ namespace fr
 
 		path basePath( result );
 		
-#ifndef MAC_SANDBOXING_ENABLED
-
 		basePath /= documentSubfolderPath();
 
 		if( !exists( basePath ))
@@ -70,7 +68,6 @@ namespace fr
                 release_trace( "Unable to create document base path " << basePath );
             }
 		}
-#endif
 		
 		return basePath;
 	}

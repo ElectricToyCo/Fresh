@@ -1,3 +1,5 @@
+message("(Fresh/CMakeAppSettings.txt included)")
+
 set( FRESH_DIR "${PROJECT_SOURCE_DIR}/Fresh" )
 
 add_subdirectory( ${FRESH_DIR} ${CMAKE_CURRENT_BINARY_DIR}/Fresh )
@@ -56,18 +58,11 @@ if( WIN32 )
 
 	# OpenAL on Windows
 	include_directories( ${FRESH_DIR}/lib/Win/OpenAL/include )
-	#set( OPENAL_LIBRARY ${FRESH_DIR}/lib/Win/OpenAL/libs/Win32/OpenAL32.lib )
-	set( OPENAL_LIBRARY ${FRESH_DIR}/lib/Win/OpenAL/OpenAL32.dll ${FRESH_DIR}/lib/Win/OpenAL/wrap_oal.dll )
+	set( OPENAL_LIBRARY ${FRESH_DIR}/lib/Win/OpenAL/OpenAL32.lib ${FRESH_DIR}/lib/Win/OpenAL/OpenAL32.dll )
 
 	# GLEW on Windows
 	set( GLEW_LIBRARY ${FRESH_DIR}/lib/Win/glew/libglew32.dll.a )
 	include_directories( ${FRESH_DIR}/lib/Win/glew/include )
-
-	# Winsock # TODO - trying to "just use" them.
-#	find_library( WINSOCK_LIB ws2_32 )
-#	if( NOT WINSOCK_LIB )
-#    	message( "Could not locate the winsock library (ws2_32)")
-#  	endif()
 
 	set( WINSOCK ws2_32 )
 

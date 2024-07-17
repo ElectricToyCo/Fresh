@@ -121,9 +121,6 @@ namespace fr
 			typedef std::allocator< std::string > allocator_type;
 			typedef allocator_type::difference_type difference_type;
 			typedef allocator_type::value_type value_type;
-			typedef allocator_type::reference reference;
-			typedef allocator_type::pointer pointer;
-			typedef std::bidirectional_iterator_tag iterator_category;
 
 			explicit iterator( std::string::const_iterator mine, std::string::const_iterator begin, std::string::const_iterator end ) : m_mine( mine ), m_begin( begin ), m_end( end ) {}
 			

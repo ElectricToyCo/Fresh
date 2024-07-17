@@ -559,7 +559,7 @@ namespace fr
 		{
 			@autoreleasepool
 			{
-#if DEV_MODE && 1
+#if DEV_MODE && 0
 				m_commandProcessor->startListenServer();
 #endif
 				return m_impl->runMainLoop( argc, argv, wantsFullScreenStartup() );

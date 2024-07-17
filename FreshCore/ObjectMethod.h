@@ -59,7 +59,7 @@ namespace fr
 	/////////////////////////////////////////////////////
 	
 	template< typename ReturnT >
-	class SimpleAccessor : public SimpleAccessorAbstract, std::unary_function< Object*, ReturnT >
+	class SimpleAccessor : public SimpleAccessorAbstract, std::function< ReturnT( Object* ) >
 	{
 	public:
 		virtual ReturnT operator()( const Object* object ) const = 0;

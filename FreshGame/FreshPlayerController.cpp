@@ -32,7 +32,7 @@ namespace fr
 		host()->stage().addEventListener( EventTouch::TOUCH_END, FRESH_CALLBACK( onStageTouchUp ));
 
 		auto& gamepadManager = Application::instance().gamepadManager();
-		
+
 		gamepadManager.addEventListener( GamepadManager::GAMEPAD_ATTACHED, FRESH_CALLBACK( onGamepadJoined ));
 		gamepadManager.addEventListener( GamepadManager::GAMEPAD_DETACHED, FRESH_CALLBACK( onGamepadLeft ));
 		
@@ -106,10 +106,13 @@ namespace fr
 	
 	void FreshPlayerController::setupGamepad( Gamepad::ptr gamepad )
 	{
+		release_trace("TODO here");
+
 		m_gamepad = gamepad;
 		
 		if( m_gamepad )
 		{
+			release_trace("TODO adding listeners, but I bet this line doesn't happen.");
 			m_gamepad->addEventListener( Gamepad::BUTTON_DOWN, FRESH_CALLBACK( onGamepadButtonDown ));
 			m_gamepad->addEventListener( Gamepad::BUTTON_UP, FRESH_CALLBACK( onGamepadButtonUp ));
 			m_gamepad->addEventListener( Gamepad::AXIS_MOVED, FRESH_CALLBACK( onGamepadAxisMoved ));
@@ -139,6 +142,8 @@ namespace fr
 
 	FRESH_DEFINE_CALLBACK( FreshPlayerController, onGamepadJoined, EventGamepad )
 	{
+		release_trace("TODO gamepad " << Application::instance().gamepadManager().gamepadIndex( event.gamepadTarget() ) << " joined, controller wants " << m_gamepadIndex);
+
 		// We interested in this gamepad?
 		//
 		if( Application::instance().gamepadManager().gamepadIndex( event.gamepadTarget() ) == m_gamepadIndex )
@@ -163,6 +168,7 @@ namespace fr
 	
 	FRESH_DEFINE_CALLBACK( FreshPlayerController, onGamepadButtonDown, EventGamepadButton )
 	{
+		release_trace("TODO foo' received gamepad button down event with button " << (int) event.button());
 		if( host() && ( event.button() == Gamepad::Button::A || event.button() == Gamepad::Button::B || event.button() == Gamepad::Button::X || event.button() == Gamepad::Button::Y ))
 		{
 			onActionButtonDown( event.button() );

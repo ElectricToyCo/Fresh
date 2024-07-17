@@ -20,44 +20,46 @@
 
 namespace fr
 {
-#if defined( DEBUG )
+// #if defined( DEBUG )
+#if 1
+	//  TODO JMW 2024-07-07 debugging Windows silence.
 	inline void handleALErrors( const char* sourceCodeFileName, int sourceCodeLine )
 	{
 		ALenum err = alGetError();
-		
+
 		if( err != AL_NO_ERROR )
 		{
 			const char* szErrString = "(Unknown.)";
-			
+
 			switch( err )
 			{
 				case AL_INVALID_NAME:
 					szErrString = "Invalid Name parameter passed to AL call.";
 					break;
-					
+
 				case AL_INVALID_ENUM:
 					szErrString = "Invalid parameter passed to AL call.";
 					break;
-					
+
 				case AL_INVALID_VALUE:
 					szErrString = "Invalid enum parameter value.";
 					break;
-					
+
 				case AL_INVALID_OPERATION:
 					szErrString = "Illegal call.";
 					break;
-					
+
 				case AL_OUT_OF_MEMORY:
 					szErrString = "No mojo. (Out of memory.)";
 					break;
-					
+
 				case AL_INVALID:
 					szErrString = "invalid (deprecated).";
-					
+
 				default:
 					break;
 			}
-			
+
 			con_error( sourceCodeFileName << "(" << sourceCodeLine << "): OpenAL reported error " << std::hex << std::showbase << std::setw( 4 ) << std::setfill( '0' ) << err << ": '" << szErrString << "'" );
 		}
 	}

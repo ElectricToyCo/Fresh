@@ -21,7 +21,7 @@
 
 #	if FRESH_SUPPORTS_RENDERBUFFER_MULTISAMPLE
 	PFNGLRENDERBUFFERSTORAGEMULTISAMPLEIMG glRenderbufferStorageMultisampleIMG = nullptr;
-#	endif 
+#	endif
 
 #	if FRESH_SUPPORTS_DISCARD_FRAME_BUFFER
 	PFNGLDISCARDFRAMEBUFFEREXTPROC glDiscardFramebufferEXT = nullptr;
@@ -50,7 +50,7 @@ namespace fr
 
 #if FRESH_MANUAL_GL_BINDING
 #	define BIND_GL_FUNCTION( fn )	fn = reinterpret_cast< decltype( fn ) >( eglGetProcAddress( #fn )); ASSERT( fn );
-		
+
 		// Bind extension functions. On some platforms we get GLEW to do this for us.
 		//
 #	if	GL_VERTEX_ARRAY_OBJECTS_SUPPORTED
@@ -59,11 +59,11 @@ namespace fr
 		BIND_GL_FUNCTION( glDeleteVertexArraysOES )
 		BIND_GL_FUNCTION( glIsVertexArrayOES )
 #	endif
-		
+
 #	if FRESH_SUPPORTS_RENDERBUFFER_MULTISAMPLE
 		BIND_GL_FUNCTION( glRenderbufferStorageMultisampleIMG )
 #	endif
-		
+
 #	if FRESH_SUPPORTS_DISCARD_FRAME_BUFFER
 		BIND_GL_FUNCTION( glDiscardFramebufferEXT )
 #	endif
@@ -71,7 +71,7 @@ namespace fr
 #else	// Non-manual binding.
 
 #	if FRESH_USE_GLEW
-		
+
 		// Initialize GLEW on Windows and Linux.
 		//
 		GLenum err = glewInit();
@@ -80,10 +80,13 @@ namespace fr
 			dev_trace( "ERROR: GLEW initialization failed. Message: '" << glewGetErrorString( err ) << "'" );
 		}
 
-		ASSERT( glewIsSupported( "glCreateProgram" ) );
-		
+		if( !glewIsSupported( "glCreateProgram" ) )
+		{
+			dev_warning("GLEW says `glCreateProgram()` is not supported. We'll see if it works.");
+		}
+
 #	endif
-		
+
 #endif
 
 	}
@@ -91,7 +94,7 @@ namespace fr
 	bool isGLExtensionAvailable( const char* extensionName )
 	{
 		static std::map< std::string, bool > cachedResults;
-		
+
 		auto iter = cachedResults.find( extensionName );
 		if( iter != cachedResults.end() )
 		{
@@ -103,20 +106,20 @@ namespace fr
 			//
 			const GLubyte* const szExtensions = glGetString( GL_EXTENSIONS );
 			const std::string extensions( reinterpret_cast< const char* >( szExtensions ));
-			
+
 			const bool available = extensions.find( extensionName ) != std::string::npos;
-			
+
 			// Cache the result for the efficiency of future checks.
 			//
 			cachedResults[ extensionName ] = available;
-			
+
 			dev_trace( "OpenGL extension " << extensionName << " is " << ( available ? "available" : "unavailable" ));
-			
+
 			return available;
 		}
 	}
-	
-	
+
+
 	const char* getGLErrorDescription( GLenum errCode )
 	{
 		switch( errCode )

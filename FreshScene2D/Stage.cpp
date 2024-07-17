@@ -119,6 +119,8 @@ namespace fr
 	{
 		if( !doUpdate() ) return;
 		
+		TIMER_AUTO_FUNC
+		
 		try
 		{
 			TIMER_AUTO( Stage::update )

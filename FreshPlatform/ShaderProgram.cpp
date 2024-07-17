@@ -347,7 +347,7 @@ namespace fr
 		{
 			// Report errors or warnings.
 			//
-			std::unique_ptr< char > szLogText( new char[ lenLog + 1 ] );
+			std::unique_ptr< char[] > szLogText( new char[ lenLog + 1 ] );
 			
 			glGetProgramInfoLog( m_idProgram, lenLog, &lenLog, szLogText.get() );
 			

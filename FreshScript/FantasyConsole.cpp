@@ -847,7 +847,6 @@ namespace fr
 	{
 		if( m_lua )
 		{
-			m_coroutineStates.clear();
 			LuaHostRegistry::removeHost( m_lua );
 			lua_close( m_lua );
 			m_lua = nullptr;
@@ -1246,9 +1245,7 @@ namespace fr
 	LUA_FUNCTION( coresume, 1 );
 	void FantasyConsole::coresume( CoroutineId id )
 	{
-		// TODO!!!
 		lua_State* const coroutineState = findCoroutineState( id );
-		ASSERT( coroutineState );
 		lua_resume( coroutineState, m_lua, 0 );
 	}
 	

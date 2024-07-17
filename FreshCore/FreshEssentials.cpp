@@ -18,21 +18,23 @@
 #include <functional>
 #include <map>
 
-#if !defined( _WIN32 ) && !ANDROID
-#	include <sys/sysctl.h>
+#if TARGET_OS_IPHONE || TARGET_OS_MAC
+#   include <sys/sysctl.h>
 // For accessing the IP address of the machine.
-#	include <ifaddrs.h>
-#	include <arpa/inet.h>
+#   include <ifaddrs.h>
+#   include <arpa/inet.h>
+
+#   include <CoreFoundation/CFPreferences.h>
+
+#   if TARGET_OS_IPHONE
+#       include <CoreFoundation/CFUUID.h>
+#       include <AudioToolbox/AudioServices.h>
+#   elif TARGET_OS_MAC
+#       include <CoreFoundation/CFPreferences.h>
+#       include <IOKit/IOKitLib.h>
+#   endif
 #endif
 
-#if TARGET_OS_IPHONE
-#	include <CoreFoundation/CFPreferences.h>
-#	include <CoreFoundation/CFUUID.h>
-#	include <AudioToolbox/AudioServices.h>
-#elif TARGET_OS_MAC
-#	include <CoreFoundation/CFPreferences.h>
-#	include <IOKit/IOKitLib.h>
-#endif
 
 namespace
 {
@@ -43,7 +45,7 @@ namespace
 
 	// Adapted from http://stackoverflow.com/questions/3589936/c-urlencode-library-unicode-capable.
 	//
-	void urlEncodePerCharacter( std::string& str, std::string::value_type v ) 
+	void urlEncodePerCharacter( std::string& str, std::string::value_type v )
 	{
 		if (isalnum(v))
 		{
@@ -70,7 +72,7 @@ namespace
 	void savePreferences( const Preferences& preferences )
 	{
 		auto preferencesPath = fr::getDocumentPath( "preferences.txt" );
-		
+
 		create_directories( preferencesPath.parent_path() );
 
 		std::ofstream preferencesFile( preferencesPath.string() );
@@ -192,41 +194,41 @@ namespace
 
 namespace fr
 {
-	
+
 	std::string getByteCountString( size_t nBytes )
 	{
 		size_t denomination = 0;
-		
+
 		double bytes = nBytes;
 		while( bytes >= 1024.0 && denomination < 4 )
 		{
 			++denomination;
 			bytes /= 1024.0;
 		}
-		
+
 		std::ostringstream out;
 		out << std::fixed << std::setprecision( 2 ) << bytes << " ";
-		
+
 		switch( denomination )
 		{
 			default:
 			case 0:
 				out << "B";
 				break;
-				
+
 			case 1:
 				out << "KiB";
 				break;
-				
+
 			case 2:
 				out << "MiB";
 				break;
-				
+
 			case 3:
 				out << "GiB";
 				break;
 		}
-		
+
 		return out.str();
 	}
 
@@ -236,40 +238,40 @@ namespace fr
 		static std::locale s_locale( std::locale::classic() );
 		return s_locale;
 	}
-	
+
 	void savePreference( const std::string& key, const std::string& value )
 	{
 		REQUIRES( !key.empty() );
 #if TARGET_OS_MAC
-		
+
 		CFStringRef cfKey = CFStringCreateWithCString( kCFAllocatorDefault, key.c_str(), kCFStringEncodingUTF8 );
 		CFStringRef cfValue = CFStringCreateWithCString( kCFAllocatorDefault, value.c_str(), kCFStringEncodingUTF8 );
-		
+
 		CFPreferencesSetAppValue( cfKey, cfValue, kCFPreferencesCurrentApplication );
-		
+
 		CFRelease( cfKey );
 		CFRelease( cfValue );
-		
+
 #else
 		preference( key, value );
-#endif		
+#endif
 	}
-	
+
 	bool loadPreference( const std::string& key, std::string& outValue )
 	{
 		REQUIRES( !key.empty() );
-		
-#if TARGET_OS_MAC	
+
+#if TARGET_OS_MAC
 		CFStringRef cfKey = CFStringCreateWithCString( kCFAllocatorDefault, key.c_str(), kCFStringEncodingUTF8 );
 		CFStringRef value = (CFStringRef) CFPreferencesCopyAppValue( cfKey, kCFPreferencesCurrentApplication );
 		CFRelease( cfKey );
-		
+
 		if( value )
 		{
 			outValue = stringFromCFString( value );
 			CFRelease( value );
-		}		
-		
+		}
+
 		return !!value;
 #else
 		syncPreferences();
@@ -282,31 +284,31 @@ namespace fr
 			outValue = preference( key );
 			return true;
 		}
-#endif		
+#endif
 	}
-	
+
 	void syncPreferences()
 	{
-#if TARGET_OS_MAC	
+#if TARGET_OS_MAC
 		CFPreferencesAppSynchronize( kCFPreferencesCurrentApplication );
 #else
 		syncPreferencesInternal();
-#endif		
+#endif
 	}
 
 	bool isSystemMusicPlaying()
 	{
 		return fr::audiosession::isOtherAudioPlaying();
 	}
-	
+
 	// Adapted From http://stackoverflow.com/questions/3589936/c-urlencode-library-unicode-capable
-	std::string urlEncode( const std::string& url ) 
+	std::string urlEncode( const std::string& url )
 	{
 		std::string result;
 		std::for_each( url.begin(), url.end(), std::bind( urlEncodePerCharacter, std::ref( result ), std::placeholders::_1 ));
 		return result;
 	}
-	
+
 	std::string getPlatform()
 	{
 		std::string platform;
@@ -316,9 +318,9 @@ namespace fr
 #elif TARGET_OS_IPHONE
 		platform = "iOS ";
 		platform += getPlatformModel();
-		
+
 		std::string submodel = getPlatformSubmodel();
-		
+
 		if( submodel.empty() == false )
 		{
 			platform += " (";
@@ -340,7 +342,7 @@ namespace fr
 #elif FRESH_EMSCRIPTEN
 		platform = "Emscripten";
 #endif
-		
+
 		return platform;
 	}
 
@@ -351,11 +353,11 @@ namespace fr
 
 		size_t nBytes = 0;
 		::sysctl( mib, 2, NULL, &nBytes, NULL, 0 );
-		
+
 		std::unique_ptr< char[] > szMachine( new char[ nBytes + 1 ] );
-		
+
 		::sysctl( mib, 2, szMachine.get(), &nBytes, NULL, 0 );
-		
+
 		if( 0 == strcmp( szMachine.get(), "iPhone1,1" ))    return "iPhone 1G";
 		if( 0 == strcmp( szMachine.get(), "iPhone1,2" ))    return "iPhone 3G";
 		if( 0 == strcmp( szMachine.get(), "iPhone2,1" ))    return "iPhone 3GS";
@@ -388,7 +390,7 @@ namespace fr
 		if( 0 == strcmp( szMachine.get(), "iPad3,6" ))      return "iPad 4";			// GSM+CDMA
 		if( 0 == strcmp( szMachine.get(), "i386" ))         return "Simulator";
 		if( 0 == strcmp( szMachine.get(), "x86_64" ))       return "Simulator";
-		
+
 		return std::string( szMachine.get() );
 #else
 		return "PC";
@@ -399,35 +401,35 @@ namespace fr
 	{
 #if TARGET_OS_MAC
 		int mib[] = { CTL_HW, HW_MACHINE };
-		
+
 		size_t nBytes = 0;
 		sysctl( mib, 2, NULL, &nBytes, NULL, 0 );
-		
+
 		std::unique_ptr< char[] > szMachine( new char[ nBytes + 1 ] );
-		
+
 		sysctl( mib, 2, szMachine.get(), &nBytes, NULL, 0 );
-		
-		if( 0 == strcmp( szMachine.get(), "iPhone3,1" ))    return "AT&T";			
-		if( 0 == strcmp( szMachine.get(), "iPhone3,2" ))    return "Other Carrier";	
-		if( 0 == strcmp( szMachine.get(), "iPhone3,3" ))    return "Verizon";		
-		if( 0 == strcmp( szMachine.get(), "iPhone4,1" ))    return "AT&T";			
-		if( 0 == strcmp( szMachine.get(), "iPhone4,2" ))    return "Verizon";		
+
+		if( 0 == strcmp( szMachine.get(), "iPhone3,1" ))    return "AT&T";
+		if( 0 == strcmp( szMachine.get(), "iPhone3,2" ))    return "Other Carrier";
+		if( 0 == strcmp( szMachine.get(), "iPhone3,3" ))    return "Verizon";
+		if( 0 == strcmp( szMachine.get(), "iPhone4,1" ))    return "AT&T";
+		if( 0 == strcmp( szMachine.get(), "iPhone4,2" ))    return "Verizon";
 		if( 0 == strcmp( szMachine.get(), "iPhone5,1" ))    return "GSM";
 		if( 0 == strcmp( szMachine.get(), "iPhone5,2" ))    return "GSM+CDMA";
 		if( 0 == strcmp( szMachine.get(), "iPad1,1" ))      return "Wifi";
-		if( 0 == strcmp( szMachine.get(), "iPad1,2" ))      return "3G";			
-		if( 0 == strcmp( szMachine.get(), "iPad2,1" ))      return "Wifi";			
-		if( 0 == strcmp( szMachine.get(), "iPad2,2" ))      return "GSM";			
-		if( 0 == strcmp( szMachine.get(), "iPad2,3" ))      return "CDMA";			
-		if( 0 == strcmp( szMachine.get(), "iPad2,4" ))      return "Wifi";			
-		if( 0 == strcmp( szMachine.get(), "iPad2,5" ))      return "Wifi";			
-		if( 0 == strcmp( szMachine.get(), "iPad2,6" ))      return "GSM";			
-		if( 0 == strcmp( szMachine.get(), "iPad2,7" ))      return "GSM+CDMA";		
-		if( 0 == strcmp( szMachine.get(), "iPad3,1" ))      return "Wifi";			
-		if( 0 == strcmp( szMachine.get(), "iPad3,2" ))      return "GSM+CDMA";		
-		if( 0 == strcmp( szMachine.get(), "iPad3,3" ))      return "GSM";			
-		if( 0 == strcmp( szMachine.get(), "iPad3,4" ))      return "Wifi";			
-		if( 0 == strcmp( szMachine.get(), "iPad3,5" ))      return "GSM";			
+		if( 0 == strcmp( szMachine.get(), "iPad1,2" ))      return "3G";
+		if( 0 == strcmp( szMachine.get(), "iPad2,1" ))      return "Wifi";
+		if( 0 == strcmp( szMachine.get(), "iPad2,2" ))      return "GSM";
+		if( 0 == strcmp( szMachine.get(), "iPad2,3" ))      return "CDMA";
+		if( 0 == strcmp( szMachine.get(), "iPad2,4" ))      return "Wifi";
+		if( 0 == strcmp( szMachine.get(), "iPad2,5" ))      return "Wifi";
+		if( 0 == strcmp( szMachine.get(), "iPad2,6" ))      return "GSM";
+		if( 0 == strcmp( szMachine.get(), "iPad2,7" ))      return "GSM+CDMA";
+		if( 0 == strcmp( szMachine.get(), "iPad3,1" ))      return "Wifi";
+		if( 0 == strcmp( szMachine.get(), "iPad3,2" ))      return "GSM+CDMA";
+		if( 0 == strcmp( szMachine.get(), "iPad3,3" ))      return "GSM";
+		if( 0 == strcmp( szMachine.get(), "iPad3,4" ))      return "Wifi";
+		if( 0 == strcmp( szMachine.get(), "iPad3,5" ))      return "GSM";
 		if( 0 == strcmp( szMachine.get(), "iPad3,6" ))      return "GSM+CDMA";
 
 		return "";
@@ -435,41 +437,41 @@ namespace fr
 		return "";
 #endif
 	}
-	
+
 #if !TARGET_OS_MAC
 	std::string getOSVersion()
 	{
 		return "(Unknown OS version)";	// TODO
 	}
 #endif
-	
+
 	unsigned int getDeviceIPAddress()
 	{
 #if TARGET_OS_MAC
 		// See http://stackoverflow.com/questions/6807788/how-to-get-ip-address-of-iphone-programatically
-		
+
 		// Retrieve the current interfaces - returns 0 on success
 		ifaddrs* interfaces = NULL;
 		int success = getifaddrs( &interfaces );
-		
-		if( success == 0 ) 
+
+		if( success == 0 )
 		{
 			unsigned int address = 0;
-			
+
 			// Loop through linked list of interfaces
 			ifaddrs* interface = interfaces;
-			while( interface != NULL ) 
+			while( interface != NULL )
 			{
-				if( interface->ifa_addr->sa_family == AF_INET) 
+				if( interface->ifa_addr->sa_family == AF_INET)
 				{
 					// Check if interface is en0 which is the wifi connection on the iPhone
-					if( 0 == strcmp( interface->ifa_name, "en0" )) 
+					if( 0 == strcmp( interface->ifa_name, "en0" ))
 					{
 						address = reinterpret_cast< sockaddr_in* >( interface->ifa_addr )->sin_addr.s_addr;
 						break;
-					}					
+					}
 				}
-				
+
 				interface = interface->ifa_next;
 			}
 
@@ -477,13 +479,13 @@ namespace fr
 			freeifaddrs( interfaces );
 			return address;
 		}
-		
+
 		return 0;
 #else
 		return 0;	// TODO
 #endif
 	}
-	
+
 	std::string getStringIPAddress( unsigned int address )
 	{
 		std::ostringstream stream;
@@ -493,19 +495,19 @@ namespace fr
 			{
 				stream << ".";
 			}
-			
+
 			stream << ( address & 0xFF );
-			address >>= 8;	// Next byte.			
+			address >>= 8;	// Next byte.
 		}
 		return stream.str();
 	}
-	
+
 	std::string getDeviceId()
 	{
 		std::string device;
-		
+
 #if TARGET_OS_IPHONE
-		
+
 		// Try to read the per-device, per-application key that I have previously created.
 		//
 		const std::string key = "UniqueID";
@@ -517,31 +519,31 @@ namespace fr
 			CFUUIDRef uuidRef = CFUUIDCreate( NULL );
 			CFStringRef ident = CFUUIDCreateString( NULL, uuidRef );
 			CFRelease( uuidRef );
-		
+
 			savePreference( key, stringFromCFString( ident ).c_str() );
 			syncPreferences();
-			
+
 			device = stringFromCFString( ident );
 
 			CFRelease( ident );
 		}
 
-		
+
 #elif TARGET_OS_MAC
 
 		io_registry_entry_t ioRegistryRoot = IORegistryEntryFromPath( kIOMasterPortDefault, "IOService:/");
 		CFStringRef uuidCf = (CFStringRef) IORegistryEntryCreateCFProperty( ioRegistryRoot, CFSTR( kIOPlatformUUIDKey ), kCFAllocatorDefault, 0 );
 		IOObjectRelease( ioRegistryRoot );
-		
+
 		device = stringFromCFString( uuidCf );
 		CFRelease( uuidCf );
-		
+
 #elif defined( _WIN32 )
-		
+
 		// Get the MAC address for this system.
 		//
 		// TODO from http://wxwidgets.info/cross-platform-way-of-obtaining-mac-address-of-your-machine/
-		
+
 #if 0	// Requires special link library. Too much trouble for now.
 		UUID uuid;
 		if( ::UuidCreateSequential( &uuid ) != RPC_S_UUID_NO_ADDRESS )
@@ -558,10 +560,10 @@ namespace fr
 		//
 		const DWORD lenName = MAX_COMPUTERNAME_LENGTH + 1;
 		TCHAR szComputerName[ lenName ];
-		
+
 		DWORD outLen = lenName;
 		bool success = ::GetComputerName( szComputerName, &outLen );
-		
+
 		if( success )
 		{
 			device += szComputerName;
@@ -574,10 +576,10 @@ namespace fr
 		// TODO
 		device = "<unknown Linux device>";
 #endif
-		
+
 		return device;
 	}
-	
+
 	void getline( std::istream& stream, std::string& out, const std::string& delimiters )
 	{
 		while( stream )
@@ -598,19 +600,19 @@ namespace fr
 			}
 		}
 	}
-	
+
 	bool matchesFilter( const std::string& str, const std::string& filter )
 	{
 		return std::regex_match( str, std::regex( filter ) );
 	}
-	
+
 	std::string toLower( const std::string& s )
 	{
 		std::string result;
 		std::transform( s.begin(), s.end(), std::back_inserter( result ), &::tolower );
 		return result;
 	}
-	
+
 	std::string toUpper( const std::string& s )
 	{
 		std::string result;
@@ -622,13 +624,13 @@ namespace fr
 	{
 		const auto replacedSize = replaced.size();
 		const auto withSize = with.size();
-		
+
 		size_t start = 0;
-		
+
 		while( start < within.size() )
 		{
 			const auto pos = within.find( replaced, start );
-			
+
 			if( pos != std::string::npos )
 			{
 				within.replace( pos, replacedSize, with );
@@ -640,12 +642,12 @@ namespace fr
 			}
 		}
 	}
-	
+
 	bool stringCaseInsensitiveCompare( const char* str1, const char* str2 )
 	{
 #if defined( _WIN32 )
-		return _stricmp( str1, str2 ) == 0;		
-#else 		
+		return _stricmp( str1, str2 ) == 0;
+#else
 		return strcasecmp( str1, str2 ) == 0;
 #endif
 	}
@@ -658,7 +660,7 @@ namespace fr
 	size_t stringCaseInsensitiveFind( const std::string& str1, const std::string& str2 )
 	{
 		auto pos = std::search( str1.begin(), str1.end(), str2.begin(), str2.end(), CompareCharactersInsensitive );
-		
+
 		if( pos == str1.end() )
 		{
 			return std::string::npos;
@@ -668,7 +670,7 @@ namespace fr
 			return pos - str1.begin();
 		}
 	}
-	
+
 	std::vector< std::string > split( const std::string& str, const std::string& delims )
 	{
 		std::vector< std::string > container;
@@ -689,7 +691,7 @@ namespace fr
 	std::string toTraditionalLetters( int thisIndex )
 	{
 		assert( thisIndex >= 0 );
-		
+
 		std::string label;
 		int places = 0;							// 677
 		do
@@ -698,31 +700,31 @@ namespace fr
 			{
 				--thisIndex;					// 25
 			}
-			
+
 			int thisDigit = thisIndex % 26;		// 25 % 26 == 25
-			
+
 			thisIndex /= 26;					// 0
-			
+
 			std::string t;
 			t = 'A' + thisDigit;
 			label = t + label;			// 'BZ'
 		} while( thisIndex > 0 );
-		
+
 		return label;
 	}
-	
+
 #if TARGET_OS_MAC
 	std::string stringFromCFString( CFStringRef cfStr )
 	{
 		std::string value;
-		
+
 		if( cfStr )
 		{
-			
+
 			// Try to get the buffer the fast and cheap way.
 			//
 			const char* szValue = CFStringGetCStringPtr( cfStr, kCFStringEncodingUTF8 );
-			
+
 			if( szValue )
 			{
 				value = szValue;
@@ -733,17 +735,17 @@ namespace fr
 				//
 				const CFIndex length = CFStringGetLength( cfStr );
 				const CFIndex maxSize = CFStringGetMaximumSizeForEncoding( length, kCFStringEncodingUTF8 );
-				
+
 				std::unique_ptr< char[] > buf( new char[ maxSize ]);
-				
+
 				VERIFY( CFStringGetCString( cfStr, buf.get(), maxSize, kCFStringEncodingUTF8 ));
-				
+
 				value = buf.get();
 			}
 		}
-		
+
 		return value;
 	}
 #endif
-	
+
 }

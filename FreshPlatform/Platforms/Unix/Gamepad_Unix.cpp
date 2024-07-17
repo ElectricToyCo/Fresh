@@ -274,6 +274,7 @@ namespace
 						}
 						
 						float value = lerp( -1.0f, 1.0f, proportion< float >( event.value, m_axisInfo[ event.code ].minimum, m_axisInfo[ event.code ].maximum ));
+
 						queueAxisEvent( event.time.tv_sec + event.time.tv_usec * 0.000001,
 						                m_axisMap[ event.code ],
 						                value );
@@ -288,6 +289,10 @@ namespace
 						queueButtonEvent( event.time.tv_sec + event.time.tv_usec * 0.000001,
 						                  m_buttonMap[ event.code - BTN_MISC ],
 						                  !!event.value );
+					}
+					else
+					{
+						// release_trace("Unix Input got event of (deliberately?) unhandled type " << event.type );
 					}
 				}
 			}
@@ -351,10 +356,7 @@ namespace fr
 	///////////////////////////////////////////
 
 	void GamepadManager::construct()
-	{
-		gamepad_manager_trace( *this << " constructing." );
-		updateSystem();
-	}
+	{}
 	
 	void GamepadManager::updateSystem()
 	{
@@ -367,7 +369,7 @@ namespace fr
 		DIR* const inputDirectory = opendir( "/dev/input" );
 		if( inputDirectory ) 
 		{
-			gamepad_manager_trace( *this << " scanning /dev/input." );
+			// gamepad_manager_trace( this << " scanning /dev/input." );
 
 			const struct dirent* entity = nullptr;
 
@@ -379,7 +381,7 @@ namespace fr
 				if( std::sscanf( entity->d_name, "event%d%n", &num, &charsConsumed ) && 
 					charsConsumed == std::strlen( entity->d_name )) 
 				{
-					gamepad_manager_trace( *this << " considering entity " << entity->d_name );
+					// gamepad_manager_trace( this << " considering entity " << entity->d_name );
 
 					char fileName[ PATH_MAX ];
 					std::snprintf( fileName, PATH_MAX, "/dev/input/%s", entity->d_name );
@@ -389,7 +391,7 @@ namespace fr
 						continue;
 					}
 
-					gamepad_manager_trace( *this << " " << entity->d_name << " was modified since last check." );
+					gamepad_manager_trace( this << " " << entity->d_name << " was modified since last check." );
 					
 					bool isDuplicate = std::any_of( m_gamepads.begin(), m_gamepads.end(), [&]( Gamepad::ptr gamepad )
 					{
@@ -402,7 +404,7 @@ namespace fr
 						continue;
 					}
 
-					gamepad_manager_trace( *this << " " << entity->d_name << " is not a duplicate." );
+					gamepad_manager_trace( this << " " << entity->d_name << " is not a duplicate." );
 					
 					const int fileDescriptor = open( fileName, O_RDONLY, 0 );
 
@@ -416,7 +418,7 @@ namespace fr
 					    ioctl( fileDescriptor, EVIOCGBIT( EV_KEY, sizeof( evKeyBits )), evKeyBits ) < 0 ||
 					    ioctl( fileDescriptor, EVIOCGBIT( EV_ABS, sizeof( evAbsBits )), evAbsBits ) < 0 ) 
 					{
-						gamepad_manager_trace( *this << " " << entity->d_name << " had no caps, keys, or abs's." );
+						gamepad_manager_trace( this << " " << entity->d_name << " had no caps, keys, or abs's." );
 
 						close( fileDescriptor);
 						continue;
@@ -426,13 +428,13 @@ namespace fr
 					    !isBitSet( ABS_X,  evAbsBits ) || !isBitSet( ABS_Y,  evAbsBits ) ||
 					    ( !isBitSet( BTN_TRIGGER, evKeyBits ) && !isBitSet( BTN_A, evKeyBits ) && !isBitSet( BTN_1, evKeyBits ))) 
 					{
-						gamepad_manager_trace( *this << " " << entity->d_name << " had no interesting bits set." );
+						gamepad_manager_trace( this << " " << entity->d_name << " had no interesting bits set." );
 
 						close( fileDescriptor );
 						continue;
 					}
 
-					gamepad_manager_trace( *this << " creating gamepad." );
+					gamepad_manager_trace( this << " creating gamepad." );
 			
 					//
 					// A new gamepad has been discovered or attached.

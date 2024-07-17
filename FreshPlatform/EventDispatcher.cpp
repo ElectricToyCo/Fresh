@@ -202,11 +202,6 @@ namespace fr
 				{
 					*result++ = *beginning;		// Stick it toward the front (where things won't be deleted).
 				}
-				else
-				{
-					// Prepare to release this callback and callback owner
-					( beginning->second )->setHoldOwnerStrongly( false );		
-				}
 			}
 			
 			m_listStrongListeners.erase( result, m_listStrongListeners.end() );

@@ -191,7 +191,7 @@ end
 
 # Initialize git and the Fresh submodule.
 `git init`
-`git submodule add ssh://jeffwoff@wwwss47.a2hosting.com:7822/home/jeffwoff/repos/git/Fresh.git`
+`git submodule add ssh://jeffwoff@mi3-ss117.a2hosting.com:7822/home/jeffwoff/repos/git/Fresh.git`
 `git add -A`
 `git commit -m "First post."`
 

@@ -1,3 +1,7 @@
+message("(Fresh/CMakeBaseSettings.txt included)")
+message("(PROJECT_SOURCE_DIR=${PROJECT_SOURCE_DIR})")
+message( "Building app '${APP_NAME}' for platform '${CMAKE_SYSTEM_NAME}'" )
+
 if( ${CMAKE_SYSTEM_NAME} STREQUAL "Linux" )
 	set( LINUX "true" )
 	message( "Build for Linux.")
@@ -69,19 +73,19 @@ endif()
 #### Compiler-specific C++17 activation.
 
 execute_process( COMMAND ${CMAKE_CXX_COMPILER} -dumpversion OUTPUT_VARIABLE COMPILER_VERSION )
-message( "Using compiler ${CMAKE_CXX_COMPILER_ID} ${COMPILER_VERSION}" )
+message( "Using compiler ${CMAKE_CXX_COMPILER_ID} ${COMPILER_VERSION} (at ${CMAKE_CXX_COMPILER})" )
 
 if( "${CMAKE_CXX_COMPILER_ID}" MATCHES "GNU" )
     execute_process( COMMAND ${CMAKE_CXX_COMPILER} -dumpversion OUTPUT_VARIABLE COMPILER_VERSION )
 
-    if( NOT( COMPILER_VERSION VERSION_GREATER 7 OR COMPILER_VERSION VERSION_EQUAL 7 ))
+    if( NOT( COMPILER_VERSION VERSION_GREATER 4 OR COMPILER_VERSION VERSION_EQUAL 4 ))
         message( FATAL_ERROR "${PROJECT_NAME} requires g++ 4.9 or greater." )
 	else()
-		message( "Your GNU compiler should support C++17." )
+		message( "Your GNU compiler looks like it supports C++17. Good. Proceeding." )
     endif ()
 
 elseif( "${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang" )
-	
+
 else()
 	message( "Your C++ compiler does not support C++17! I'll do my best..." )
 endif()

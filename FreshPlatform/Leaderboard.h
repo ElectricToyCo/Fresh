@@ -55,15 +55,15 @@ namespace fr
 		DVAR( ScoreComparison, m_scoreComparison, ScoreComparison::HigherIsBetter );
 	};
 	
-	FRESH_ENUM_STREAM_IN_BEGIN( LeaderboardServer, ScoreComparison );
-	FRESH_ENUM_STREAM_IN_CASE( LeaderboardServer::ScoreComparison, HigherIsBetter );
-	FRESH_ENUM_STREAM_IN_CASE( LeaderboardServer::ScoreComparison, LowerIsBetter );
-	FRESH_ENUM_STREAM_IN_END();
-
-	FRESH_ENUM_STREAM_OUT_BEGIN( LeaderboardServer, ScoreComparison );
-	FRESH_ENUM_STREAM_OUT_CASE( LeaderboardServer::ScoreComparison, HigherIsBetter );
-	FRESH_ENUM_STREAM_OUT_CASE( LeaderboardServer::ScoreComparison, LowerIsBetter );
-	FRESH_ENUM_STREAM_OUT_END();
+	FRESH_ENUM_STREAM_IN_BEGIN( LeaderboardServer, ScoreComparison )
+	FRESH_ENUM_STREAM_IN_CASE( LeaderboardServer::ScoreComparison, HigherIsBetter )
+	FRESH_ENUM_STREAM_IN_CASE( LeaderboardServer::ScoreComparison, LowerIsBetter )
+	FRESH_ENUM_STREAM_IN_END()
+	
+	FRESH_ENUM_STREAM_OUT_BEGIN( LeaderboardServer, ScoreComparison )
+	FRESH_ENUM_STREAM_OUT_CASE( LeaderboardServer::ScoreComparison, HigherIsBetter )
+	FRESH_ENUM_STREAM_OUT_CASE( LeaderboardServer::ScoreComparison, LowerIsBetter )
+	FRESH_ENUM_STREAM_OUT_END()
 
 
 	/////////////////////////////////////////////////////////////////////////////////////////

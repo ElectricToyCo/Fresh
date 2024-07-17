@@ -7,9 +7,9 @@
 //
 //	iOS Implementation
 //
+#import "GameKit/GameKit.h"
 #include "FreshGameCenter.h"
 #include "CommandProcessor.h"
-#import "GameKit/GameKit.h"
 
 extern UIWindow* g_rootWindow;
 

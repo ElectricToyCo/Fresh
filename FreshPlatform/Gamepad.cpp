@@ -60,11 +60,12 @@ namespace fr
 	void Gamepad::setButtonValue( size_t index, bool value )
 	{
 		REQUIRES( attached() );
+
 		auto iter = m_hardwareButtonMap.find( index );
 		if( iter != m_hardwareButtonMap.end() )
 		{
 			ASSERT( iter->second < Gamepad::Button::NUM );
-			m_gatheringButtons[ size_t( iter->second ) ] = value;
+			m_gatheringButtons[ static_cast< size_t >( iter->second ) ] = value;
 		}
 	}
 	

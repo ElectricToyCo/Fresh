@@ -54,7 +54,7 @@
 #if TARGET_OS_MAC
 #	include <CoreFoundation/CoreFoundation.h>
 #	define FRESH_ALLOW_THREADING 1
-#elif ANDROID
+#elif ANDROID || defined( _WIN32 ) || defined( __linux__ )
 #	define FRESH_ALLOW_THREADING 1
 #endif
 
@@ -308,7 +308,7 @@ namespace fr
 	
 	// Case insensitive comparison functor for use with std::map and such.
 	//
-	struct CompareStringsCaseInsensitive : public std::binary_function< std::string, std::string, bool >
+	struct CompareStringsCaseInsensitive : public std::function< bool(std::string, std::string) >
 	{
 		struct CompareCharsCaseInsensitive
 		{ 

@@ -1,5 +1,7 @@
-cmake_minimum_required( VERSION 3.1 )
+cmake_minimum_required( VERSION 3.5 )
 project( Fresh )
+
+message("(Fresh/CMakeLists.txt included)")
 
 include( CMakeBaseSettings.txt )
 
@@ -45,13 +47,6 @@ if( WIN32 )
 
 	# GLEW on Windows
 	include_directories( ${PROJECT_SOURCE_DIR}/lib/Win/glew/include )
-
-	# Threading on Windows (Basic C++ threading is omited on MinGW. We re-add it with a library.)
-	# https://github.com/meganz/mingw-std-threads
-	#
-	option(MINGW_STDTHREADS_GENERATE_STDHEADERS "" ON)
-	add_subdirectory( ${PROJECT_SOURCE_DIR}/lib/mingw-std-threads )
-	set( MINGW_STDTHREADS "mingw_stdthreads" )
 
 else()		# All other platforms
 
@@ -186,12 +181,12 @@ elseif( WIN32 )
 
 elseif( ANDROID )
 
-	# TODO	
+	# TODO
 
 elseif( EMSCRIPTEN )
 
 	file( GLOB FreshCorePlatformSpecificSources FreshCore/Platforms/Emscripten/*.h FreshCore/Platforms/Emscripten/*.cpp )
-	
+
 elseif( UNIX )
 
 	message( "Compiling for UNIX." )
@@ -219,7 +214,7 @@ elseif( WIN32 )
 
 elseif( ANDROID )
 
-# TODO	
+# TODO
 
 elseif( EMSCRIPTEN )
 

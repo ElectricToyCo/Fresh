@@ -73,6 +73,18 @@ namespace fr
 		release_trace( "DEV_MODE undefined." );
 #endif
 
+#if FRESH_ALLOW_THREADING
+		release_trace( "FRESH_ALLOW_THREADING is enabled" );
+#else
+		release_trace( "FRESH_ALLOW_THREADING is disabled" );
+#endif
+
+#ifdef FRESH_PROFILER_ENABLED
+		release_trace( "Profiling enabled." );
+#else
+		release_trace( "Profiling disabled." );
+#endif
+
 		// Update the working directory if requested.
 		//
 		processWorkingDirectoryRedirection();
@@ -418,6 +430,8 @@ namespace fr
 
 	void Application::updateFrame()
 	{
+		TIMER_AUTO_FUNC
+
 		if( m_nUpdates == 0 )
 		{
 			// Create the render and audio system.
@@ -466,7 +480,10 @@ namespace fr
 		
 		// The main dispatch queue.
 		//
-		dispatch::mainQueue().poll();
+		{
+			TIMER_AUTO( Poll main dispatch queue )
+			dispatch::mainQueue().poll();
+		}
 		
 		// Do the preFirstUpdate call for the stage if it's the first update.
 		//
@@ -504,6 +521,7 @@ namespace fr
 
 	void Application::update()
 	{
+		TIMER_AUTO_FUNC
 		swapBuffers();
 	}
 

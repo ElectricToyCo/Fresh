@@ -42,6 +42,8 @@ namespace fr
 
 			~Timer();
 
+			const std::string& scope() const { return m_szScope; }
+
 			bool isScope( const char* szScope )	const	{ return m_szScope == szScope; }
 			std::shared_ptr< Timer > parent() const	{ return m_parentTimer.lock(); }
 			std::shared_ptr< const Timer > getRoot() const	
@@ -111,7 +113,9 @@ namespace fr
 	void ProfilerImpl::timerEnd( const char* szScope )
 	{
 		REQUIRES( szScope && strlen( szScope ) > 0 );
-		ASSERT( m_currentScope->isScope( szScope ));
+		ASSERT_MSG( m_currentScope->isScope( szScope ), "Profile::timerEnd(" << szScope 
+			<< ") tried to end scope though the current scope is " 
+			<< m_currentScope->scope() );
 
 		m_currentScope->recordElapsed();
 		m_currentScope = m_currentScope->parent();

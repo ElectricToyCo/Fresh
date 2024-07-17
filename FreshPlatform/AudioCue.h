@@ -101,6 +101,8 @@ namespace fr
 	public:
 		virtual void loadAsset( Asset::ptr asset ) override
 		{
+			TIMER_AUTO_FUNC
+
 			REQUIRES( asset );
 			
 			Super::loadAsset( asset );
@@ -108,13 +110,13 @@ namespace fr
 			AudioCue::ptr audioCue = dynamic_freshptr_cast< AudioCue::ptr >( asset );
 			ASSERT( audioCue );
 		
+			audioCue->allowAsyncLoad( m_allowAsyncLoad );
 			audioCue->loadFile( getResourcePath( getCompletePath() ));
 			audioCue->rangeGain( m_rangeGain );
 			audioCue->rangePitch( m_rangePitch );
 			audioCue->maxSimultaneousSounds( m_maxSimultaneousSounds );
 			audioCue->doLoop( m_doLoop );
 			audioCue->newSoundsTrumpOldSounds( m_newSoundsTrumpOldSounds );
-			audioCue->allowAsyncLoad( m_allowAsyncLoad );
 		}
 		
 	protected:

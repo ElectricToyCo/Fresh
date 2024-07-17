@@ -251,8 +251,6 @@ namespace fr
 		void swapBuffers()
 		{
 			ASSERT( hasMainWindow() );
-//			eglSwapBuffers( m_display, m_surface );
-			// TODO!!! Unnecessary?
 		}
 
 		std::string getPromptedFilePath( bool forSaveElseOpen, const char* semicolonSeparatedFileExtensions )		
