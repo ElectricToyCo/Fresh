@@ -34,7 +34,7 @@ elseif( ANDROID )
 
 	set( ANDROID_LIBRARY_DEPS GLESv2 log)
 elseif( EMSCRIPTEN )
-	set( LINKER_FLAGS "-o ${APP_NAME}.js -s USE_WEBGL2=1 -lopenal" )
+	set( LINKER_FLAGS "-o ${APP_NAME}.js -s MAIN_MODULE -s USE_WEBGL2=1 -lopenal -s WASM=1 -s ASSERTIONS=2 -s RESERVED_FUNCTION_POINTERS=20" )
 elseif( RASBPIAN )
 	find_library( OpenGLES2 OpenGLES2 REQUIRED )
 	include_directories( ${OPENGLES2_INCLUDE_DIR} )

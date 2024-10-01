@@ -13,7 +13,6 @@
 
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wmisleading-indentation"
-#pragma GCC diagnostic ignored "-Wstringop-overflow="
 #include "../stb_image.h"
 #pragma GCC diagnostic pop
 
