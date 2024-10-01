@@ -40,7 +40,7 @@ using namespace fr;
 namespace
 {
 	const char* const EMSCRIPTEN_CANVAS_ELEMENT_ID = nullptr;	// Null is The default.
-	
+
 	ApplicationImplementation* g_applicationImplementation = nullptr;
 	void EMSCRIPTEN_KEEPALIVE updateMainLoop();
 
@@ -54,7 +54,7 @@ namespace
 	EM_BOOL EMSCRIPTEN_KEEPALIVE onKeyDown( int eventType, const EmscriptenKeyboardEvent* event, void* userData );
 	EM_BOOL EMSCRIPTEN_KEEPALIVE onKeyUp( int eventType, const EmscriptenKeyboardEvent* event, void* userData );
 	EM_BOOL EMSCRIPTEN_KEEPALIVE onWindowResized( int eventType, const EmscriptenUiEvent* event, void* userData );
-	EM_BOOL EMSCRIPTEN_KEEPALIVE onFullscreenResized( int eventType, const EmscriptenFullscreenChangeEvent* event, void* userData );	
+	EM_BOOL EMSCRIPTEN_KEEPALIVE onFullscreenResized( int eventType, const EmscriptenFullscreenChangeEvent* event, void* userData );
 }
 
 namespace fr
@@ -75,13 +75,13 @@ namespace fr
 		,	m_desiredFramesPerSecond( owner->config().desiredFramesPerSecond() )
 		{
 			release_trace( "Emscripten ApplicationImplementation constructor" );
-			
+
 			ASSERT( !g_applicationImplementation );
 			g_applicationImplementation = this;
-			
+
 			REQUIRES( owner );
 			m_desiredClocksPerFrame = secondsToClocks( 1.0 / m_desiredFramesPerSecond );
-			
+
 			release_trace( "   emscripten_set_mouse*_callback" );
 			emscripten_set_mousedown_callback( 0, 0, 1, onMouseDown );
 			emscripten_set_mousemove_callback( 0, 0, 1, onMouseMove );
@@ -99,10 +99,10 @@ namespace fr
 			release_trace( "   emscripten_set_key*_callback" );
 			emscripten_set_keydown_callback(   0, 0, 1, onKeyDown );
 			emscripten_set_keyup_callback(     0, 0, 1, onKeyUp );
-			
+
 			release_trace( "   emscripten_set_resize_callback" );
 			emscripten_set_resize_callback(	   0, 0, 1, onWindowResized );
-			
+
 			release_trace( "   emscripten_set_fullscreenchange_callback" );
 			emscripten_set_fullscreenchange_callback( 0, 0, 1, onFullscreenResized );
 
@@ -111,19 +111,19 @@ namespace fr
 			// Run Emscripten JavaScript directly from here.
 			//
 			EM_ASM(
-				   
+
 				// Create a directory for persistent data
 				//
 				FS.mkdir( '/Documents' );	// May already have been created.
-						   
+
 				// Mount persistent directory as IDBFS
 				//
 				FS.mount( IDBFS, {}, '/Documents' );
-						   
+
 				Module.print( "Starting file sync..." );
-				   
+
 				Module.syncdone = 0;
-						   
+
 				// Populate Documents directory with existing persistent source data
 				// stored with Indexed Db
 				// 		first parameter = "true" mean synchronize from Indexed Db to Emscripten file system,
@@ -138,7 +138,7 @@ namespace fr
 
 			release_trace( "Emscripten ApplicationImplementation constructor complete" );
 		}
-		
+
 		// TODO!!! Not convinced this is called from anywhere.
 		void savePersistentData()
 		{
@@ -190,12 +190,12 @@ namespace fr
 			{
 				height = 800;
 			}
-			
+
 			release_trace( "Using canvas size (" << width << ", " << height << ")" );
 			emscripten_set_canvas_element_size( EMSCRIPTEN_CANVAS_ELEMENT_ID, width, height );
 
 			ASSERT( m_webglContext < 0 );
-			
+
 			EmscriptenWebGLContextAttributes attr;
 			attr.alpha = false;
 			attr.depth = true;
@@ -212,10 +212,10 @@ namespace fr
 
 			m_webglContext = emscripten_webgl_create_context( nullptr, &attr );
 			ASSERT( m_webglContext >= 0 );
-			
+
 			emscripten_webgl_make_context_current( m_webglContext );
 		}
-		
+
 		Application::ExitCode runMainLoop( int argc, const char* argv[] )
 		{
 			REQUIRES( !m_isInMainLoop );
@@ -225,7 +225,7 @@ namespace fr
 #endif
 
 			createMainWindow();
-			
+
 			m_isInMainLoop = true;
 			m_nTicks = 0;
 
@@ -253,9 +253,15 @@ namespace fr
 			ASSERT( hasMainWindow() );
 		}
 
-		std::string getPromptedFilePath( bool forSaveElseOpen, const char* semicolonSeparatedFileExtensions )		
+		std::string getPromptedFilePath( bool forSaveElseOpen, const char* semicolonSeparatedFileExtensions )
 		{
 			return "";
+		}
+
+		void desiredFramesPerSecond( TimeType fps )
+		{
+			m_desiredFramesPerSecond = fps;
+			m_desiredClocksPerFrame = secondsToClocks( 1.0 / m_desiredFramesPerSecond );
 		}
 
 		TimeType getDesiredFramesPerSecond() const
@@ -268,7 +274,7 @@ namespace fr
 			Vector2i dims;
 
 			emscripten_get_canvas_element_size( EMSCRIPTEN_CANVAS_ELEMENT_ID, &dims.x, &dims.y );
-			
+
 			return dims;
 		}
 
@@ -281,7 +287,7 @@ namespace fr
 		{
 			// Assume a 17-in (diagonal) desktop. Could easily be larger or smaller.
 			//
-			const real monitorWidthInches = 14.57f;			
+			const real monitorWidthInches = 14.57f;
 			return getScreenDimensions().x / monitorWidthInches;
 		}
 
@@ -326,12 +332,12 @@ namespace fr
 		{
 			return m_owner->config().desiredTitle();
 		}
-		
+
 		void windowTitle( const std::string& value )
 		{
 			// Ignore.
 		}
-		
+
 		bool isMainLoopRunning() const
 		{
 			return m_isInMainLoop;
@@ -342,7 +348,7 @@ namespace fr
 			++m_nTicks;
 
 			m_owner->updateFrame();
-			
+
 			if( m_nTicks == 1 )
 			{
 				EM_ASM( onGameStarting() );
@@ -384,7 +390,7 @@ namespace fr
 		TimeType m_desiredFramesPerSecond;
 
 		SystemClock m_desiredClocksPerFrame;
-		
+
 		EMSCRIPTEN_WEBGL_CONTEXT_HANDLE m_webglContext = -1;
 
 		bool m_isUpdating = true;
@@ -422,6 +428,22 @@ namespace fr
 		m_impl->swapBuffers();
 	}
 
+	rect Application::safeAreaInsets() const
+	{
+		return {};
+	}
+
+	std::string Application::userLanguageCode() const
+	{
+		// TODO
+		return "";
+	}
+
+	void Application::desiredFramesPerSecondDetail( TimeType fps )
+	{
+		m_impl->desiredFramesPerSecond( fps );
+	}
+
 	Vector2i Application::getScreenDimensions() const
 	{
 		return m_impl->getScreenDimensions();
@@ -441,7 +463,7 @@ namespace fr
 	{
 		return m_impl->windowTitle();
 	}
-	
+
 	void Application::windowTitle( const std::string& value )
 	{
 		m_impl->windowTitle( value );
@@ -467,26 +489,20 @@ namespace fr
 	{
 		return m_impl->isMainLoopRunning();
 	}
-	
+
 	std::vector< std::string > Application::getPlatformConfigFileSuffixes() const
 	{
 		return { "-Web" };
 	}
-	
+
 	std::vector< std::string > Application::getVariantConfigFileSuffixes( const std::string& platformSuffix ) const
 	{
 		return {};
 	}
-	
+
 	bool Application::isApplicationAlternativeStartupKeyDown() const
 	{
 		return false;
-	}
-	
-	std::string Application::userLanguageCode() const
-	{
-		// TODO
-		return "";
 	}
 }
 
@@ -499,29 +515,29 @@ namespace
 	}
 
 	// MARK: MOUSE AND TOUCH SUPPORT //////////////////////////////////////////////////////////////////////////////////
-	
+
 	std::unordered_map< long, EmscriptenTouchPoint > g_touchPoints;
-	
+
 	// Unique touch ID support for mouse and touch.
 	//
 	size_t g_touchId = 0;
 	size_t g_currentActiveMouseId = ~0;
-	
+
 	template< typename EmscriptenEventType >
 	void* uniqueTouchIdentifier( const EmscriptenEventType& event );
-	
+
 	template<>
 	void* uniqueTouchIdentifier( const EmscriptenMouseEvent& event )
 	{
 		return reinterpret_cast< void* >( g_touchId );
 	}
-	
+
 	template<>
 	void* uniqueTouchIdentifier( const EmscriptenTouchPoint& event )
 	{
 		return reinterpret_cast< void* >( event.identifier );
 	}
-	
+
 	template< typename EmscriptenEventType >
 	bool isActiveTouch( const EmscriptenEventType& event );
 
@@ -541,13 +557,13 @@ namespace
 	//
 	template< typename EmscriptenEventType >
 	vec2 movement( const EmscriptenEventType& event );
-	
+
 	template<>
 	vec2 movement( const EmscriptenMouseEvent& event )
 	{
 		return { (real) event.movementX, (real) event.movementY };
 	}
-	
+
 	template<>
 	vec2 movement( const EmscriptenTouchPoint& event )
 	{
@@ -555,26 +571,26 @@ namespace
 		if( priorEventIter != g_touchPoints.end() )
 		{
 			const auto& priorEvent = priorEventIter->second;
-			return vec2{ (real) event.canvasX, (real) event.canvasY } - 
+			return vec2{ (real) event.canvasX, (real) event.canvasY } -
 			vec2{ (real) priorEvent.canvasX, (real) priorEvent.canvasY };
 		}
 		else
 		{
 			return {};
-		}		
+		}
 	}
-	
+
 	// Creating a single touch point from mouse or touch.
 	//
 	template< typename EmscriptenPointType >
 	std::pair< bool, Application::Touch > createTouch( const EmscriptenPointType& eventPoint )
 	{
 		// Emscripten screws up mouse coordinates badly. You can ask for the canvasX and Y position
-		// of the point, but actually this point is in window space, relative to the canvas's 
+		// of the point, but actually this point is in window space, relative to the canvas's
 		// original position prior to transformation.
-		
+
 		Vector2d windowSize;
-		
+
 		emscripten_get_element_css_size( nullptr, &windowSize.x, &windowSize.y );
 
 		const vec2 canvasSize = vector_cast< real >( g_applicationImplementation->getWindowDimensions() );
@@ -582,7 +598,7 @@ namespace
 		// If the touch is new, verify whether the point is within the window.
 		//
 		const bool includeOutOfBounds = isActiveTouch( eventPoint );
-		
+
 		if( !includeOutOfBounds && (eventPoint.canvasX < 0 || eventPoint.canvasX >= windowSize.x ||
 									eventPoint.canvasY < 0 || eventPoint.canvasY >= windowSize.y ))
 		{
@@ -590,15 +606,15 @@ namespace
 						<< windowSize.x << "," << windowSize.y << " (and maybe " << canvasSize.x << "," << canvasSize.y << ")" );
 			return std::make_pair( false, Application::Touch{} );
 		}
-		
-		const vec2 dims = vector_cast< real >( windowSize );		
+
+		const vec2 dims = vector_cast< real >( windowSize );
 		const vec2 scale = canvasSize / dims;
-		
+
 		const vec2 change = movement( eventPoint );
-		
+
 		return std::make_pair( true, Application::Touch{
 			vec2( eventPoint.canvasX * scale.x, ( dims.y - eventPoint.canvasY ) * scale.y ),
-			vec2(( eventPoint.canvasX - change.x ) * scale.x, 
+			vec2(( eventPoint.canvasX - change.x ) * scale.x,
 				 ( dims.y - ( eventPoint.canvasY - change.y )) * scale.y),
 			vec2::ZERO,	// wheel
 			0,
@@ -615,7 +631,7 @@ namespace
 	template<>
 	Application::Touches createTouches( const EmscriptenMouseEvent& event )
 	{
-		Application::Touches touches;		
+		Application::Touches touches;
 		const auto touchPair = createTouch( event );
 		if( touchPair.first )
 		{
@@ -623,11 +639,11 @@ namespace
 		}
 		return touches;
 	}
-	
+
 	template<>
 	Application::Touches createTouches( const EmscriptenTouchEvent& event )
 	{
-		Application::Touches touches;		
+		Application::Touches touches;
 		for( int i = 0; i < event.numTouches; ++i )
 		{
 			const auto touchPair = createTouch( event.touches[ i ] );
@@ -638,14 +654,14 @@ namespace
 		}
 		return touches;
 	}
-		
+
 	// Mouse handling.
 	//
 	EM_BOOL onMouseDown( int eventType, const EmscriptenMouseEvent* event, void* userData )
 	{
 		input_trace( "onMouseDown( " << event->canvasX << "," << event->canvasY << ")" );
 		++g_touchId;
-		
+
 		const auto touches = createTouches( *event );
 		if( touches.empty() == false && Application::doesExist() )
 		{
@@ -660,13 +676,13 @@ namespace
 	{
 		input_trace( "onMouseMove( " << event->canvasX << "," << event->canvasY << ")" );
 		input_trace(    "screen: " << event->screenX << "," << event->screenY
-					<< " client: " << event->clientX << "," << event->clientY 
+					<< " client: " << event->clientX << "," << event->clientY
 					<< " target: " << event->targetX << "," << event->targetY );
-					
+
 
 		// Only handle move if mouse is actually down.
 		if( event->buttons == 0 ) return true;
-		
+
 		const auto touches = createTouches( *event );
 		if( touches.empty() == false && Application::doesExist() )
 		{
@@ -694,7 +710,7 @@ namespace
 	{
 		input_trace( "onWheelEvent( " << event->deltaX << "," << event->deltaY << ")" );
 		++g_touchId;
-		
+
 		auto touches = createTouches( event->mouse );
 		if( touches.empty() == false && Application::doesExist() )
 		{
@@ -724,7 +740,7 @@ namespace
 			g_touchPoints.erase( iter );
 		}
 	}
-	
+
 	EM_BOOL onTouchDown( int eventType, const EmscriptenTouchEvent* event, void* userData )
 	{
 		input_trace( "onTouchDown( " << eventType << ")" );
@@ -738,7 +754,7 @@ namespace
 			{
 				startTouch( event->touches[ i ] );
 			}
-			
+
 			Application::instance().onTouchesBegin( touches.begin(), touches.end() );
 			return true;
 		}
@@ -757,17 +773,17 @@ namespace
 			{
 				updateTouch( event->touches[ i ] );
 			}
-			
+
 			return true;
 		}
-		
+
 		return false;
 	}
 
 	EM_BOOL onTouchUp( int eventType, const EmscriptenTouchEvent* event, void* userData )
 	{
 		input_trace( "onTouchUp( " << eventType << ")" );
-		
+
 		const auto touches = createTouches( *event );
 		if( touches.empty() == false && Application::doesExist() )
 		{
@@ -779,16 +795,16 @@ namespace
 		{
 			endTouch( event->touches[ i ] );
 		}
-		
+
 		return false;
 	}
-	
+
 	// Keyboard handling.
 	//
-	inline void postKeyboardEventsWithKey( std::function< void (Application&, const EventKeyboard& )>&& fn, 
-		Event::TypeRef type, 
-		Keyboard::Key key, 
-		unsigned int character, 
+	inline void postKeyboardEventsWithKey( std::function< void (Application&, const EventKeyboard& )>&& fn,
+		Event::TypeRef type,
+		Keyboard::Key key,
+		unsigned int character,
 		bool isAltDown,
 		bool isControlDown,
 		bool isShiftDown,
@@ -802,7 +818,7 @@ namespace
 	inline void postKeyboardEvents( std::function< void (Application&, const EventKeyboard& )>&& fn, Event::TypeRef type, const EmscriptenKeyboardEvent& event )
 	{
 		Keyboard::Key key = getKeyForKeyCode( event.keyCode );
-		
+
 //		release_trace( "Keycode " << event.keyCode << " gives us key " << key );
 
 		if( key != Keyboard::Unsupported )
@@ -813,7 +829,7 @@ namespace
 			characters << event.key;
 
 			unsigned int character = static_cast< unsigned int >( key );
-			
+
 			// We don't want keys that have big names for their UTF-8 representation (like "Enter" and "Meta").
 			// In that case, use their actual key code as their ASCII representation.
 			// Otherwise, use the system-proposed key string character.
@@ -822,7 +838,7 @@ namespace
 			{
 				character = characters.str()[ 0 ];
 			}
-			
+
 			postKeyboardEventsWithKey( std::move( fn ), type, key, character, event.altKey, event.ctrlKey, event.shiftKey, event.repeat );
 		}
 	}
@@ -834,7 +850,7 @@ namespace
 		{
 			Keyboard::onKeyStateChanged( key, true );
 		}
-		
+
 		postKeyboardEvents( std::mem_fn( &Application::onKeyDown ), EventKeyboard::KEY_DOWN, *event );
 		return true;
 	}
@@ -846,7 +862,7 @@ namespace
 		{
 			Keyboard::onKeyStateChanged( key, false );
 		}
-		
+
 		postKeyboardEvents( std::mem_fn( &Application::onKeyUp ), EventKeyboard::KEY_UP, *event );
 		return true;
 	}
@@ -862,17 +878,17 @@ namespace
 			return static_cast< Keyboard::Key >( keycode );
 		}
 	}
-	
+
 	EM_BOOL onWindowResized( int eventType, const EmscriptenUiEvent *event, void *userData )
 	{
 		if( Application::doesExist() )
 		{
-			release_trace( "window resized: " << Application::instance().getWindowDimensions() );			
+			release_trace( "window resized: " << Application::instance().getWindowDimensions() );
 			Application::instance().onWindowReshape();
 		}
 		return true;
 	}
-	
+
 	EM_BOOL onFullscreenResized( int eventType, const EmscriptenFullscreenChangeEvent* event, void* userData )
 	{
 		release_trace( "fullscreen resized" );
@@ -882,23 +898,23 @@ namespace
 		}
 		return true;
 	}
-	
+
 	// Exported functions, callable from Javascript.
-	extern "C" 
+	extern "C"
 	{
-		EMSCRIPTEN_KEEPALIVE void report( const char* message ) 
+		EMSCRIPTEN_KEEPALIVE void report( const char* message )
 		{
 			release_trace( message );
 		}
-		
-		EMSCRIPTEN_KEEPALIVE void goFullscreen() 
+
+		EMSCRIPTEN_KEEPALIVE void goFullscreen()
 		{
 			g_applicationImplementation->goFullscreen( true );
 		}
-		
-		EMSCRIPTEN_KEEPALIVE void goWindowed() 
+
+		EMSCRIPTEN_KEEPALIVE void goWindowed()
 		{
 			g_applicationImplementation->goFullscreen( false );
 		}
-	}	
+	}
 }

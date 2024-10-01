@@ -305,7 +305,7 @@ namespace fr
 		::utime( filePath.c_str(), &modificationAndAccessTimes );
 	}
 
-	void copyToPasteboard( const char* szDataToCopy )
+	void copyToPasteboard( const std::string& string )
 	{
 		// TODO
 	}
