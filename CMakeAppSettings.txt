@@ -34,7 +34,7 @@ elseif( ANDROID )
 
 	set( ANDROID_LIBRARY_DEPS GLESv2 log)
 elseif( EMSCRIPTEN )
-	set( LINKER_FLAGS "-o ${APP_NAME}.js -s MAIN_MODULE -s USE_WEBGL2=1 -lopenal -s WASM=1 -s ASSERTIONS=2 -s RESERVED_FUNCTION_POINTERS=20" )
+	set( LINKER_FLAGS "-o ${APP_NAME}.js -s MAIN_MODULE -lidbfs.js -s INITIAL_MEMORY=52428800 --preload-file ../../../assets@assets --use-preload-plugins -s USE_WEBGL2=1 -lopenal -s WASM=1 -s ASSERTIONS=2 -s RESERVED_FUNCTION_POINTERS=20" )
 elseif( RASBPIAN )
 	find_library( OpenGLES2 OpenGLES2 REQUIRED )
 	include_directories( ${OPENGLES2_INCLUDE_DIR} )
@@ -182,7 +182,10 @@ target_link_libraries( ${APP_NAME}
 set( PRODUCT_DIR "${CMAKE_CURRENT_BINARY_DIR}/${APP_NAME}_app" )
 
 file( COPY ${ResourceFiles} DESTINATION ${PRODUCT_DIR} )
-file( COPY ${Assets} DESTINATION ${PRODUCT_DIR}/assets )
+
+if( NOT EMSCRIPTEN )
+	file( COPY ${Assets} DESTINATION ${PRODUCT_DIR}/assets )
+endif()
 
 if( WIN32 )
 	target_link_libraries( ${APP_NAME} ALUT )

@@ -88,7 +88,7 @@ namespace fr
 		// Update the working directory if requested.
 		//
 		processWorkingDirectoryRedirection();
-		
+
 		try
 		{
 			release_trace( "Seeking version file...")
@@ -117,6 +117,7 @@ namespace fr
 		try
 		{
 			actualConfigPath = amendConfigFilePath( actualConfigPath );
+			release_trace( "The amended config package is " << actualConfigPath );
 		}
 		catch( ... )
 		{
@@ -156,9 +157,9 @@ namespace fr
 			release_trace( "Using document subfolder " << m_config->documentsSubfolder() );
 			documentSubfolderPath( m_config->documentsSubfolder() );
 		}
-		
+
 		loadStringTable();
-		
+
 		// Apply configuration.
 		//
 #if FRESH_TELEMETRY_ENABLED
@@ -327,9 +328,9 @@ namespace fr
 		// What language does the user work in?
 		//
 		const auto languageCode = userLanguageCode();
-		
+
 		release_trace( "Language: " << languageCode );
-		
+
 		auto loadStringTable = [&]( const path& basePath, const std::string& languageCode ) -> StringTable::ptr
 		{
 			auto stringTablePath = []( const path& basePath, const std::string& languageCode )
@@ -338,16 +339,16 @@ namespace fr
 				{
 					return basePath;
 				}
-				
+
 				// Inject the language code as an expected folder before the filename.
 				//
 				return basePath.parent_path() / languageCode / basePath.filename();
 			};
-			
+
 			const auto stringsPath = stringTablePath( basePath, languageCode );
-			
+
 			release_trace( "Trying string table path: " << stringsPath );
-			
+
 			try
 			{
 				auto stringTablePackage = loadPackage( stringsPath );
@@ -359,14 +360,14 @@ namespace fr
 				return nullptr;
 			}
 		};
-		
+
 		auto stringTablePath = m_config->stringTablePath();
 		if( !stringTablePath.empty() )
 		{
 			// Try the user's locale first.
 			//
 			m_stringTable = loadStringTable( stringTablePath, languageCode );
-			
+
 			// If failed, try the base locale.
 			//
 			if( !m_stringTable )
@@ -374,7 +375,7 @@ namespace fr
 				m_stringTable = loadStringTable( stringTablePath.string(), "" );
 			}
 		}
-		
+
 		// Did we load a string table?
 		//
 		if( !m_stringTable )
@@ -385,7 +386,7 @@ namespace fr
 			m_stringTable = createObject< StringTable >( getTransientPackage() );
 		}
 	}
-	
+
 	void Application::createAudioSystem()
 	{
 		try
@@ -477,14 +478,14 @@ namespace fr
 		//
 		ASSERT( m_gamepadManager );
 		m_gamepadManager->update();
-		
+
 		// The main dispatch queue.
 		//
 		{
 			TIMER_AUTO( Poll main dispatch queue )
 			dispatch::mainQueue().poll();
 		}
-		
+
 		// Do the preFirstUpdate call for the stage if it's the first update.
 		//
 		if( m_nUpdates == 0 )
@@ -601,13 +602,13 @@ namespace fr
 
 	void Application::onTerminationThreat()
 	{}
-	
+
 	void Application::onTerminating()
 	{
 		m_terminating = true;
 		onTerminationThreat();
 	}
-	
+
 	bool Application::terminating() const
 	{
 		return m_terminating;
@@ -621,7 +622,7 @@ namespace fr
 			m_telemetry->endSession();
 		}
 #endif
-		
+
 		onTerminating();
 	}
 
