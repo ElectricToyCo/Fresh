@@ -8,6 +8,12 @@
 
 #include "Gamepad.h"
 
+
+namespace
+{
+    const float DEAD_ZONE = 0.1f;
+}
+
 namespace fr
 {	
 	FRESH_DEFINE_CLASS( Gamepad )
@@ -27,8 +33,8 @@ namespace fr
 	{
 		REQUIRES( attached() );
 		
-		const auto result = m_reportedAxes[ size_t( index ) ];
-		PROMISES( -1.0f <= result && result <= 1.0f );
+		auto result = m_reportedAxes[ size_t( index ) ];
+        PROMISES( -1.0f <= result && result <= 1.0f );
 		return result;
 	}
 
@@ -53,6 +59,12 @@ namespace fr
 		if( iter != m_hardwareAxisMap.end() )
 		{
 			ASSERT( iter->second < Gamepad::Axis::NUM );
+            
+            if( std::abs( value ) < DEAD_ZONE )
+            {
+                value = 0;
+            }
+
 			m_gatheringAxes[ size_t( iter->second ) ] = value;
 		}
 	}
