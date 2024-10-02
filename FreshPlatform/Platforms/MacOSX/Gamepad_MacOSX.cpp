@@ -16,6 +16,40 @@ using namespace fr;
 #	define gamepad_trace release_trace
 #endif
 
+/*
+
+ Here's the way this maps out.
+
+ On the user (code) side, we're going to ask a `Gamepad` for what the latest value of a given button or axis is.
+ We'll use the Fresh-specific symbols to say what we mean: the `Button` and `Axis` enums found in `Gamepad.h`.
+ So we can say, `gamepad->axis( Axis::RX )` to get the value [-1,1] of the right-hand stick's X axis.
+
+ Within the `Gamepad` class these values are collected and stored in `m_gatheringAxes`, which is an array
+ allowing you to find the axis or button value from an index. The index is simply the raw int cast of the enums,
+ that is, for the above example, `m_gatheringAxes[ (int) Axis::RX ]`.
+
+ But the hardware may have a very different ordering of these controls. What is '0' for the Xbox's left-hand X axis
+ might be '5' for the Playstation controller's left-hand X axis. Class `Gamepad` therefore stores a separate mapping called
+ `m_hardwareAxisMap` and `m_hardwareButtonMap`. This mapping is set by the hardware implementation
+ (one per each platform) and specifies which hardware-specified index corresponds to the symbolic `Button` or `Axis`.
+ In other words, it establishes that after initialization when the hardware says "the value of axis '3' is 0.7",
+ whether hardware-axis '3' corresponds to Axis::RX or Axis::LY or whatever.
+ We could simplify the `Gamepad` implementation somewhat by requiring the hardware to speak in terms of the symbolic
+ enums, but the hardware code is complicated enough as it is. This way the hardware code tells `Gamepad`
+ what it intends to call the various controls, then can later deal with those controls as the hardware itself wants
+ to deal with them.
+
+ This brings us in turn to the hardware code itself, which is indeed quite hairy by its nature, thanks to the OS
+ and general HID programming customs.
+
+ When a gamepad is plugged in it appears as a `IOHIDDeviceRef`. We create a Fresh `Gamepad` object and a
+ local-to-this-file `GamepadPayload` in order to marry the two systems. We read the device for all its elements,
+ storing the "cookie" (id) of each element along with the element itself and any other useful and unchanging information.
+ We ask the HID system for a callback whenever any control on the device changes. And we tell the `Gamepad` what the hardware
+ mapping will be--what indexes we will later use to indicate the various symbolic names.
+
+ */
+
 namespace
 {
 	// Get HID device property key as a string
@@ -48,7 +82,22 @@ namespace
 		return 0;
 	}
 
-	void onDeviceValueChanged( void* context, IOReturn result, void * sender, IOHIDValueRef value );
+    // TODO doesn't work. 2024-10-02
+    //
+    std::string getElementUsageString( IOHIDElementRef element )
+    {
+        CFTypeRef usageString = IOHIDElementGetProperty( element, CFSTR(kIOHIDElementNameKey));
+        if( usageString && CFGetTypeID( usageString ) == CFStringGetTypeID() )
+        {
+            return CFStringGetCStringPtr( reinterpret_cast< CFStringRef >( usageString ), kCFStringEncodingUTF8 );
+        }
+        else
+        {
+            return {};
+        }
+    }
+
+	void onDeviceValueChanged( void* context, IOReturn result, void* sender, IOHIDValueRef value );
 
 	struct GamepadPayload
 	{
@@ -103,6 +152,38 @@ namespace
 			CFArrayRef elements = IOHIDDeviceCopyMatchingElements( m_device, NULL, kIOHIDOptionsTypeNone );
 			const CFIndex nElements = CFArrayGetCount( elements );
 
+            std::map< size_t, Gamepad::Axis > hidUsagesToAxes
+            {
+                std::make_pair( kHIDUsage_GD_X, Gamepad::Axis::LX ),
+                std::make_pair( kHIDUsage_GD_Y, Gamepad::Axis::LY ),
+                std::make_pair( kHIDUsage_GD_Z, Gamepad::Axis::LTrigger ),		// TODO Left for sure?
+                std::make_pair( kHIDUsage_GD_Rx, Gamepad::Axis::RX ),
+                std::make_pair( kHIDUsage_GD_Ry, Gamepad::Axis::RY ),
+                std::make_pair( kHIDUsage_GD_Rz, Gamepad::Axis::RTrigger ),		// TODO right for sure?
+            };
+
+            std::map< size_t, Gamepad::Button > hidUsagesToButtons
+            {
+                // TODO 2024-10-02 tested with Mac and Xbox 360 controller.
+				std::make_pair( kHIDUsage_Button_1, Gamepad::Button::A ),
+				std::make_pair( kHIDUsage_Button_2, Gamepad::Button::B ),
+				std::make_pair( kHIDUsage_Button_3, Gamepad::Button::X ),
+				std::make_pair( kHIDUsage_Button_4, Gamepad::Button::Y ),
+                std::make_pair( kHIDUsage_GD_DPadRight, Gamepad::Button::DPadRight ),
+				std::make_pair( kHIDUsage_GD_DPadDown, Gamepad::Button::DPadDown ),
+				std::make_pair( kHIDUsage_GD_DPadLeft, Gamepad::Button::DPadLeft ),
+				std::make_pair( kHIDUsage_GD_DPadUp, Gamepad::Button::DPadUp ),
+				std::make_pair( kHIDUsage_Button_13, Gamepad::Button::LStick ),
+				std::make_pair( kHIDUsage_Button_14, Gamepad::Button::RStick ),
+				std::make_pair( kHIDUsage_Button_5, Gamepad::Button::LBumper ),
+				std::make_pair( kHIDUsage_Button_6, Gamepad::Button::RBumper ),
+				std::make_pair( kHIDUsage_GD_Select, Gamepad::Button::Back ),
+				std::make_pair( kHIDUsage_GD_Start, Gamepad::Button::Start ),
+			};
+
+            std::map< size_t, Gamepad::Button > buttonMap;
+            std::map< size_t, Gamepad::Axis > axisMap;
+
 			for( CFIndex i = 0; i < nElements; ++i )
 			{
 				IOHIDElementRef element = static_cast< IOHIDElementRef >( const_cast< void* >( CFArrayGetValueAtIndex( elements, i )));
@@ -116,10 +197,12 @@ namespace
 						continue;
 					}
 
-					const auto axisUsage = IOHIDElementGetUsage( element );
+					const auto usage = IOHIDElementGetUsage( element );
+
+                    release_trace( "Device misc or axis element with usage " << usage );
 
 					// Ignore irrelevant axes.
-					if( axisUsage < kHIDUsage_GD_X || axisUsage > kHIDUsage_GD_Rz )
+					if( usage < kHIDUsage_GD_X || usage > kHIDUsage_GD_Rz )
 					{
 						continue;
 					}
@@ -131,55 +214,38 @@ namespace
 					axis.logicalMin = IOHIDElementGetLogicalMin( element );
 					axis.logicalMax = IOHIDElementGetLogicalMax( element );
 
-					size_t index = axisUsage - kHIDUsage_GD_X;
+					size_t index = usage - kHIDUsage_GD_X;
 					ASSERT( index <= ( kHIDUsage_GD_Rz - kHIDUsage_GD_X ));
 
 					m_axes.resize( std::max( m_axes.size(), index + 1 ));
 					m_axes[ index ] = axis;
+
+                    Gamepad::Axis freshAxisSymbol = hidUsagesToAxes[ usage ];
+
+                    axisMap[ index ] = freshAxisSymbol;
 				}
 				else if( type == kIOHIDElementTypeInput_Button )
 				{
-					m_buttons.push_back( Button{} );		// Later these will be sorted to usage order.
-					Button& button = m_buttons.back();
-					button.element = element;
-					button.cookie = IOHIDElementGetCookie( element );
+                    const auto usage = IOHIDElementGetUsage( element );
+
+                    release_trace( "Device button element with usage " << usage );
+
+                    const auto iter = hidUsagesToButtons.find( usage );
+                    if( iter != hidUsagesToButtons.end() )
+                    {
+                        const size_t index = m_buttons.size();
+
+                        m_buttons.push_back( Button{} );
+                        Button& button = m_buttons.back();
+                        button.element = element;
+                        button.cookie = IOHIDElementGetCookie( element );
+
+                        buttonMap[ index ] = iter->second;
+                    }
 				}
 			}
+            
 			CFRelease( elements );
-
-			// Sort buttons to have the same order as their OS-defined usage.
-			std::sort( m_buttons.begin(), m_buttons.end(), []( const Button& a, const Button& b )
-					  {
-							return IOHIDElementGetUsage( a.element ) < IOHIDElementGetUsage( b.element );
-					  });
-
-			std::map< size_t, Gamepad::Button > buttonMap			// TODO map should be configured per vendor/product rather than statically like this.
-			{
-				std::make_pair(  0, Gamepad::Button::A ),
-				std::make_pair(  1, Gamepad::Button::B ),
-				std::make_pair(  2, Gamepad::Button::X ),
-				std::make_pair(  3, Gamepad::Button::Y ),
-//				std::make_pair(  8, Gamepad::Button::DPadRight ),
-//				std::make_pair(  6, Gamepad::Button::DPadDown ),
-//				std::make_pair(  7, Gamepad::Button::DPadLeft ),
-//				std::make_pair(  5, Gamepad::Button::DPadUp ),
-				std::make_pair( 10, Gamepad::Button::LStick ),
-				std::make_pair( 11, Gamepad::Button::RStick ),
-				std::make_pair(  4, Gamepad::Button::LBumper ),
-				std::make_pair(  5, Gamepad::Button::RBumper ),
-				std::make_pair(  8, Gamepad::Button::Back ),
-				std::make_pair(  9, Gamepad::Button::Start ),
-			};
-
-			std::map< size_t, Gamepad::Axis > axisMap
-			{													// TODO These mappings are based on the 8BitDo DualShock 4 Wireless
-				std::make_pair( 0, Gamepad::Axis::LX ),			// kHIDUsage_GD_X
-				std::make_pair( 1, Gamepad::Axis::LY ),			// kHIDUsage_GD_Y
-				std::make_pair( 2, Gamepad::Axis::RX ),			// kHIDUsage_GD_Z
-				std::make_pair( 5, Gamepad::Axis::RY ),			// kHIDUsage_GD_Rx
-				std::make_pair( 3, Gamepad::Axis::LTrigger ),	// kHIDUsage_GD_Ry
-				std::make_pair( 4, Gamepad::Axis::RTrigger ),	// kHIDUsage_GD_Rz
-			};
 
 			m_gamepad->create( this, std::move( buttonMap ), std::move( axisMap ));
 
@@ -222,7 +288,7 @@ namespace
 
 				m_gamepad->setAxisValue( axisIndex, floatValue );
 
-//				gamepad_trace( "axis " << axisIndex << " moved to " << floatValue );
+				gamepad_trace( "hardware axis " << axisIndex << " moved to " << floatValue );
 			}
 			else
 			{
@@ -236,9 +302,12 @@ namespace
 				if( iterFoundButton != m_buttons.end() )
 				{
 					const size_t index = iterFoundButton - m_buttons.begin();
-					m_gamepad->setButtonValue( index, integerValue );
+                    if(index < size_t( Gamepad::Button::NUM ))
+                    {
+                        m_gamepad->setButtonValue( index, integerValue );
 
-//					gamepad_trace( "button " << index << " changed to " << integerValue );
+                        gamepad_trace( "hardware button " << index << " changed to " << integerValue );
+                    }
 				}
 			}
 		}

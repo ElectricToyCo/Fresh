@@ -1560,8 +1560,10 @@ namespace fr
 
 	FRESH_DEFINE_CALLBACK( FantasyConsole, onAxisMoved, EventGamepadAxis )
 	{
-		const size_t player = 0;	// TODO multiple.
-		setJoystickState( player, event.axis() == Gamepad::Axis::LX ? 0 : 1, event.newValue() );
+        const size_t axisIndex = static_cast< size_t >( event.axis() );
+        
+        const size_t player = 0;        // TODO: Determine player from event.gamepadTarget();
+		setJoystickState( player, axisIndex, event.newValue() );
 	}
 
 
