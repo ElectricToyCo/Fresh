@@ -458,13 +458,13 @@ namespace fr
 	template< class Real >
 	ALWAYS_INLINE Real Vector2< Real >::majorAxisValue() const
 	{
-		return (&x)[ majorAxis() ];
+		return majorAxis() == 0 ? x : y;
 	}
 
 	template< class Real >
 	ALWAYS_INLINE Real Vector2< Real >::minorAxisValue() const
 	{
-		return (&x)[ minorAxis() ];
+		return minorAxis() == 0 ? x : y;
 	}
 
 	template< class Real >
@@ -482,13 +482,13 @@ namespace fr
 	template< class Real >
 	ALWAYS_INLINE void Vector2< Real >::snapToMajorAxis()
 	{
-		(&x)[ minorAxis() ] = 0;
+		(*this)[ minorAxis() ] = 0;
 	}
 
 	template< class Real >
 	ALWAYS_INLINE void Vector2< Real >::snapToMinorAxis()
 	{
-		(&x)[ majorAxis() ] = 0;
+		(*this)[ majorAxis() ] = 0;
 	}
 
 	template< class Real >

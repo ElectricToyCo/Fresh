@@ -458,7 +458,10 @@ namespace fr
 		
 		Real result = dimensionRatios.minorAxisValue();	// Returns the smaller of x or y.
 		PROMISES( result > 0 );
-		return result;
+
+        temp_trace( "getFitRatio( " << dimensionsToFit << ", " << dimensionsToFitInto << " ) got ratios of " << dimensionRatios << " to return a result of " << result );
+        
+        return result;
 	}
 	
 	// Returns the amount that you would have to multiply dimensionsToFill by in order to make a rectangle
@@ -477,7 +480,7 @@ namespace fr
 		REQUIRES( dimensionsToFitInto.x > 0 && dimensionsToFitInto.y > 0 );
 		
 		const Vector2< Real > dimensionRatios( dimensionsToFitInto / dimensionsToFill );
-		
+        
 		Real result = dimensionRatios.majorAxisValue();	// Returns the larger of x or y.
 		PROMISES( result > 0 );
 		return result;

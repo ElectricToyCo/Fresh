@@ -10,8 +10,6 @@
 
 namespace
 {
-#define temp_trace(str) static int temp_trace_count_ = 0; if( temp_trace_count_++ < 10 ) release_trace(str);
-
 #if DEV_MODE && 0
 	void dumpPixels( const unsigned char* pixels, const int width, const int height, const int nChannels = 4, std::ostream& out = std::cout )
 	{
@@ -69,8 +67,6 @@ namespace fr
 			{
 				Renderer::instance().bindTextureId( 0 );
 			}
-
-			temp_trace( "Deleting texture " << m_idTexture );
 
 			glDeleteTextures( 1, &m_idTexture );
 			m_idTexture = 0;
@@ -132,8 +128,6 @@ namespace fr
 		// Create a new OpenGL Texture, bind it, and load it with the pixel data.
 		//
 		glGenTextures( 1, &m_idTexture );
-
-		temp_trace( "Generated texture " << m_idTexture );
 
 		Renderer::instance().bindTextureId( m_idTexture );
 

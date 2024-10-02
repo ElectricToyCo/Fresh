@@ -99,6 +99,7 @@ namespace fr
 #	define release_error( message ) { std::ostringstream ss; ss << message;	\
 	fr::DevLog::logError( __FILE__, __LINE__, FRESH_CURRENT_FUNCTION, ss.str().c_str() ); }
 
+#	define temp_trace( str ) static int temp_trace_count_ = 0; if( temp_trace_count_++ < 10 ) release_trace(str);
 
 #if DEV_MODE
 #	define dev_trace( message ) release_trace( message )

@@ -764,6 +764,8 @@ namespace fr
 		texture( m_screen->texture() );
 		texture()->filterMode( m_filterMode );
 
+		temp_trace( "FantasyConsole::render() texture is " << texture()->dimensions() << " with id " << texture()->getTextureId() );
+
 		resizeForStage();
 
 		Super::render( relativeFrameTime, injector );
@@ -773,10 +775,12 @@ namespace fr
 	{
 		// Scale myself up to fit the stage.
 		//
-		const auto fitScale = getFitRatio( vector_cast< real >( m_screen->size() ), hostScreenDimensions() );
+		const real fitScale = getFitRatio( vector_cast< real >( m_screen->size() ), hostScreenDimensions() );
 		scale( fitScale );
 
 		// TODO adjust window aspect ratio.
+
+		temp_trace( "FantasyConsole::resizeForStage() fitScale = " << fitScale << " where screen size is " << m_screen->size() << " and the host screen is " << hostScreenDimensions() );
 	}
 
 	void FantasyConsole::drawPrimitives( const std::vector< Vertex >& drawVertices ) const
