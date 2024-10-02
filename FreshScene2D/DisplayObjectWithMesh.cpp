@@ -17,19 +17,20 @@
 namespace fr
 {
 	FRESH_DEFINE_CLASS( DisplayObjectWithMesh )
-	
+
 	DEFINE_VAR_FLAG( DisplayObjectWithMesh, SimpleMesh::ptr, m_mesh, PropFlag::LoadDefault );
-	
+
 	DEFINE_VAR_FLAG( DisplayObjectWithMesh, Texture::ptr, m_texture, PropFlag::LoadDefault );
 	DEFINE_VAR( DisplayObjectWithMesh, rect, m_textureWindow );
-	
+	DEFINE_VAR( DisplayObjectWithMesh, RenderTarget::ptr, m_renderTargetTexture );
+
 	FRESH_IMPLEMENT_STANDARD_CONSTRUCTORS( DisplayObjectWithMesh )
-	
+
 	void DisplayObjectWithMesh::texture( Texture::ptr texture )
 	{
 		m_texture = texture;
 	}
-	
+
 	void DisplayObjectWithMesh::setTextureByName( const char* szTextureName )
 	{
 		if( !szTextureName || strlen( szTextureName ) == 0 )
@@ -41,11 +42,11 @@ namespace fr
 			texture( Renderer::instance().createTexture( szTextureName ));
 		}
 	}
-	
+
 	Texture::ptr DisplayObjectWithMesh::texture() const
-	{ 
-		return m_texture; 
-	}	
+	{
+		return m_texture;
+	}
 
 	void DisplayObjectWithMesh::draw( TimeType relativeFrameTime, RenderInjector* injector )
 	{
@@ -55,27 +56,27 @@ namespace fr
 		}
 		Super::draw( relativeFrameTime, injector );
 	}
-	
+
 	Renderer::BlendMode DisplayObjectWithMesh::calculatedBlendMode() const
 	{
-		if( m_texture && blendMode() == Renderer::BlendMode::None )
+		if( effectiveTexture() && blendMode() == Renderer::BlendMode::None )
 		{
-			return Renderer::getBlendModeForTextureAlphaUsage( m_texture->alphaUsage() );
+			return Renderer::getBlendModeForTextureAlphaUsage( effectiveTexture()->alphaUsage() );
 		}
 		else
 		{
 			return Super::calculatedBlendMode();
 		}
 	}
-	
+
 	void DisplayObjectWithMesh::drawMesh( TimeType relativeFrameTime )
 	{
-		if( m_mesh && m_mesh->isReadyToDraw() ) 
+		if( m_mesh && m_mesh->isReadyToDraw() )
 		{
 			Renderer& renderer = Renderer::instance();
-			
-			renderer.applyTexture( m_texture );	// Might be null. That's okay.
-			
+
+			renderer.applyTexture( effectiveTexture() );	// Might be null. That's okay.
+
 			// Transform for texture window.
 			//
 			bool pushedTextureMatrix = false;
@@ -86,7 +87,7 @@ namespace fr
 					renderer.pushMatrix( Renderer::MAT_Texture );
 					pushedTextureMatrix = true;
 				}
-				
+
 				renderer.translate( m_textureWindow.left(), m_textureWindow.top(), Renderer::MAT_Texture );
 			}
 			if( m_textureWindow.width() != 1.0f || m_textureWindow.height() != 1.0f )
@@ -96,22 +97,22 @@ namespace fr
 					renderer.pushMatrix( Renderer::MAT_Texture );
 					pushedTextureMatrix = true;
 				}
-				
+
 				renderer.scale( m_textureWindow.width(), m_textureWindow.height(), Renderer::MAT_Texture );
 			}
-						
+
 			// Draw.
 			//
 			renderer.updateUniformsForCurrentShaderProgram( this );
 			m_mesh->draw();
-			
+
 			if( pushedTextureMatrix )
 			{
 				renderer.popMatrix( Renderer::MAT_Texture );
 			}
-		}		
+		}
 	}
-	
+
 	rect DisplayObjectWithMesh::localBounds() const
 	{
 		rect bounds = DisplayObjectContainer::localBounds();
@@ -119,12 +120,12 @@ namespace fr
 		{
 			bounds.growToEncompass( m_mesh->bounds() );
 		}
-		
+
 		if( !bounds.isWellFormed() )	// True if no bounds or an uninitialized mesh.
 		{
 			bounds.set( 0, 0, 0, 0 );
 		}
-		
+
 		return bounds;
 	}
 
@@ -137,29 +138,29 @@ namespace fr
 			trace_hittest( "DisplayObjectWithMesh rejecting because of flags" );
 			return false;
 		}
-		
+
 		if( !hitTestMask( localLocation, flags ))
 		{
 			return false;
 		}
-		
+
 		// Does our mesh touch the location?
 		if( hitTestPointAgainstMesh( localLocation ))
 		{
 			trace_hittest( "DisplayObjectWithMesh touched mesh bounds." );
 			return true;
 		}
-		
+
 		if( Super::hitTestPoint( localLocation, flags ))
 		{
 			trace_hittest( "DisplayObjectWithMesh touched via Super." );
 			return true;
 		}
-		
+
 		trace_hittest( "DisplayObjectWithMesh found no touch." );
 		return false;
 	}
-	
+
 	bool DisplayObjectWithMesh::hitTestPointAgainstMesh( const vec2& localLocation ) const
 	{
 		// Does our mesh touch the location?

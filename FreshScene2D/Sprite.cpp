@@ -76,7 +76,7 @@ namespace fr
 			m_graphics->draw();
 		}
 		
-		if( texture() )
+		if( effectiveTexture() )
 		{
 			Renderer& renderer = Renderer::instance();
 			renderer.pushMatrix();
@@ -123,9 +123,9 @@ namespace fr
 
 	vec2 Sprite::baseDimensions() const
 	{
-		if( texture() )
+        if( effectiveTexture() )
 		{
-			const Vector2ui texDimensions = texture()->getOriginalDimensions();
+			const Vector2ui texDimensions = effectiveTexture()->getOriginalDimensions();
 			
 			rect uvSpaceTexWindow = textureWindow();
 			uvSpaceTexWindow.left( uvSpaceTexWindow.left() * texDimensions.x );
