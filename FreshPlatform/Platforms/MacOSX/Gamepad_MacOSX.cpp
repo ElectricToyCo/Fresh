@@ -97,6 +97,55 @@ namespace
         }
     }
 
+    std::map< size_t, Gamepad::Button > getHIDButtonUsageMapping( const std::string& deviceName )
+    {
+        if( deviceName == "DualSense Wireless Controller" )
+        {
+            // TODO support DPad = kHIDUsage_GD_Hatswitch
+            return
+            {
+                // TODO 2024-10-02 tested with Mac and Playstation DualSense controller.
+                std::make_pair( kHIDUsage_Button_2, Gamepad::Button::A ),
+                std::make_pair( kHIDUsage_Button_3, Gamepad::Button::B ),
+                std::make_pair( kHIDUsage_Button_1, Gamepad::Button::X ),
+                std::make_pair( kHIDUsage_Button_4, Gamepad::Button::Y ),
+//                std::make_pair( kHIDUsage_GD_DPadRight, Gamepad::Button::DPadRight ),   // Evidently the playstation registers DPad as the hat switch.
+//                std::make_pair( kHIDUsage_GD_DPadDown, Gamepad::Button::DPadDown ),
+//                std::make_pair( kHIDUsage_GD_DPadLeft, Gamepad::Button::DPadLeft ),
+//                std::make_pair( kHIDUsage_GD_DPadUp, Gamepad::Button::DPadUp ),
+                std::make_pair( kHIDUsage_Button_11, Gamepad::Button::LStick ),
+                std::make_pair( kHIDUsage_Button_12, Gamepad::Button::RStick ),
+                std::make_pair( kHIDUsage_Button_5, Gamepad::Button::LBumper ),
+                std::make_pair( kHIDUsage_Button_6, Gamepad::Button::RBumper ),
+                std::make_pair( kHIDUsage_Button_9, Gamepad::Button::Back ),
+                std::make_pair( kHIDUsage_Button_10, Gamepad::Button::Start ),
+            };
+        }
+        else
+        {
+            // Xbox Controller
+            //
+            return
+            {
+                // TODO 2024-10-02 tested with Mac and Xbox 360 controller.
+                std::make_pair( kHIDUsage_Button_1, Gamepad::Button::A ),
+                std::make_pair( kHIDUsage_Button_2, Gamepad::Button::B ),
+                std::make_pair( kHIDUsage_Button_3, Gamepad::Button::X ),
+                std::make_pair( kHIDUsage_Button_4, Gamepad::Button::Y ),
+                std::make_pair( kHIDUsage_GD_DPadRight, Gamepad::Button::DPadRight ),
+                std::make_pair( kHIDUsage_GD_DPadDown, Gamepad::Button::DPadDown ),
+                std::make_pair( kHIDUsage_GD_DPadLeft, Gamepad::Button::DPadLeft ),
+                std::make_pair( kHIDUsage_GD_DPadUp, Gamepad::Button::DPadUp ),
+                std::make_pair( kHIDUsage_Button_13, Gamepad::Button::LStick ),
+                std::make_pair( kHIDUsage_Button_14, Gamepad::Button::RStick ),
+                std::make_pair( kHIDUsage_Button_5, Gamepad::Button::LBumper ),
+                std::make_pair( kHIDUsage_Button_6, Gamepad::Button::RBumper ),
+                std::make_pair( kHIDUsage_GD_Select, Gamepad::Button::Back ),
+                std::make_pair( kHIDUsage_GD_Start, Gamepad::Button::Start ),
+            };
+        }
+    }
+
 	void onDeviceValueChanged( void* context, IOReturn result, void* sender, IOHIDValueRef value );
 
 	struct GamepadPayload
@@ -156,30 +205,13 @@ namespace
             {
                 std::make_pair( kHIDUsage_GD_X, Gamepad::Axis::LX ),
                 std::make_pair( kHIDUsage_GD_Y, Gamepad::Axis::LY ),
-                std::make_pair( kHIDUsage_GD_Z, Gamepad::Axis::LTrigger ),		// TODO Left for sure?
+                std::make_pair( kHIDUsage_GD_Z, Gamepad::Axis::LTrigger ),
                 std::make_pair( kHIDUsage_GD_Rx, Gamepad::Axis::RX ),
                 std::make_pair( kHIDUsage_GD_Ry, Gamepad::Axis::RY ),
-                std::make_pair( kHIDUsage_GD_Rz, Gamepad::Axis::RTrigger ),		// TODO right for sure?
+                std::make_pair( kHIDUsage_GD_Rz, Gamepad::Axis::RTrigger ),
             };
 
-            std::map< size_t, Gamepad::Button > hidUsagesToButtons
-            {
-                // TODO 2024-10-02 tested with Mac and Xbox 360 controller.
-				std::make_pair( kHIDUsage_Button_1, Gamepad::Button::A ),
-				std::make_pair( kHIDUsage_Button_2, Gamepad::Button::B ),
-				std::make_pair( kHIDUsage_Button_3, Gamepad::Button::X ),
-				std::make_pair( kHIDUsage_Button_4, Gamepad::Button::Y ),
-                std::make_pair( kHIDUsage_GD_DPadRight, Gamepad::Button::DPadRight ),
-				std::make_pair( kHIDUsage_GD_DPadDown, Gamepad::Button::DPadDown ),
-				std::make_pair( kHIDUsage_GD_DPadLeft, Gamepad::Button::DPadLeft ),
-				std::make_pair( kHIDUsage_GD_DPadUp, Gamepad::Button::DPadUp ),
-				std::make_pair( kHIDUsage_Button_13, Gamepad::Button::LStick ),
-				std::make_pair( kHIDUsage_Button_14, Gamepad::Button::RStick ),
-				std::make_pair( kHIDUsage_Button_5, Gamepad::Button::LBumper ),
-				std::make_pair( kHIDUsage_Button_6, Gamepad::Button::RBumper ),
-				std::make_pair( kHIDUsage_GD_Select, Gamepad::Button::Back ),
-				std::make_pair( kHIDUsage_GD_Start, Gamepad::Button::Start ),
-			};
+            std::map< size_t, Gamepad::Button > hidUsagesToButtons = getHIDButtonUsageMapping( m_deviceName );
 
             std::map< size_t, Gamepad::Button > buttonMap;
             std::map< size_t, Gamepad::Axis > axisMap;
@@ -244,7 +276,7 @@ namespace
                     }
 				}
 			}
-            
+
 			CFRelease( elements );
 
 			m_gamepad->create( this, std::move( buttonMap ), std::move( axisMap ));
@@ -288,7 +320,7 @@ namespace
 
 				m_gamepad->setAxisValue( axisIndex, floatValue );
 
-				gamepad_trace( "hardware axis " << axisIndex << " moved to " << floatValue );
+//				gamepad_trace( "hardware axis " << axisIndex << " moved to " << floatValue );
 			}
 			else
 			{
@@ -306,7 +338,7 @@ namespace
                     {
                         m_gamepad->setButtonValue( index, integerValue );
 
-                        gamepad_trace( "hardware button " << index << " changed to " << integerValue );
+                        gamepad_trace( "hardware button " << index << " with usage " << IOHIDElementGetUsage( iterFoundButton->element ) << " changed to " << integerValue );
                     }
 				}
 			}
