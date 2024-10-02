@@ -220,6 +220,7 @@ elseif( EMSCRIPTEN )
 
 		file( GLOB FreshPlatformPlatformSpecificSources FreshPlatform/Platforms/glESHelpers.cpp FreshPlatform/Platforms/Emscripten/*.h FreshPlatform/Platforms/Emscripten/*.cpp )
 
+		# TODO support gamepad on web/Emscripten
 		file( GLOB FreshPlatformPlatformSpecificSources ${FreshPlatformPlatformSpecificSources} FreshPlatform/Platforms/Null_Platform/Gamepad_Null.cpp FreshPlatform/Platforms/Null_Platform/AudioSession_Null.cpp FreshPlatform/Platforms/Null_Platform/FreshAnalytics_Null.cpp )
 
 elseif( UNIX )
