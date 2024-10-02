@@ -84,18 +84,18 @@ namespace fr
 			m_desiredClocksPerFrame = secondsToClocks( 1.0 / m_desiredFramesPerSecond );
 
 			// release_trace( "   emscripten_set_mouse*_callback" );
-			emscripten_set_mousedown_callback( EMSCRIPTEN_EVENT_TARGET_DOCUMENT, 0, 1, onMouseDown );
-			emscripten_set_mousemove_callback( EMSCRIPTEN_EVENT_TARGET_DOCUMENT, 0, 1, onMouseMove );
-			emscripten_set_mouseup_callback(   EMSCRIPTEN_EVENT_TARGET_DOCUMENT, 0, 1, onMouseUp );
+			emscripten_set_mousedown_callback( EMSCRIPTEN_CANVAS_ELEMENT_ID, 0, 1, onMouseDown );
+			emscripten_set_mousemove_callback( EMSCRIPTEN_CANVAS_ELEMENT_ID, 0, 1, onMouseMove );
+			emscripten_set_mouseup_callback(   EMSCRIPTEN_CANVAS_ELEMENT_ID, 0, 1, onMouseUp );
 
 			// release_trace( "   emscripten_set_touch*_callback" );
-			emscripten_set_touchstart_callback(  EMSCRIPTEN_EVENT_TARGET_DOCUMENT, 0, 1, onTouchDown );
-			emscripten_set_touchmove_callback(   EMSCRIPTEN_EVENT_TARGET_DOCUMENT, 0, 1, onTouchMove );
-			emscripten_set_touchend_callback(    EMSCRIPTEN_EVENT_TARGET_DOCUMENT, 0, 1, onTouchUp );
-			emscripten_set_touchcancel_callback( EMSCRIPTEN_EVENT_TARGET_DOCUMENT, 0, 1, onTouchUp );
+			emscripten_set_touchstart_callback(  EMSCRIPTEN_CANVAS_ELEMENT_ID, 0, 1, onTouchDown );
+			emscripten_set_touchmove_callback(   EMSCRIPTEN_CANVAS_ELEMENT_ID, 0, 1, onTouchMove );
+			emscripten_set_touchend_callback(    EMSCRIPTEN_CANVAS_ELEMENT_ID, 0, 1, onTouchUp );
+			emscripten_set_touchcancel_callback( EMSCRIPTEN_CANVAS_ELEMENT_ID, 0, 1, onTouchUp );
 
 			// release_trace( "   emscripten_set_wheel_callback" );
-			emscripten_set_wheel_callback(     EMSCRIPTEN_EVENT_TARGET_DOCUMENT, 0, 1, onWheelEvent );
+			emscripten_set_wheel_callback(     EMSCRIPTEN_CANVAS_ELEMENT_ID, 0, 1, onWheelEvent );
 
 			// release_trace( "   emscripten_set_key*_callback" );
 			emscripten_set_keydown_callback(   EMSCRIPTEN_EVENT_TARGET_DOCUMENT, 0, 1, onKeyDown );
@@ -572,8 +572,8 @@ namespace
 		if( priorEventIter != g_touchPoints.end() )
 		{
 			const auto& priorEvent = priorEventIter->second;
-			return vec2{ (real) event.canvasX, (real) event.canvasY } -
-			vec2{ (real) priorEvent.canvasX, (real) priorEvent.canvasY };
+			return vec2{ (real) event.targetX, (real) event.targetY } -
+			vec2{ (real) priorEvent.targetX, (real) priorEvent.targetY };
 		}
 		else
 		{
@@ -586,7 +586,7 @@ namespace
 	template< typename EmscriptenPointType >
 	std::pair< bool, Application::Touch > createTouch( const EmscriptenPointType& eventPoint )
 	{
-		// Emscripten screws up mouse coordinates badly. You can ask for the canvasX and Y position
+		// Emscripten screws up mouse coordinates badly. You can ask for the targetX and Y position
 		// of the point, but actually this point is in window space, relative to the canvas's
 		// original position prior to transformation.
 
@@ -600,10 +600,10 @@ namespace
 		//
 		const bool includeOutOfBounds = isActiveTouch( eventPoint );
 
-		if( !includeOutOfBounds && (eventPoint.canvasX < 0 || eventPoint.canvasX >= windowSize.x ||
-									eventPoint.canvasY < 0 || eventPoint.canvasY >= windowSize.y ))
+		if( !includeOutOfBounds && (eventPoint.targetX < 0 || eventPoint.targetX >= windowSize.x ||
+									eventPoint.targetY < 0 || eventPoint.targetY >= windowSize.y ))
 		{
-			input_trace( "Touch rejected because " << eventPoint.canvasX << "," << eventPoint.canvasY << " was outside "
+			input_trace( "Touch rejected because " << eventPoint.targetX << "," << eventPoint.targetY << " was outside "
 						<< windowSize.x << "," << windowSize.y << " (and maybe " << canvasSize.x << "," << canvasSize.y << ")" );
 			return std::make_pair( false, Application::Touch{} );
 		}
@@ -614,9 +614,9 @@ namespace
 		const vec2 change = movement( eventPoint );
 
 		return std::make_pair( true, Application::Touch{
-			vec2( eventPoint.canvasX * scale.x, ( dims.y - eventPoint.canvasY ) * scale.y ),
-			vec2(( eventPoint.canvasX - change.x ) * scale.x,
-				 ( dims.y - ( eventPoint.canvasY - change.y )) * scale.y),
+			vec2( eventPoint.targetX * scale.x, ( dims.y - eventPoint.targetY ) * scale.y ),
+			vec2(( eventPoint.targetX - change.x ) * scale.x,
+				 ( dims.y - ( eventPoint.targetY - change.y )) * scale.y),
 			vec2::ZERO,	// wheel
 			0,
 			1,
@@ -660,7 +660,7 @@ namespace
 	//
 	EM_BOOL onMouseDown( int eventType, const EmscriptenMouseEvent* event, void* userData )
 	{
-		input_trace( "onMouseDown( " << event->canvasX << "," << event->canvasY << ")" );
+		input_trace( "onMouseDown( " << event->targetX << "," << event->targetY << ")" );
 		++g_touchId;
 
 		const auto touches = createTouches( *event );
@@ -675,10 +675,10 @@ namespace
 
 	EM_BOOL onMouseMove( int eventType, const EmscriptenMouseEvent* event, void* userData )
 	{
-		input_trace( "onMouseMove( " << event->canvasX << "," << event->canvasY << ")" );
+		input_trace( "onMouseMove( " << event->targetX << "," << event->targetY << ")" );
 		input_trace(    "screen: " << event->screenX << "," << event->screenY
 					<< " client: " << event->clientX << "," << event->clientY
-					<< " target: " << event->targetX << "," << event->targetY );
+					<< " canvas: " << event->canvasX << "," << event->canvasY );
 
 
 		// Only handle move if mouse is actually down.
@@ -695,7 +695,7 @@ namespace
 
 	EM_BOOL onMouseUp( int eventType, const EmscriptenMouseEvent* event, void* userData )
 	{
-		input_trace( "onMouseUp( " << event->canvasX << "," << event->canvasY << ")" );
+		input_trace( "onMouseUp( " << event->targetX << "," << event->targetY << ")" );
 
 		const auto touches = createTouches( *event );
 		if( touches.empty() == false && Application::doesExist() )

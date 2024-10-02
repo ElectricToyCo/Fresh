@@ -16,7 +16,7 @@ namespace
 		if( player < static_cast< int >( playerbuttons.size() ))
 		{
 			const auto& buttons = playerbuttons[ player ];
-			
+
 			if( 0 <= button && button < static_cast< int >( buttons.size() ))
 			{
 				return buttons[ button ];
@@ -24,7 +24,7 @@ namespace
 			else
 			{
 				return false;
-			}			
+			}
 		}
 		else
 		{
@@ -74,49 +74,49 @@ namespace fr
 	bool FantasyConsole::btn( int button, int player )
 	{
 		SANITIZE( player, 0, 0, 3 );
-		
+
 		return buttonStateDown( m_buttonsDown, button, player );
 	}
-	
+
 	LUA_FUNCTION( btnp, 1 )
 	bool FantasyConsole::btnp( int button, int player )
 	{
 		SANITIZE( player, 0, 0, 3 );
-		
+
 		return btn( button, player ) && !buttonStateDown( m_buttonsDownPrev, button, player );
 	}
-	
+
 	void FantasyConsole::setJoystickState( size_t player, size_t axis, real value )
 	{
 		ASSERT( player < 4 );
 		ASSERT( axis < 6 );
-		
+
 		m_joystickStates.resize( std::max( m_joystickStates.size(), player + 1 ));
 
 		auto& axesForPlayer = m_joystickStates[ player ];
-		
+
 		axesForPlayer.resize( std::max( axesForPlayer.size(), axis + 1 ));
-		
+
 		axesForPlayer[ axis ] = value;
 	}
-	
+
 	LUA_FUNCTION( joy, 1 )
 	real FantasyConsole::joy( int axis, int player )
 	{
 		SANITIZE( axis, 0, 0, 1 );
 		SANITIZE( player, 0, 0, 3 );
-		
+
 		if( player >= static_cast< int >( m_joystickStates.size() ))
 		{
 			return 0;
 		}
-		
+
 		const auto& axes = m_joystickStates[ player ];
 		if( axis >= static_cast< int >( axes.size() ))
 		{
 			return 0;
 		}
-		
+
 		return axes[ axis ];
 	}
 
