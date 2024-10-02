@@ -84,28 +84,28 @@ namespace fr
 			m_desiredClocksPerFrame = secondsToClocks( 1.0 / m_desiredFramesPerSecond );
 
 			// release_trace( "   emscripten_set_mouse*_callback" );
-			emscripten_set_mousedown_callback( EMSCRIPTEN_CANVAS_ELEMENT_ID, 0, 1, onMouseDown );
-			emscripten_set_mousemove_callback( EMSCRIPTEN_CANVAS_ELEMENT_ID, 0, 1, onMouseMove );
-			emscripten_set_mouseup_callback(   EMSCRIPTEN_CANVAS_ELEMENT_ID, 0, 1, onMouseUp );
+			emscripten_set_mousedown_callback( EMSCRIPTEN_EVENT_TARGET_DOCUMENT, 0, 1, onMouseDown );
+			emscripten_set_mousemove_callback( EMSCRIPTEN_EVENT_TARGET_DOCUMENT, 0, 1, onMouseMove );
+			emscripten_set_mouseup_callback(   EMSCRIPTEN_EVENT_TARGET_DOCUMENT, 0, 1, onMouseUp );
 
 			// release_trace( "   emscripten_set_touch*_callback" );
-			emscripten_set_touchstart_callback(  EMSCRIPTEN_CANVAS_ELEMENT_ID, 0, 1, onTouchDown );
-			emscripten_set_touchmove_callback(   EMSCRIPTEN_CANVAS_ELEMENT_ID, 0, 1, onTouchMove );
-			emscripten_set_touchend_callback(    EMSCRIPTEN_CANVAS_ELEMENT_ID, 0, 1, onTouchUp );
-			emscripten_set_touchcancel_callback( EMSCRIPTEN_CANVAS_ELEMENT_ID, 0, 1, onTouchUp );
+			emscripten_set_touchstart_callback(  EMSCRIPTEN_EVENT_TARGET_DOCUMENT, 0, 1, onTouchDown );
+			emscripten_set_touchmove_callback(   EMSCRIPTEN_EVENT_TARGET_DOCUMENT, 0, 1, onTouchMove );
+			emscripten_set_touchend_callback(    EMSCRIPTEN_EVENT_TARGET_DOCUMENT, 0, 1, onTouchUp );
+			emscripten_set_touchcancel_callback( EMSCRIPTEN_EVENT_TARGET_DOCUMENT, 0, 1, onTouchUp );
 
 			// release_trace( "   emscripten_set_wheel_callback" );
-			emscripten_set_wheel_callback(     EMSCRIPTEN_CANVAS_ELEMENT_ID, 0, 1, onWheelEvent );
+			emscripten_set_wheel_callback(     EMSCRIPTEN_EVENT_TARGET_DOCUMENT, 0, 1, onWheelEvent );
 
 			// release_trace( "   emscripten_set_key*_callback" );
-			emscripten_set_keydown_callback(   EMSCRIPTEN_CANVAS_ELEMENT_ID, 0, 1, onKeyDown );
-			emscripten_set_keyup_callback(     EMSCRIPTEN_CANVAS_ELEMENT_ID, 0, 1, onKeyUp );
+			emscripten_set_keydown_callback(   EMSCRIPTEN_EVENT_TARGET_DOCUMENT, 0, 1, onKeyDown );
+			emscripten_set_keyup_callback(     EMSCRIPTEN_EVENT_TARGET_DOCUMENT, 0, 1, onKeyUp );
 
 			// release_trace( "   emscripten_set_resize_callback" );
-			emscripten_set_resize_callback(	   EMSCRIPTEN_CANVAS_ELEMENT_ID, 0, 1, onWindowResized );
+			emscripten_set_resize_callback(	   EMSCRIPTEN_EVENT_TARGET_WINDOW, 0, 1, onWindowResized );
 
 			// release_trace( "   emscripten_set_fullscreenchange_callback" );
-			emscripten_set_fullscreenchange_callback( EMSCRIPTEN_CANVAS_ELEMENT_ID, 0, 1, onFullscreenResized );
+			emscripten_set_fullscreenchange_callback( EMSCRIPTEN_EVENT_TARGET_WINDOW, 0, 1, onFullscreenResized );
 
 			release_trace( "Emscripten ApplicationImplementation: running javascript literal code" );
 
@@ -306,9 +306,9 @@ namespace fr
 				release_trace( "moving to fullscreen" );
 
 #if USE_HARD_FULLSCREEN
-				emscripten_request_fullscreen_strategy( EMSCRIPTEN_CANVAS_ELEMENT_ID, true, &strategy );
+				emscripten_request_fullscreen_strategy( EMSCRIPTEN_EVENT_TARGET_WINDOW, true, &strategy );
 #else
-				emscripten_enter_soft_fullscreen( EMSCRIPTEN_CANVAS_ELEMENT_ID, &strategy );
+				emscripten_enter_soft_fullscreen( EMSCRIPTEN_EVENT_TARGET_WINDOW, &strategy );
 #endif
 				release_trace( "moved to fullscreen, we think." );
 			}
