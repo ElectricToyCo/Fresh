@@ -459,8 +459,6 @@ namespace fr
 		Real result = dimensionRatios.minorAxisValue();	// Returns the smaller of x or y.
 		PROMISES( result > 0 );
 
-        temp_trace( "getFitRatio( " << dimensionsToFit << ", " << dimensionsToFitInto << " ) got ratios of " << dimensionRatios << " to return a result of " << result );
-        
         return result;
 	}
 	
