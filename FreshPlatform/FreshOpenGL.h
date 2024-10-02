@@ -142,9 +142,9 @@
 
 namespace fr
 {
-#ifdef DEBUG
+#if defined(DEBUG) || FRESH_DO_REPORT_GL_ERRORS
 	// Implemented as a macro to keep error reporting "lined" at the calling location.
-#	define HANDLE_GL_ERRORS()	{ GLenum errCode = glGetError(); if( errCode != GL_NO_ERROR ) { dev_trace( "ERROR: glGetError() reported error (" << std::showbase << std::hex << errCode << "): " << fr::getGLErrorDescription( errCode )); } }
+#	define HANDLE_GL_ERRORS()	{ GLenum errCode = glGetError(); if( errCode != GL_NO_ERROR ) { dev_trace( "ERROR: glGetError() {" << __FILE__ << "(" << __LINE__ << ") - " << FRESH_CURRENT_FUNCTION << "()} reported error (" << std::showbase << std::hex << errCode << "): " << fr::getGLErrorDescription( errCode )); } }
 #else
 #	define HANDLE_GL_ERRORS()
 #endif

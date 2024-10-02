@@ -69,7 +69,7 @@ namespace fr
 
 namespace fr
 {
-	
+
 	// Ease-of-use string creation macro
 	//
 #define createString( expr ) ([&](){ std::ostringstream s; s << expr; return s.str(); }())
@@ -81,24 +81,24 @@ namespace fr
 		size_t numWarnings();
 		size_t numErrors();
 		void resetErrorAndWarningCount();
-		
-		void logTrace( const char* szFile, int line, const char* szContext, const char* szMessage );
+
+		void logTrace( const char* szFile, int line, const char* szContext, const char* szMessage, std::ostream& stream = std::cout );
 		void logWarning( const char* szFile, int line, const char* szContext, const char* szMessage );
 		void logError( const char* szFile, int line, const char* szContext, const char* szMessage );
-		
+
 		void setLogStream( std::unique_ptr< std::ostream >&& log );
 		void flushLogStream();
 	}
-	
+
 #	define release_trace( message ) { std::ostringstream ss; ss << message;	\
 	fr::DevLog::logTrace( __FILE__, __LINE__, FRESH_CURRENT_FUNCTION, ss.str().c_str() ); }
-	
+
 #	define release_warning( message ) { std::ostringstream ss; ss << message;	\
 	fr::DevLog::logWarning( __FILE__, __LINE__, FRESH_CURRENT_FUNCTION, ss.str().c_str() ); }
-	
+
 #	define release_error( message ) { std::ostringstream ss; ss << message;	\
 	fr::DevLog::logError( __FILE__, __LINE__, FRESH_CURRENT_FUNCTION, ss.str().c_str() ); }
-	
+
 
 #if DEV_MODE
 #	define dev_trace( message ) release_trace( message )
@@ -109,7 +109,7 @@ namespace fr
 #	define dev_warning( message )
 #	define dev_error( message )
 #endif
-	
+
 	// "SOFT" DEBUG BREAKPOINT SUPPORT
 	//
 	class Object;
@@ -117,7 +117,7 @@ namespace fr
 	{
 		typedef std::string Tag;
 		typedef const std::string& TagRef;
-		
+
 		void set( TagRef tag, const std::string& classNameFilter, const std::string& objectNameFilter );
 		void clear( TagRef tag );
 		void each( std::function< void( TagRef tag, const std::string& classNameFilter, const std::string& objectNameFilter ) >&& fn );

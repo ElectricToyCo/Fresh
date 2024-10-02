@@ -24,9 +24,9 @@ namespace
 {
 	size_t g_nWarnings = 0;
 	size_t g_nErrors = 0;
-	
+
 	std::unique_ptr< std::ostream > g_log;
-	
+
 #if DEV_MODE && FRESH_BREAKPOINTS_ENABLED
 	std::unordered_map< std::string, fr::ObjectId > g_debugBreakpoints;
 #endif
@@ -34,24 +34,24 @@ namespace
 
 namespace fr
 {
-	
+
 #if FRESH_IMPLEMENTS_OWN_ASSERT
-	
+
 	void assertionFailure( const char* file, int line, const char* func, const char* message )
 	{
 		fr::DevLog::logError( file, line, func, createString( "ASSERTION FAILED: '" << message << "'" ).c_str() );
-		
+
 		// See http://hg.mozilla.org/mozilla-central/file/98fa9c0cff7a/js/src/jsutil.cpp#l66 for a multi-platform assert() implementation supporting
 		// debugger resuming.
-		
+
 		// TODO not sure if I want an exception or a signal. I'll do both.
 		//
 		::raise( SIGABRT );
 		throw ExceptionAssertionFailed{ file, line, func, message };
 	}
-	
+
 #endif		// FRESH_IMPLEMENTS_OWN_ASSERT
-	
+
 	namespace DevLog
 	{
 		size_t numWarnings()
@@ -66,12 +66,12 @@ namespace fr
 		{
 			g_nWarnings = g_nErrors = 0;
 		}
-		
+
 		void setLogStream( std::unique_ptr< std::ostream >&& log )
 		{
 			g_log = std::move( log );
 		}
-		
+
 		void flushLogStream()
 		{
 			if( g_log )
@@ -79,8 +79,8 @@ namespace fr
 				g_log->flush();
 			}
 		}
-		
-		void logTrace( const char* szFile, int line, const char* szContext, const char* szMessage )
+
+		void logTrace( const char* szFile, int line, const char* szContext, const char* szMessage, std::ostream& stream )
 		{
 			// Truncate the filename.
 			//
@@ -90,7 +90,7 @@ namespace fr
 			{
 				fileName.erase( 0, slashPos + 1 );
 			}
-			
+
 			std::ostringstream ss;
 			ss << "[" << std::fixed << std::setprecision( 3 ) << getAbsoluteTimeSeconds() << "] {" << fileName << "(" << line << ") - " << szContext << "()} " << szMessage << std::endl;
 #ifdef _WIN32
@@ -98,29 +98,29 @@ namespace fr
 #elif ANDROID
 			ANDROID_LOG( ss.str().c_str() );
 #endif
-			std::clog << ss.str();
-			
+			stream << ss.str();
+
 			if( g_log )
 			{
 				*g_log << ss.str();
 			}
 		}
-		
+
 		void logWarning( const char* szFile, int line, const char* szContext, const char* szMessage )
 		{
 			logTrace( szFile, line, szContext, ( std::string( "FRESH WARNING: " ) + szMessage ).c_str());
-			
+
 			++g_nWarnings;
 		}
-		
+
 		void logError( const char* szFile, int line, const char* szContext, const char* szMessage )
 		{
-			logTrace( szFile, line, szContext, ( std::string( "FRESH ERROR: " ) + szMessage ).c_str());
-			
+			logTrace( szFile, line, szContext, ( std::string( "FRESH ERROR: " ) + szMessage ).c_str(), std::clog);
+
 			++g_nErrors;
 		}
 	}
-	
+
 	namespace Breakpoint
 	{
 		void set( TagRef tag, const std::string& classNameFilter, const std::string& objectNameFilter )
@@ -129,14 +129,14 @@ namespace fr
 			g_debugBreakpoints[ tag ] = ObjectId( classNameFilter, objectNameFilter );
 #endif
 		}
-		
+
 		void clear( TagRef tag )
 		{
 #if DEV_MODE && FRESH_BREAKPOINTS_ENABLED
 			g_debugBreakpoints[ tag ] = ObjectId::NULL_OBJECT;
 #endif
 		}
-		
+
 		void each( std::function< void( TagRef tag, const std::string& classNameFilter, const std::string& objectNameFilter ) >&& fn )
 		{
 #if DEV_MODE && FRESH_BREAKPOINTS_ENABLED
@@ -146,7 +146,7 @@ namespace fr
 			}
 #endif
 		}
-		
+
 		bool matches( TagRef tag, const Object& object )
 		{
 #if DEV_MODE && FRESH_BREAKPOINTS_ENABLED

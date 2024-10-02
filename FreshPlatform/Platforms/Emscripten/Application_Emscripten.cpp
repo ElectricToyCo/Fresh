@@ -83,28 +83,28 @@ namespace fr
 			REQUIRES( owner );
 			m_desiredClocksPerFrame = secondsToClocks( 1.0 / m_desiredFramesPerSecond );
 
-			release_trace( "   emscripten_set_mouse*_callback" );
+			// release_trace( "   emscripten_set_mouse*_callback" );
 			emscripten_set_mousedown_callback( EMSCRIPTEN_CANVAS_ELEMENT_ID, 0, 1, onMouseDown );
 			emscripten_set_mousemove_callback( EMSCRIPTEN_CANVAS_ELEMENT_ID, 0, 1, onMouseMove );
 			emscripten_set_mouseup_callback(   EMSCRIPTEN_CANVAS_ELEMENT_ID, 0, 1, onMouseUp );
 
-			release_trace( "   emscripten_set_touch*_callback" );
+			// release_trace( "   emscripten_set_touch*_callback" );
 			emscripten_set_touchstart_callback(  EMSCRIPTEN_CANVAS_ELEMENT_ID, 0, 1, onTouchDown );
 			emscripten_set_touchmove_callback(   EMSCRIPTEN_CANVAS_ELEMENT_ID, 0, 1, onTouchMove );
 			emscripten_set_touchend_callback(    EMSCRIPTEN_CANVAS_ELEMENT_ID, 0, 1, onTouchUp );
 			emscripten_set_touchcancel_callback( EMSCRIPTEN_CANVAS_ELEMENT_ID, 0, 1, onTouchUp );
 
-			release_trace( "   emscripten_set_wheel_callback" );
+			// release_trace( "   emscripten_set_wheel_callback" );
 			emscripten_set_wheel_callback(     EMSCRIPTEN_CANVAS_ELEMENT_ID, 0, 1, onWheelEvent );
 
-			release_trace( "   emscripten_set_key*_callback" );
+			// release_trace( "   emscripten_set_key*_callback" );
 			emscripten_set_keydown_callback(   EMSCRIPTEN_CANVAS_ELEMENT_ID, 0, 1, onKeyDown );
 			emscripten_set_keyup_callback(     EMSCRIPTEN_CANVAS_ELEMENT_ID, 0, 1, onKeyUp );
 
-			release_trace( "   emscripten_set_resize_callback" );
+			// release_trace( "   emscripten_set_resize_callback" );
 			emscripten_set_resize_callback(	   EMSCRIPTEN_CANVAS_ELEMENT_ID, 0, 1, onWindowResized );
 
-			release_trace( "   emscripten_set_fullscreenchange_callback" );
+			// release_trace( "   emscripten_set_fullscreenchange_callback" );
 			emscripten_set_fullscreenchange_callback( EMSCRIPTEN_CANVAS_ELEMENT_ID, 0, 1, onFullscreenResized );
 
 			release_trace( "Emscripten ApplicationImplementation: running javascript literal code" );
@@ -421,7 +421,7 @@ namespace fr
 
 	bool Application::isMultitouch() const
 	{
-		return true;		// At least some web browsers support multitouch.
+		return false;		// At least some web browsers support multitouch.
 	}
 
 	void Application::swapBuffers()

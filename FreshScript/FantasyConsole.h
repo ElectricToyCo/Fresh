@@ -25,7 +25,7 @@ namespace fr
 	class AudioCue;
 	class Sound;
 	class VirtualTrackball;
-	
+
 	class FantasyConsole : public Sprite
 	{
 		FRESH_DECLARE_CLASS( FantasyConsole, Sprite );
@@ -37,7 +37,6 @@ namespace fr
 		static const char* VIRTUAL_CONTROLS_HIDE;
 		static const char* VIRTUAL_TRACKBALL_USED;
 
-		
 		class ConsoleEvent : public Event
 		{
 		public:
@@ -51,20 +50,20 @@ namespace fr
 		};
 
 		virtual ~FantasyConsole();
-		
+
 		SYNTHESIZE_GET( bool, compiled );
 		SYNTHESIZE_GET( path, gamePath );
 		SYNTHESIZE_GET( vec2i, baseSpriteSizeInTexels );
-		
+
 		std::string saveMemento() const;
 		void loadMemento( const std::string& memento );
-		
+
         path gamesBasePath() const;
-        
+
 		void clear();
 		void loadGame( const path& gameFolderPath );
 		void reload();
-		
+
 		void activated( bool activate );
 
 		void console( const std::string& message ) const;
@@ -80,8 +79,8 @@ namespace fr
 		int numFonts() const;
 
 		SYNTHESIZE( real, linePadding )
-				
-		virtual void onAddedToStage() override;		
+
+		virtual void onAddedToStage() override;
 		virtual void onRemovingFromStage() override;
 		virtual void update() override;
 		virtual void render( TimeType relativeFrameTime, RenderInjector* injector = nullptr ) override;
@@ -96,11 +95,11 @@ namespace fr
 		virtual void onDragEnd( const EventTouch& event ) override;
 
 		vec2i screenDims() const;
-		
+
 		void setDitherPattern( uint bits );
-		
+
 		bool supportsVirtualControls() const;
-		
+
 		// Fundamental API
 		//
         void text_scale( real scale );
@@ -112,20 +111,20 @@ namespace fr
 		void support_virtual_trackball( bool support );
 		void support_virtual_buttons( int count );
 		void show_controls_guides( bool show );
-		
+
 		using CoroutineId = int;
 		CoroutineId cocreate();
 		std::string costatus( CoroutineId id );
 		void coresume( CoroutineId id );
 		void yield();
-		
+
 
 		// Editor/console API
 		//
 		void execute( std::string command );
-		
+
 		int getLuaType( const std::string& path ) const;
-		
+
 		bool getValueBool( const std::string& path ) const;
 		int getValueInt( const std::string& path ) const;
 		real getValueNumber( const std::string& path ) const;
@@ -150,14 +149,14 @@ namespace fr
 	protected:
 
 		int buttonForTouchLocation( const vec2& location ) const;
-		
+
 		vec2 transform( const vec2& p ) const;
 		vec2i eventToTouchPos( const vec2& pos );
 
 		void resizeForStage();
-		
+
 		std::vector< uint > amendSpritesheetTexels( const unsigned char* texelBytesRGBA, vec2ui& inOutDimensions );
-		
+
 		vec2i textureDimensions() const;
 		vec2i userSpriteAreaDimensions() const;
 		vec2i spritesDimensions() const;
@@ -167,7 +166,7 @@ namespace fr
 		vec2i spriteIndexToSpritePos( int spriteIndex ) const;
 		vec2i spriteSheetPosToTexel( const vec2i& spritePos ) const;
 		vec2 texelsToTexCoords( const vec2i& texels ) const;
-		
+
 		fr::rect blankTexCoords() const;
 
 		vec2i fontGridSize() const;
@@ -178,14 +177,14 @@ namespace fr
 		void loadSpritesheet( const path& path );
 		void loadAudioFolder( const path& path );
 		void loadAudio( const path& path );
-		
+
 		void createLua();
 		void destroyLua();
-		
+
 		CoroutineId addCoroutineState( lua_State* state );
 		lua_State* findCoroutineState( CoroutineId id ) const;
 		void removeCoroutineState( CoroutineId id );
-		
+
 		bool tryLua( const std::string& context, std::function< int() >&& luaCall ) const;
 
 		void vertex( const vec2& position, const vec2& texCoords, const Color& color, const Color& additiveColor = 0 );
@@ -194,12 +193,12 @@ namespace fr
 		void keyState( Keyboard::Key key, int charCode, bool value );
 		void buttonState( int button, int player, bool value );
 		void updateInput();
-		
+
 		vec2i maxMapLayerSize() const;
-		
+
 		void loadMap( const path& mapSource );
 		void loadMapValues( const vec2i& size, std::istream& spriteIndexText, size_t layer = 0 );
-		
+
 	private:
 
 		DVAR( path, m_gamesFolder, "games" );
@@ -210,9 +209,9 @@ namespace fr
 		DVAR( real, m_linePadding, 1.0f );
 
 		DVAR( vec2i, m_defaultScreenSize, vec2i( 240, 136 ));
-        
+
         VAR( ScreenEffects::ShaderState, m_consoleShaderState );
-        
+
         DVAR( real, m_globalTextScale, 1.0f );
 
 		vec2 m_cameraTranslation;
@@ -230,18 +229,18 @@ namespace fr
 		SmartPtr< VirtualTrackball > m_virtualTrackball;
 		void updateVirtualTrackball();
 		fr::EventTouch scaleTrackballEvent( const fr::EventTouch& event ) const;
-		
+
 		bool inTrackpadRegion( const vec2& touchPos ) const;
-		
+
 		SmartPtr< Sound > m_musicSound;
 
 		Texture::ptr m_spriteSheet;
 		std::vector< uint > m_spriteSheetTexels;
 		std::vector< unsigned char > m_spriteFlags;
-		
+
 		std::vector< vec2i > m_mapLayerSizes;
 		std::vector< std::vector< uint >> m_mapSpriteLayers;
-		
+
 		mat4 m_ditherPattern;
 
 		struct Vertex
@@ -251,7 +250,7 @@ namespace fr
 			vec4 color;
 			vec4 additiveColor;
 			mat4 ditherPattern;
-			
+
 			Vertex( const vec2& p, const vec2& t, const vec4& c, const vec4& a, const mat4& d )
 			:	position( p ), texCoord( t ), color( c ), additiveColor( a ), ditherPattern( d )
 			{}
@@ -260,24 +259,24 @@ namespace fr
 		std::vector< Vertex > m_drawVertices;
 		VertexStructure::ptr m_drawVertexStructure;
 		ShaderProgram::ptr m_primitivesShaderProgram;
-		
+
 		lua_State* m_lua = nullptr;
 		bool m_compiled = false;
-		
+
 		CoroutineId m_nextAvailableCoroutineStateId = 1;
 		std::unordered_map< size_t, lua_State* > m_coroutineStates;
 
 		std::unordered_map< std::string, SmartPtr< AudioCue >> m_audioCues;
 
-		void drawPrimitives( const std::vector< Vertex >& drawVertices ) const;		
-		
+		void drawPrimitives( const std::vector< Vertex >& drawVertices ) const;
+
 		void onKeyChange( const EventKeyboard& event, bool down );
 		void onButtonChange( const EventGamepadButton& event, bool down );
 
         void updateScreenEffects() const;
-        
+
         vec2 hostScreenDimensions() const;
-        
+
 		FRESH_DECLARE_CALLBACK( FantasyConsole, onKeyDown, EventKeyboard );
 		FRESH_DECLARE_CALLBACK( FantasyConsole, onKeyUp, EventKeyboard );
 		FRESH_DECLARE_CALLBACK( FantasyConsole, onGamepadAttached, EventGamepad );
