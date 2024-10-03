@@ -241,7 +241,8 @@ namespace fr
 			
 			// Control window sizing.
 			//
-			[m_window setContentAspectRatio: NSMakeSize( width, height ) ];
+            // TODO!!! JMW testing 2024-10-03
+//			[m_window setContentAspectRatio: NSMakeSize( width, height ) ];
 			
 			const float MIN_WINDOW_WIDTH = 320;
 			[m_window setContentMinSize: NSMakeSize( MIN_WINDOW_WIDTH, MIN_WINDOW_WIDTH * ((float)height/width))];

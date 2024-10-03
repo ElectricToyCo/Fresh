@@ -34,15 +34,18 @@ namespace fr
     {
         mutator( m_consoleShaderState );
     }
-    
+
     LUA_FUNCTION( screen_size, 1 );
     void FantasyConsole::screen_size( int wid, int hgt )
     {
+        const auto aspectRatio = hasStage() ? stage().stageAspectRatio() : Application::instance().getWindowAspectRatio();
+
+        m_stageAspectRatioForLastSpecifiedScreenSize = aspectRatio;
+		m_lastSpecifiedScreenSize.set( wid, hgt );
+
         // Sanitize wid and hgt in terms of the stage aspect ratio, if known.
         if( wid <= 0 || hgt <= 0 )
         {
-            const auto aspectRatio = hasStage() ? stage().stageAspectRatio() : Application::instance().getWindowAspectRatio();
-            
             if( wid <= 0 && hgt <= 0)
             {
                 wid = m_defaultScreenSize.x;
@@ -57,31 +60,31 @@ namespace fr
                 hgt = wid / aspectRatio;
             }
         }
-        
+
         SANITIZE( wid, m_defaultScreenSize.x, 1, 4096 );
         SANITIZE( hgt, wid, 1, 4096 );
-        
+
         m_screen->create( vec2i( wid, hgt ));
     }
-    
+
     LUA_FUNCTION( screen_wid, 0 );
     int FantasyConsole::screen_wid()
     {
         return m_screen->size().x;
     }
-    
+
     LUA_FUNCTION( screen_hgt, 0 );
     int FantasyConsole::screen_hgt()
     {
         return m_screen->size().y;
     }
-    
+
     LUA_FUNCTION( filter_mode, 1 );
     void FantasyConsole::filter_mode( const std::string& mode )
     {
         m_filterMode = enumFromString( mode, m_filterMode );
     }
-    
+
     LUA_FUNCTION( barrel, 1 );
     void FantasyConsole::barrel( real distortion )
     {
@@ -91,7 +94,7 @@ namespace fr
                               state.barrelDistortion = distortion;
                           });
     }
-    
+
     LUA_FUNCTION( bloom, 0 );
     void FantasyConsole::bloom( real intensity, real contrast, real brightness )
     {
@@ -115,7 +118,7 @@ namespace fr
                               state.burnIn = amount;
                           });
     }
-    
+
     LUA_FUNCTION( chromatic_aberration, 1 );
     void FantasyConsole::chromatic_aberration( real aberration )
     {
@@ -125,7 +128,7 @@ namespace fr
                               state.chromaticAberration = aberration;
                           });
     }
-    
+
     LUA_FUNCTION( noise, 1 );
     void FantasyConsole::noise( real amount, real rescan_r, real rescan_g, real rescan_b, real rescan_a  )
     {
@@ -140,7 +143,7 @@ namespace fr
                               state.rescanColor.set( rescan_r, rescan_g, rescan_b, rescan_a );
                           });
     }
-    
+
     LUA_FUNCTION( saturation, 1 );
     void FantasyConsole::saturation( real sat )
     {
@@ -150,7 +153,7 @@ namespace fr
                               state.saturation = sat;
                           });
     }
-    
+
     LUA_FUNCTION( color_multiplied, 1 );
     void FantasyConsole::color_multiplied( real r, real g, real b, real a )
     {
@@ -163,12 +166,12 @@ namespace fr
                               state.colorMultiplied.set( r, g, b, a );
                           });
     }
-    
+
     LUA_FUNCTION( bevel, 1 );
     void FantasyConsole::bevel( real intensity, int type )
     {
 		DEFAULT( type, 0 )
-		
+
         SANITIZE( intensity, 0, 0.0f, 100.0f );
         changeScreenState( [&]( auto& state )
 						{
@@ -177,4 +180,4 @@ namespace fr
 						});
     }
 }
-    
+

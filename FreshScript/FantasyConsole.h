@@ -216,6 +216,9 @@ namespace fr
 
 		vec2 m_cameraTranslation;
 
+		float m_stageAspectRatioForLastSpecifiedScreenSize = 0;
+		vec2i m_lastSpecifiedScreenSize;
+
 		size_t m_tickCount = 0;
 
 		FantasyConsoleScreen::ptr m_screen;
@@ -287,8 +290,7 @@ namespace fr
 		FRESH_DECLARE_CALLBACK( FantasyConsole, onStageTouchBegin, EventTouch );
 		FRESH_DECLARE_CALLBACK( FantasyConsole, onStageTouchEnd, EventTouch );
 		FRESH_DECLARE_CALLBACK( FantasyConsole, onStageTouchCancelled, EventTouch );
-
-	};
+		};
 }
 
 // Usable only within member functions of FantasyConsole.

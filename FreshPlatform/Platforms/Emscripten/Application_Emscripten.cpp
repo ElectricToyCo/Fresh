@@ -39,7 +39,7 @@ using namespace fr;
 
 namespace
 {
-	// Could also be EMSCRIPTEN_EVENT_TARGET_DOCUMENT or EMSCRIPTEN_EVENT_TARGET_WINDOW.
+	// Could also be "document" or "window"
 	const char* const EMSCRIPTEN_CANVAS_ELEMENT_ID = "#canvas";
 
 	ApplicationImplementation* g_applicationImplementation = nullptr;
@@ -272,11 +272,10 @@ namespace fr
 
 		Vector2i getScreenDimensions() const
 		{
-			Vector2i dims;
+			Vector2d dims;
+			emscripten_get_element_css_size( EMSCRIPTEN_CANVAS_ELEMENT_ID, &dims.x, &dims.y );
 
-			emscripten_get_canvas_element_size( EMSCRIPTEN_CANVAS_ELEMENT_ID, &dims.x, &dims.y );
-
-			return dims;
+			return vector_cast< int >( dims );
 		}
 
 		Vector2i getWindowDimensions() const
@@ -421,7 +420,7 @@ namespace fr
 
 	bool Application::isMultitouch() const
 	{
-		return false;		// At least some web browsers support multitouch.
+		return true;		// At least some web browsers support multitouch.
 	}
 
 	void Application::swapBuffers()
@@ -884,7 +883,11 @@ namespace
 	{
 		if( Application::doesExist() )
 		{
-			release_trace( "window resized: " << Application::instance().getWindowDimensions() );
+			const Vector2i dims = Application::instance().getWindowDimensions();
+			release_trace( "window resized: " << dims );
+
+			emscripten_set_canvas_element_size( EMSCRIPTEN_CANVAS_ELEMENT_ID, dims.x, dims.y );
+
 			Application::instance().onWindowReshape();
 		}
 		return true;

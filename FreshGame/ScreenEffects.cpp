@@ -158,10 +158,16 @@ namespace fr
         
         if( size != virtualScreenDimensions() )
         {
+            release_trace( "ScreenEffects resizing inner render target from " << virtualScreenDimensions() << " to " << size );
+            
             m_inner->renderTarget()->create(
                 size.x, size.y,
                 m_inner->renderTarget()->colorBufferFormat(),
                 &m_inner->renderTarget()->depthBufferFormat() );
+            
+            // Retrigger the barrel mesh setup.
+            //
+            m_lastSetupBarrelDistortion = -1;
         }
     }
 

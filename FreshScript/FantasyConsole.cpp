@@ -610,7 +610,7 @@ namespace fr
 
 		m_audioCues[ fileStem.string() ] = cue;
 
-		release_trace( "Loaded cue " << path );
+  		// release_trace( "Loaded cue " << path );
 	}
 
 	void FantasyConsole::reload()
@@ -696,6 +696,15 @@ namespace fr
 	{
 		Super::update();
 
+		// If the stage has changed aspect ratios, resize the virtual screen.
+		//
+		const float stageAspectRatio = stage().stageAspectRatio();
+		if( std::abs( m_stageAspectRatioForLastSpecifiedScreenSize - stageAspectRatio ) > 0.001f )
+		{
+			release_trace( "The stage aspect ratio has changed from " << m_stageAspectRatioForLastSpecifiedScreenSize << " to " << stageAspectRatio << ". Re-setting the console screen size to " << m_lastSpecifiedScreenSize );
+			screen_size( m_lastSpecifiedScreenSize.x, m_lastSpecifiedScreenSize.y );
+		}
+
 		if( compiled() )
 		{
 			try
@@ -720,6 +729,7 @@ namespace fr
             effects->transitionToState( m_consoleShaderState, 0 );
 
             effects->resizeVirtualScreen( screenDims() );
+//            effects->scale( TODO );
         }
     }
 
@@ -1561,7 +1571,7 @@ namespace fr
 	FRESH_DEFINE_CALLBACK( FantasyConsole, onAxisMoved, EventGamepadAxis )
 	{
         const size_t axisIndex = static_cast< size_t >( event.axis() );
-        
+
         const size_t player = 0;        // TODO: Determine player from event.gamepadTarget();
 		setJoystickState( player, axisIndex, event.newValue() );
 	}
