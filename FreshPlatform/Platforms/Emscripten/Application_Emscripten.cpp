@@ -164,36 +164,13 @@ namespace fr
 
 		void createMainWindow()
 		{
-			//
-			// Create the window itself.
-			//
+			// In the web implementation we ignore `m_owner->config().desiredWindowRect()` and take the window rect
+			// instead from the actual browser window size.
 
-			int ulCornerX = m_owner->config().desiredWindowRect().left();
-			int ulCornerY = m_owner->config().desiredWindowRect().top();
-			int width = m_owner->config().desiredWindowRect().right() - m_owner->config().desiredWindowRect().left();
-			int height = m_owner->config().desiredWindowRect().bottom() - m_owner->config().desiredWindowRect().top();
+			const Vector2i dims = Application::instance().getWindowDimensions();
 
-			// If ulCornerX or ulCornerY are < 0, that coordinate is set arbitrarily by the operating system.
-			//
-			if( ulCornerX < 0 )
-			{
-				ulCornerX = 0;
-			}
-			if( ulCornerY < 0 )
-			{
-				ulCornerY = 0;
-			}
-			if( width <= 0 )
-			{
-				width = 1280;
-			}
-			if( height <= 0 )
-			{
-				height = 800;
-			}
-
-			release_trace( "Using canvas size (" << width << ", " << height << ")" );
-			emscripten_set_canvas_element_size( EMSCRIPTEN_CANVAS_ELEMENT_ID, width, height );
+			release_trace( "Using canvas size (" << dims.x << ", " << dims.y << ")" );
+			emscripten_set_canvas_element_size( EMSCRIPTEN_CANVAS_ELEMENT_ID, dims.x, dims.y );
 
 			ASSERT( m_webglContext < 0 );
 
