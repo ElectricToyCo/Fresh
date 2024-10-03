@@ -128,7 +128,7 @@ namespace fr
 	
 	inline bool Tile::isSolid() const
 	{
-		if( m_solidity == Solidity::Inherit )
+		if( m_solidity == Solidity::Inherit && m_tileTemplate )
 		{
 			return m_tileTemplate->isSolid();
 		}
@@ -185,7 +185,10 @@ namespace fr
 		const Tile& getTile( const vec2& pos ) const;
 		Tile& getTile( const Vector2i& pos );
 		Tile& getTile( const vec2& pos );
-		
+
+        void setTile( const Vector2i& pos, Tile::ptr tile );
+        void setTile( const vec2& pos, Tile::ptr tile );
+
 		Vector2i worldToTileSpace( const vec2& pos ) const
 		{
 			return m_tiles.worldToCell( pos );
@@ -388,6 +391,17 @@ namespace fr
 	{
 		return getTile( worldToTileSpace( pos ));
 	}
+
+    inline void FreshTileGrid::setTile( const Vector2i& pos, Tile::ptr tile )
+    {
+        ASSERT( isInBounds( pos ));
+        m_tiles.setCellAt( pos, tile );
+    }
+
+    inline void FreshTileGrid::setTile( const vec2& pos, Tile::ptr tile )
+    {
+        setTile( worldToTileSpace( pos ), tile );
+    }
 
 	template< typename IterT >
 	void FreshTileGrid::convertToWorldSpacePath( Path::const_iterator begin, Path::const_iterator end, IterT out )

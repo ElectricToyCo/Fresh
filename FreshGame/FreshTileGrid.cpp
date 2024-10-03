@@ -156,7 +156,6 @@ namespace fr
 	bool Tile::getShadowTriangles( const vec2& lightPos, real lightRadius, std::vector< vec2 >& outTrianglePoints, real lightSpotHalfArc, const vec2& lightSpotDirection ) const
 	{
 		REQUIRES( lightRadius > 0 );
-		ASSERT( m_tileTemplate );
 		
 		for( auto iter = m_staticLightBlockers.begin(); iter != m_staticLightBlockers.end(); ++iter )
 		{

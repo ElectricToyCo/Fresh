@@ -1011,11 +1011,16 @@ namespace fr
 		if( !rootElement )
 		{
 			console_trace( "Unable to open map source file at '" << mapSource << "'." );
+            return;
 		}
+        
 		if( rootElement->ValueStr() != "map" )
 		{
 			console_trace( "Map source file lacked <map> root element." );
+            return;
 		}
+        
+        m_tileGrid = createObject< FreshTileGrid >();
 
 		size_t layer = 0;
 		for( auto layerElement = rootElement->FirstChildElement( "layer" );
@@ -1061,19 +1066,52 @@ namespace fr
 		m_mapLayerSizes.resize( std::max( m_mapLayerSizes.size(), layer + 1 ));
 		m_mapSpriteLayers.resize( std::max( m_mapSpriteLayers.size(), layer + 1 ));
 
-		auto& mapSize = m_mapLayerSizes[ layer ];
-		auto& mapSprites = m_mapSpriteLayers[ layer ];
+        vec2i& mapSize = m_mapLayerSizes[ layer ];
+        std::vector< uint >& mapSprites = m_mapSpriteLayers[ layer ];
 
 		mapSize = size;
 		mapSprites.clear();
 		mapSprites.resize( mapSize.x * mapSize.y, 0 );
-
-		for( auto& tile : mapSprites )
+        
+        if( layer == 0 )
+        {
+            m_tileGrid->resizeToInclude( size );
+        }
+        
+        vec2i tilePos;
+		for( uint& tileIndex : mapSprites )
 		{
-			spriteIndexText >> std::ws >> tile >> std::ws;
-            --tile;     // The "Tiled" editor stores each sprite as 1-indexed (such that the "blank" or default tile is 1). We reckon sprites to be 0-indexed.
-
+			spriteIndexText >> std::ws >> tileIndex >> std::ws;
+            --tileIndex;     // The "Tiled" editor stores each sprite as 1-indexed (such that the "blank" or default tileIndex is 1). We reckon sprites to be 0-indexed.
+            
+            if( layer == 0 )
+            {
+                // Ensure that a TileGrid TileTemplate exists for this tile index.
+                //
+                while( tileIndex >= m_tileGrid->numTileTemplates() )
+                {
+                    m_tileGrid->addTileTemplate();
+                }
+                
+                // Assign this tile template to the Fresh TileGrid tile.
+                //
+                const auto& tileTemplate = m_tileGrid->tileTemplate( tileIndex );
+                ASSERT( tileTemplate );
+                
+                m_tileGrid->getTile( tilePos ).tileTemplate( tileTemplate );
+            }
+            
+            // Continue parsing.
+            //
 			const char separator = spriteIndexText.get();
+            
+            ++tilePos.x;
+            
+            if( tilePos.x >= size.x )
+            {
+                tilePos.x = 0;
+                ++tilePos.y;
+            }
 
 			if( separator == std::char_traits< char >::eof() )
 			{

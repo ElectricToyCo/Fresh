@@ -222,6 +222,8 @@ namespace fr
 		size_t m_tickCount = 0;
 
 		FantasyConsoleScreen::ptr m_screen;
+        
+        FreshTileGrid::ptr m_tileGrid;
 
 		vec2i m_userSpriteAreaDimensions;	// Size in texels of the sprite sheet provided by the user (sprites.png).
 		vec2ui m_fontTexelDimensions;		// Size in texels of the area within the sprite sheet where fonts live.
