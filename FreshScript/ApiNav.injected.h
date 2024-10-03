@@ -8,6 +8,6 @@
 
 public:
 
-std::tuple< bool, real, real > navdest( real desiredDestinationX, real desiredDestinationY, real radius, real originX, real originY );
-std::vector< std::tuple< real, real >> nav( real fromX, real fromY, real toX, real toY, real actorRadius, bool smooth );
+std::tuple< bool, real, real > navdest( real desiredDestinationX, real desiredDestinationY, real radius, real originX, real originY, int layer );
+std::vector< std::tuple< real, real >> nav( real fromX, real fromY, real toX, real toY, real actorRadius, bool smooth, int layer );
 

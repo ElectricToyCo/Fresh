@@ -12,14 +12,19 @@
 namespace fr
 {	
 	LUA_FUNCTION( navdest, 5 )
-	std::tuple< bool, real, real > FantasyConsole::navdest( real desiredDestinationX, real desiredDestinationY, real radius, real originX, real originY )
+	std::tuple< bool, real, real > FantasyConsole::navdest( real desiredDestinationX, real desiredDestinationY, real radius, real originX, real originY, int layer )
 	{
+        DEFAULT( layer, 0 );
+        
 		return { false, 0, 0 };
 	}
 
-	LUA_FUNCTION( nav, 4 )
-	std::vector< std::tuple< real, real >> FantasyConsole::nav( real fromX, real fromY, real toX, real toY, real actorRadius, bool smooth )
+	LUA_FUNCTION( nav, 3 )
+	std::vector< std::tuple< real, real >> FantasyConsole::nav( real fromX, real fromY, real toX, real toY, real actorRadius, bool smooth, int layer )
 	{
+        DEFAULT( smooth, false );
+        DEFAULT( layer, 0 );
+        
 		return {};
 	}
 }
