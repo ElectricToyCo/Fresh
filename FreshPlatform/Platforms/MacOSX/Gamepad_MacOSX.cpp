@@ -97,9 +97,12 @@ namespace
         }
     }
 
-    std::map< size_t, Gamepad::Button > getHIDButtonUsageMapping( const std::string& deviceName )
+    std::map< size_t, Gamepad::Button > getHIDButtonUsageMapping( const std::string& deviceName, uint vendorId, uint productId )
     {
-        if( deviceName == "DualSense Wireless Controller" )
+        // 'DualSense Wireless Controller' vendor: 1356 product: 3302
+        // 'DUALSHOCK 4 Wireless Controller' vendor: 1356 product: 2508
+        //
+        if( vendorId == 1356 )
         {
             // TODO support DPad = kHIDUsage_GD_Hatswitch
             return
@@ -110,6 +113,30 @@ namespace
                 std::make_pair( kHIDUsage_Button_1, Gamepad::Button::X ),
                 std::make_pair( kHIDUsage_Button_4, Gamepad::Button::Y ),
 //                std::make_pair( kHIDUsage_GD_DPadRight, Gamepad::Button::DPadRight ),   // Evidently the playstation registers DPad as the hat switch.
+//                std::make_pair( kHIDUsage_GD_DPadDown, Gamepad::Button::DPadDown ),
+//                std::make_pair( kHIDUsage_GD_DPadLeft, Gamepad::Button::DPadLeft ),
+//                std::make_pair( kHIDUsage_GD_DPadUp, Gamepad::Button::DPadUp ),
+                std::make_pair( kHIDUsage_Button_11, Gamepad::Button::LStick ),
+                std::make_pair( kHIDUsage_Button_12, Gamepad::Button::RStick ),
+                std::make_pair( kHIDUsage_Button_5, Gamepad::Button::LBumper ),
+                std::make_pair( kHIDUsage_Button_6, Gamepad::Button::RBumper ),
+                std::make_pair( kHIDUsage_Button_9, Gamepad::Button::Back ),                // Actually the "Share" button
+                std::make_pair( kHIDUsage_Button_10, Gamepad::Button::Start ),
+            };
+        }
+        
+        // '8bitdo SNO Pro+ GRAY' in Mac mode vendor: 1356 product: 1476
+        //
+        else if( vendorId == 1356 )
+        {
+            return
+            {
+                // TODO 2024-10-02 tested with Mac and Xbox 360 controller.
+                std::make_pair( kHIDUsage_Button_2, Gamepad::Button::A ),
+                std::make_pair( kHIDUsage_Button_3, Gamepad::Button::B ),
+                std::make_pair( kHIDUsage_Button_1, Gamepad::Button::X ),
+                std::make_pair( kHIDUsage_Button_4, Gamepad::Button::Y ),
+//                std::make_pair( kHIDUsage_GD_DPadRight, Gamepad::Button::DPadRight ),   // DPad registers as hat switch
 //                std::make_pair( kHIDUsage_GD_DPadDown, Gamepad::Button::DPadDown ),
 //                std::make_pair( kHIDUsage_GD_DPadLeft, Gamepad::Button::DPadLeft ),
 //                std::make_pair( kHIDUsage_GD_DPadUp, Gamepad::Button::DPadUp ),
@@ -211,7 +238,7 @@ namespace
                 std::make_pair( kHIDUsage_GD_Rz, Gamepad::Axis::RTrigger ),
             };
 
-            std::map< size_t, Gamepad::Button > hidUsagesToButtons = getHIDButtonUsageMapping( m_deviceName );
+            std::map< size_t, Gamepad::Button > hidUsagesToButtons = getHIDButtonUsageMapping( m_deviceName, m_vendorId, m_productId );
 
             std::map< size_t, Gamepad::Button > buttonMap;
             std::map< size_t, Gamepad::Axis > axisMap;
@@ -338,9 +365,13 @@ namespace
                     {
                         m_gamepad->setButtonValue( index, integerValue );
 
-                        gamepad_trace( "hardware button " << index << " with usage " << IOHIDElementGetUsage( iterFoundButton->element ) << " changed to " << integerValue );
+                        gamepad_trace( "hardware button " << index << " with usage " << IOHIDElementGetUsage( element ) << " changed to " << integerValue );
                     }
 				}
+                else
+                {
+                    gamepad_trace( "UNUSED hardware button with usage " << IOHIDElementGetUsage( element ) << " changed to " << integerValue );
+                }
 			}
 		}
 
