@@ -87,14 +87,6 @@ namespace fr
 		// PROMISES NOTHING. No triangles are produced if the lightPos is embedded
 		// in a blocking tile.
 		// Returns false iff the lightPos is inside a blocking tile.
-
-		
-		// Navigation /////////////////////////
-		//
-		SYNTHESIZE( const Vector2i&, priorPathNode );
-		real getPathScore( unsigned int type ) const		{ ASSERT( type < 3 );	return m_pathScores[ type ]; }
-		void setPathScore( unsigned int type, real score )	{ ASSERT( type < 3 );	m_pathScores[ type ] = score; }
-		SYNTHESIZE( size_t, iLastVisit );
 		
 	private:
 		
@@ -180,11 +172,14 @@ namespace fr
 
 		bool isInBounds( const Vector2i& pos ) const;
 		bool isInBounds( const vec2& pos ) const;
-		
+        bool isInBounds( int tileIndex ) const;
+
 		const Tile& getTile( const Vector2i& pos ) const;
 		const Tile& getTile( const vec2& pos ) const;
+        const Tile& getTile( int tileIndex ) const;
 		Tile& getTile( const Vector2i& pos );
 		Tile& getTile( const vec2& pos );
+        Tile& getTile( int tileIndex );
 
         void setTile( const Vector2i& pos, Tile::ptr tile );
         void setTile( const vec2& pos, Tile::ptr tile );
@@ -251,51 +246,14 @@ namespace fr
 		// REQUIRES( minDistance <= maxDistance );
 		// REQUIRES( minDistance >= 0 );
 		
-		struct NeighborIterator
-		{
-			NeighborIterator( FreshTileGrid& tileGrid, const Vector2i& tilePos, real actorRadius, bool isEnd = false, bool skipUnreachableNeighbors = true );
-			
-			Vector2i operator*() const;			
-			NeighborIterator& operator++();
-			NeighborIterator operator++( int );
-			
-			bool operator!=( const NeighborIterator& other ) const;
-			
-		protected:
-
-			bool isEnd() const;
-			Vector2i getCurrentNeighborPos() const;
-			
-		private:
-			
-			FreshTileGrid& m_tileGrid;
-			real m_actorRadius;
-			
-			Vector2i m_centralTilePos;
-			
-			Vector2i m_currentNeighborOffset;
-			Vector2i m_nextStepDir;
-			
-			bool m_skipUnreachableNeighbors;
-		};
-		
-		struct NeighborRange : public std::pair< NeighborIterator, NeighborIterator >
-		{
-			NeighborRange( NeighborIterator begin_, NeighborIterator end_ )
-			:	std::pair< NeighborIterator, NeighborIterator >( begin_, end_ )
-			{}
-			
-			NeighborIterator begin() { return first; }
-			NeighborIterator end() { return second; }
-		};
-		
-		NeighborIterator getNeighborBegin( const Vector2i& tilePos, real actorSize = 0 );
-		NeighborIterator getNeighborEnd( const Vector2i& tilePos, real actorSize = 0 );
-		NeighborRange	 getNeighborRange( const Vector2i& tilePos, real actorSize = 0 );
+		std::vector< int > getNeighbors( int tileIndex, real actorSize = 0 ) const;
 
 		void loadGridFromVector( const Vector2i& extents, const std::vector< size_t >& templateIndices );
 		void loadGridFromTexture( const Texture& texture );
 
+        int tileVecToIndex( const Vector2i& vec ) const;
+        Vector2i tileIndexToVec( int index ) const;
+        
 	protected:
 		
 		void markDirty();		// Indicates that the visuals should be updated.
@@ -322,7 +280,7 @@ namespace fr
 		Tile::ptr createTile( ObjectNameRef name = DEFAULT_OBJECT_NAME ) const;
 		
 		void fillNullTiles();
-		
+        
 	private:
 		
 		typedef std::vector< TileTemplate::ptr > TileTemplates;
@@ -365,21 +323,14 @@ namespace fr
 		return isInBounds( worldToTileSpace( pos ));
 	}	
 	
+    inline bool FreshTileGrid::isInBounds( int tileIndex ) const
+    {
+        return isInBounds( tileIndexToVec( tileIndex ));
+    }
+
 	inline const Tile& FreshTileGrid::getTile( const Vector2i& pos ) const
 	{
 		return const_cast< FreshTileGrid* >( this )->getTile( pos );
-	}
-	
-	inline Tile& FreshTileGrid::getTile( const Vector2i& pos )
-	{
-		if( isInBounds( pos ) )
-		{
-			if( const auto tile = m_tiles.cellAt( pos ) )
-			{
-				return *tile;
-			}
-		}
-		return *m_nullTile;
 	}
 	
 	inline const Tile& FreshTileGrid::getTile( const vec2& pos ) const
@@ -387,10 +338,32 @@ namespace fr
 		return getTile( worldToTileSpace( pos ));
 	}
 	
+    inline const Tile& FreshTileGrid::getTile( int tileIndex ) const
+    {
+        return getTile( tileIndexToVec( tileIndex ));
+    }
+
+    inline Tile& FreshTileGrid::getTile( const Vector2i& pos )
+    {
+        if( isInBounds( pos ) )
+        {
+            if( const auto tile = m_tiles.cellAt( pos ) )
+            {
+                return *tile;
+            }
+        }
+        return *m_nullTile;
+    }
+
 	inline Tile& FreshTileGrid::getTile( const vec2& pos )
 	{
 		return getTile( worldToTileSpace( pos ));
 	}
+
+    inline Tile& FreshTileGrid::getTile( int tileIndex )
+    {
+        return getTile( tileIndexToVec( tileIndex ));
+    }
 
     inline void FreshTileGrid::setTile( const Vector2i& pos, Tile::ptr tile )
     {

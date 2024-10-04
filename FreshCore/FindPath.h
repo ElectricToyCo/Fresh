@@ -18,29 +18,6 @@ using namespace std::placeholders;
 
 namespace fr
 {
-	// Helper function for findPath()
-	//
-	template< typename NodeT, NodeT (*fnGetPriorPathNode)( NodeT ) >
-	struct buildPath
-	{
-		explicit buildPath( NodeT nullNode_ ) : nullNode( nullNode_ ) {}
-
-		template< typename IterT >
-		void operator()( NodeT currentNode, IterT outPath )
-		{
-			while( currentNode != nullNode )
-			{
-				*outPath = currentNode;
-				currentNode = fnGetPriorPathNode( currentNode );
-
-				++outPath;
-			}
-		}
-
-	private:
-		NodeT nullNode;
-	};
-
 	// PathFinder /////////////////////////////////////////////////////////////////////////////////////////////
 	//
 	// This implementation may seem overcomplicated and laborious to use but the complexity arises from the
@@ -59,7 +36,6 @@ namespace fr
 	//
 
 	template< typename NodeT,
-		typename NeighborRangeT,
 		typename TimeT,
 		typename ScoreT = float,
 		typename NodeSetT = std::set< NodeT >
@@ -68,70 +44,46 @@ namespace fr
 	{
 	public:
 
-		using SetPriorPathNodeFnT = std::function< void( NodeT, NodeT ) >;
-		using GetScoreFnT = std::function< ScoreT( NodeT ) >;
-		using SetScoreFnT = std::function< void( NodeT, ScoreT ) >;
 		using HeuristicEstimateFnT = std::function< ScoreT( NodeT, NodeT ) >;
-		using IsInClosedSetFnT = std::function< bool( NodeT, size_t ) >;
-		using AddToClosedSetFnT = std::function< void( NodeT, size_t ) >;
-		using GetNeighborRangeFnT = std::function< NeighborRangeT( NodeT ) >;
+		using GetNeighborsFnT = std::function< std::vector< NodeT >( NodeT ) >;
 		using NodeDistanceFnT = std::function< ScoreT( NodeT, NodeT ) >;
 		using GetTimeFnT = std::function< TimeT() >;
 
 		PathFinder( const NodeT& start,
 					const NodeT& goal,
 					const NodeT& nullNode,
-					SetPriorPathNodeFnT&& setPriorPathNode,
-				    GetScoreFnT&& getScoreF,
-				    GetScoreFnT&& getScoreG,
-				    GetScoreFnT&& getScoreH,
-				    SetScoreFnT&& setScoreF,
-				    SetScoreFnT&& setScoreG,
-				    SetScoreFnT&& setScoreH,
 					HeuristicEstimateFnT&& heuristicEstimate,
-					IsInClosedSetFnT&& isInClosedSet,
-					AddToClosedSetFnT&& addToClosedSet,
-					GetNeighborRangeFnT&& getNeighborRange,
+                    GetNeighborsFnT&& getNeighbors,
 					NodeDistanceFnT&& nodeDistance,
 					GetTimeFnT&& time
 			)
 		:	m_start( start )
 		,	m_goal( goal )
 		,	m_null( nullNode )
-		,	m_setPriorPathNode( std::move( setPriorPathNode ))
-		,	m_getScoreF( std::move( getScoreF ))
-        ,	m_getScoreG( std::move( getScoreG ))
-        ,	m_getScoreH( std::move( getScoreH ))
-        ,	m_setScoreF( std::move( setScoreF ))
-        ,	m_setScoreG( std::move( setScoreG ))
-		,	m_setScoreH( std::move( setScoreH ))
 		,	m_heuristicEstimate( std::move( heuristicEstimate ))
-        ,	m_isInClosedSet( std::move( isInClosedSet ))
-        ,	m_addToClosedSet( std::move( addToClosedSet ))
-        ,	m_getNeighborRange( std::move( getNeighborRange ))
+        ,	m_getNeighbors( std::move( getNeighbors ))
         ,	m_nodeDistance( std::move( nodeDistance ))
 		,	m_time( std::move( time ))
-		{
-			++s_iVisit;
+        {
+            // Assumes that for all nodes, isInClosedSet( n, iVisit ) is initially false.
+            //
+            assert( m_goal != m_null );
 
-			// Assumes that for all nodes, isInClosedSet( n, iVisit ) is initially false.
-			//
-			assert( m_goal != m_null );
+            // Initialize the start node.
+            //
+            assert( m_start != m_null );
+            m_openSet.insert( m_start );
 
-			// Initialize the start node.
-			//
-			assert( m_start != m_null );
-			m_openSet.insert( m_start );
-
-			// Initialize start node scores.
-			//
-			m_setPriorPathNode( m_start, m_null );
-			m_setScoreG( m_start, ScoreT( 0 ) );
-			m_setScoreH( m_start, m_heuristicEstimate( m_start, m_goal ));
-			m_setScoreF( m_start, m_getScoreG( m_start ) + m_getScoreH( m_start ));
+            // Initialize start node scores.
+            //
+            const auto heuristicScore = m_heuristicEstimate( m_start, m_goal );
+            
+            m_priorPathNode[ m_start ] = m_null;
+            m_scoreG[ m_start ] = ScoreT( 0 );
+            m_scoreF[ m_start ] = heuristicScore;
 		}
 
-		bool findPath(bool& ranOutOfTime, TimeT timeLimit = TimeT( 0 ) )
+		bool findPath( bool& ranOutOfTime, TimeT timeLimit = TimeT( 0 ) )
 		{
 			TimeT startTime = m_time();
 			ranOutOfTime = false;
@@ -150,7 +102,7 @@ namespace fr
 
 				// Find the open node with the best estimated cost (score_f).
 				//
-				auto iterBest = std::min_element( m_openSet.begin(), m_openSet.end(), [this]( const auto& a, const auto& b ) { return m_getScoreF( a ) < m_getScoreF( b ); } );
+                auto iterBest = std::min_element( m_openSet.begin(), m_openSet.end(), [this]( const auto& a, const auto& b ) { return getScore( m_scoreF, a ) < getScore( m_scoreF, b ); } );
 				auto best = *iterBest;
 				assert( best != m_null );
 
@@ -164,33 +116,30 @@ namespace fr
 
 				// Move this node from the open to the closed set.
 				//
-				m_addToClosedSet( best, s_iVisit );
+                m_closedSet.insert( best );
 				m_openSet.erase( iterBest );
 
 				// Evaluate all neighbors.
 				//
-                const auto bestG = m_getScoreG( best );
-				for( auto neighbor : m_getNeighborRange( best ))
+                const auto bestG = getScore( m_scoreG, best );
+                const auto neighbors = m_getNeighbors( best );
+				for( auto neighbor : neighbors )
 				{
 					assert( best != neighbor );
 
-					if( !m_isInClosedSet( neighbor, s_iVisit ))		// Neighbor is not closed.
+					if( m_closedSet.find( neighbor ) == m_closedSet.end() )		// Neighbor is not closed.
 					{
 						const ScoreT tentativeScoreG = bestG + m_nodeDistance( best, neighbor );
-                        
-                        if( tentativeScoreG < m_getScoreG( neighbor ))
+
+                        if( tentativeScoreG < getScore( m_scoreG, neighbor ))
                         {
                             const ScoreT hScore = m_heuristicEstimate( neighbor, m_goal );
-                            
-                            m_setPriorPathNode( neighbor, best );
-                            m_setScoreG( neighbor, tentativeScoreG );
-                            m_setScoreH( neighbor, hScore );
-                            m_setScoreF( neighbor, tentativeScoreG + hScore );
 
-                            if( m_openSet.find( neighbor ) == m_openSet.end() )        // Neighbor is not open.
-                            {
-                                m_openSet.insert( neighbor );
-                            }
+                            m_priorPathNode[ neighbor ] = best;
+                            m_scoreG[ neighbor ] = tentativeScoreG;
+                            m_scoreF[ neighbor ] = tentativeScoreG + hScore;
+
+							m_openSet.insert( neighbor );
                         }
 					}
 
@@ -203,41 +152,69 @@ namespace fr
 			return false;
 		}
 
+        std::vector< NodeT > path() const
+        {
+            std::vector< NodeT > result;
+            
+            auto currentNode = m_goal;
+            while( currentNode != m_null )
+            {
+                result.push_back( currentNode );
+                currentNode = m_priorPathNode.find( currentNode )->second;
+            }
+            
+            // The path comes back in reverse order. Straighten it out.
+            //
+            std::reverse( result.begin(), result.end() );
+            
+            return result;
+        }
+
+
+    protected:
+
+        bool getPriorPathNode( const NodeT& forNode, NodeT& outNode ) const
+        {
+            const auto iter = m_priorPathNode.find( forNode );
+            if( iter != m_priorPathNode.end() )
+            {
+                outNode = iter->second;
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        ScoreT getScore( const std::unordered_map< NodeT, ScoreT >& map, const NodeT& node ) const
+        {
+            const auto iter = map.find( node );
+            if( iter != map.end() )
+            {
+                return iter->second;
+            }
+            else
+            {
+                return std::numeric_limits< ScoreT >::infinity();
+            }
+        }
+
 	private:
 
 		NodeT m_start, m_goal, m_null;
 		NodeSetT m_openSet;
-		static size_t s_iVisit;
+        NodeSetT m_closedSet;
 
-		SetPriorPathNodeFnT m_setPriorPathNode;
-		GetScoreFnT m_getScoreF;
-		GetScoreFnT m_getScoreG;
-		GetScoreFnT m_getScoreH;
-		SetScoreFnT m_setScoreF;
-		SetScoreFnT m_setScoreG;
-		SetScoreFnT m_setScoreH;
+        std::unordered_map< NodeT, NodeT > m_priorPathNode;
+        std::unordered_map< NodeT, ScoreT > m_scoreF;
+        std::unordered_map< NodeT, ScoreT > m_scoreG;
+
 		HeuristicEstimateFnT m_heuristicEstimate;
-        IsInClosedSetFnT m_isInClosedSet;
-        AddToClosedSetFnT m_addToClosedSet;
-        GetNeighborRangeFnT m_getNeighborRange;
+        GetNeighborsFnT m_getNeighbors;
         NodeDistanceFnT m_nodeDistance;
         GetTimeFnT m_time;
 	};
-
-	// Define s_iVisit ///////////////////////////////
-	//
-	template< typename NodeT,
-		typename NeighborRangeT,
-		typename TimeT,
-		typename ScoreT,
-		typename NodeSetT
-	>
-	size_t PathFinder< NodeT,
-		NeighborRangeT,
-		TimeT,
-		ScoreT,
-		NodeSetT >
-	::s_iVisit = 0;
 
 	///////////////////////////////////////////////////////////////////////////////////
 	// USE CASE
@@ -256,19 +233,7 @@ namespace fr
 			Neighbors neighbors;
 			NeighborCosts costs;
 
-			Neighbors::iterator getNeighborsBegin() { return neighbors.begin(); }
-			Neighbors::iterator getNeighborsEnd()	{ return neighbors.end(); }
-
-			struct IterRange : public std::pair< Neighbors::iterator, Neighbors::iterator >
-			{
-				IterRange( Neighbors::iterator begin_, Neighbors::iterator end_ )
-				:	std::pair< Neighbors::iterator, Neighbors::iterator >( begin_, end_ ) {}
-
-				Neighbors::iterator begin() { return first; }
-				Neighbors::iterator end() { return second; }
-			};
-			IterRange getNeighborsRange() 			{ return IterRange( getNeighborsBegin(), getNeighborsEnd() ); }
-
+            const Neighbors& getNeighbors() const { return neighbors; }
 
 			// Pathfinding data and accessors
 			//
@@ -294,7 +259,7 @@ namespace fr
 		bool betterScoreF( Node* p, Node* q );
 		bool isInClosedSet( Node* p, size_t iVisit );
 		void addToClosedSet( Node* p, size_t iVisit );
-		Node::IterRange getNeighborRange( Node* p );
+		const Node::Neighbors& getNeighbors( Node* p );
 		Node::Cost nodeDistance( Node* p, Node* q );
 		Node::Cost getHeuristicEstimate( Node* p, Node* q );
 		double time();
@@ -311,7 +276,7 @@ namespace fr
 		}
 		bool isInClosedSet( Node* p, size_t iVisit ) { return p->iLastVisit == iVisit; }
 		void addToClosedSet( Node* p, size_t iVisit ) { p->iLastVisit = iVisit; }
-		Node::IterRange getNeighborRange( Node* p ) { return p->getNeighborsRange(); }
+		const Node::Neighbors& getNeighbors( Node* p ) { return p->getNeighbors(); }
 		Node::Cost nodeDistance( Node* p, Node* q ) { return 0.0f;			/* TODO */ }
 		Node::Cost getHeuristicEstimate( Node* p, Node* q ) { return 0.0f;	/* TODO */ }
 
@@ -344,23 +309,13 @@ namespace fr
 
 			PathFinder<
 			Node*,
-			Node::IterRange,
 			double,
 			Node::Cost
 			> pathFinder( &( nodes[ iStart ] ),
 						  &( nodes[ iGoal ] ),
 						  nullptr,
-                          std::bind( setPriorPathNode, _1, _2 ),
-                          std::bind( getScore, _1, 0 ),
-						  std::bind( getScore, _1, 1 ),
-						  std::bind( getScore, _1, 2 ),
-						  std::bind( setScoreF, _1, _2 ),
-						  std::bind( setScoreG, _1, _2 ),
-						  std::bind( setScoreH, _1, _2 ),
 						  std::bind( getHeuristicEstimate, _1, _2 ),
-                          std::bind( isInClosedSet, _1, _2 ),
-                          std::bind( addToClosedSet, _1, _2 ),
-                          std::bind( getNeighborRange, _1 ),
+                          std::bind( getNeighbors, _1 ),
                           std::bind( nodeDistance, _1, _2 ),
 						  []() { return 0; }
 						  );
@@ -375,8 +330,7 @@ namespace fr
 			std::vector< Node* > path;
 			if( foundPath )
 			{
-				buildPath< Node*, &getPriorPathNode > pathBuilder( nullptr );
-				pathBuilder( &( nodes[ iGoal ]), std::back_inserter( path ));
+                path = pathFinder.path();
 			}
 		}
 	}
