@@ -197,7 +197,9 @@ namespace fr
 	template< typename CellT >
 	Vector2i Grid2< CellT >::worldToCell( const vec2& pos ) const
 	{
-		// std::floor() is important for correct behavior in negative space.
+        ASSERT( m_cellSize.x > 0 && m_cellSize.y > 0 );
+
+        // std::floor() is important for correct behavior in negative space.
 		return Vector2i( static_cast< int >( std::floor( pos.x / m_cellSize.x )),
 						 static_cast< int >( std::floor( pos.y / m_cellSize.y ) ));
 	}

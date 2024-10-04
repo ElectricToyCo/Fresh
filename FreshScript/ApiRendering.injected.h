@@ -16,7 +16,7 @@ void arc( real x, real y, real radius, real arcLength, real rotation, uint color
 void arcfill( real x, real y, real radius, real arcLength, real rotation, uint color, int segments );
 void circ( real x, real y, real radius, uint color, real lineThickness, int segments );
 void circfill( real x, real y, real radius, uint color, int segments );
-void line( real x0, real y0, real x1, real y1, uint color, real lineRhickness, std::string capType );
+void line( real x0, real y0, real x1, real y1, uint color, real lineThickness, std::string capType );
 void print( std::string message, real x, real y, uint color, int font, real scale, bool noNewline );
 void spr( int spriteIndex, real x, real y, int spritesWid, int spritesHgt, bool flipX, bool flipY, uint color, uint additiveColor );
 void sspr( int sx, int sy, int sw, int sh, real dx, real dy, real dw, real dh, bool flipX, bool flipY, uint color, uint additiveColor );

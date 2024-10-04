@@ -1075,7 +1075,13 @@ namespace fr
         
         if( layer == 0 )
         {
-            m_tileGrid->resizeToInclude( size );
+            m_tileGrid->resize( size );
+            
+            if( m_baseSpriteSizeInTexels.x != m_baseSpriteSizeInTexels.y )
+            {
+                console_trace( "Sprite size x != y (" << m_baseSpriteSizeInTexels.x << " != " << m_baseSpriteSizeInTexels.y << "). Using x value for map cell size." );
+            }
+            m_tileGrid->tileSize( m_baseSpriteSizeInTexels.x );
         }
         
         vec2i tilePos;
@@ -1097,6 +1103,8 @@ namespace fr
                 //
                 const auto& tileTemplate = m_tileGrid->tileTemplate( tileIndex );
                 ASSERT( tileTemplate );
+                
+                tileTemplate->isSolid( false );     // Tiles are assumed to be navigable.
                 
                 m_tileGrid->getTile( tilePos ).tileTemplate( tileTemplate );
             }
@@ -1136,6 +1144,15 @@ namespace fr
 		SANITIZE( wid, 8, 1, 4096 );
 		SANITIZE( hgt, wid, 1, 4096 );
 		m_baseSpriteSizeInTexels = vec2i( wid, hgt );
+        
+        if( m_tileGrid )
+        {
+            if( m_baseSpriteSizeInTexels.x != m_baseSpriteSizeInTexels.y )
+            {
+                console_trace( "Sprite size x != y (" << m_baseSpriteSizeInTexels.x << " != " << m_baseSpriteSizeInTexels.y << "). Using x value for map cell size." );
+            }
+            m_tileGrid->tileSize( m_baseSpriteSizeInTexels.x );
+        }
 	}
 
     LUA_FUNCTION( text_scale, 0 );

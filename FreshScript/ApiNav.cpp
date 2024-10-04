@@ -39,10 +39,18 @@ namespace fr
         DEFAULT( actorRadius, 1.0f );
         DEFAULT( smooth, false );
         
+        const auto from = vec2( fromX, fromY );
+        
         FreshTileGrid::WorldSpacePath path;
-        bool found = m_tileGrid->findClosestPath( vec2( fromX, fromY ), vec2( toX, toY ), path, actorRadius );
+        bool found = m_tileGrid->findClosestPath( from, vec2( toX, toY ), path, actorRadius );
         if( found )
         {
+            if( smooth )
+            {
+                m_tileGrid->smoothPath( path, from, actorRadius );
+                path.insert( path.begin(), from );
+            }
+            
             return fr::map( path, []( const vec2& position )
             {
                 return std::make_tuple( position.x, position.y );

@@ -16,7 +16,6 @@ using namespace fr;
 
 namespace 
 {
-	const real WALL_TO_DESTINATION_PADDING = 4.0f;
 	const Vector2i NULL_TILE_LOCATION{ std::numeric_limits< int >::min() };
 
 	class TileGridCollisionWrapper
@@ -1165,7 +1164,7 @@ namespace fr
 
 		// Quick first test: is the requested point valid?
 		//
-		if( isInBounds( desiredDestination ) && !wrapper( desiredDestination, radius + WALL_TO_DESTINATION_PADDING * 2 /* TODO */ ) )
+		if( isInBounds( desiredDestination ) && !wrapper( desiredDestination, radius ) )
 		{
 			outDestination = desiredDestination;
 			return true;
@@ -1259,7 +1258,7 @@ namespace fr
 				adjustmentDirection[ axis ] = sign( adjustmentDelta );
 				
 				const vec2 closeLocation = findClearLocationByBisection( outDestination, adjustmentDirection, std::abs( adjustmentDelta ), HelperIsClearTileCentersOnly( *this, wrapper ), 1.0f, radius );
-				outDestination += adjustmentDirection * (( closeLocation - outDestination ).length() - WALL_TO_DESTINATION_PADDING );		// Add a buffer of 4 units to the "close" location.
+				outDestination += adjustmentDirection * (( closeLocation - outDestination ).length() - radius );
 			}
 			return true;
 		}
