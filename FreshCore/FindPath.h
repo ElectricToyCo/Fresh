@@ -41,7 +41,22 @@ namespace fr
 		NodeT nullNode;
 	};
 
-	// findPath() /////////////////////////////////////////////////////////////////////////////////////////////
+	// PathFinder /////////////////////////////////////////////////////////////////////////////////////////////
+	//
+	// This implementation may seem overcomplicated and laborious to use but the complexity arises from the
+	// need for speed. You configure this PathFinder using functors of your own choosing, and the primary
+	// goal here is to enable you to store data associated with pathfinding directly in the nodes that
+	// the pathfinder examines. This tends to be much faster and somewhat smaller in memory than if the
+	// system stored all the data in local `vectors` and `maps`.
+	//
+	// Along the same lines, this implementation is complicated by the fact that you have to first
+	// create a PathFinder object and then call its `pathFind()` function. Why do that? Because this
+	// allows you to perform a single pathfinding query over the course of several calls. The benefit
+	// is that if each query takes a long time, you can set a time limit on each call and iteratively
+	// find the longest path. In essence, you can make pathfinding concurrent with your game.
+	//
+	// See the "USE CASE" down below the implementation for an example of how to use this system.
+	//
 
 	template< typename NodeT,
 		typename NeighborRangeT,
@@ -154,34 +169,29 @@ namespace fr
 
 				// Evaluate all neighbors.
 				//
+                const auto bestG = m_getScoreG( best );
 				for( auto neighbor : m_getNeighborRange( best ))
 				{
 					assert( best != neighbor );
 
 					if( !m_isInClosedSet( neighbor, s_iVisit ))		// Neighbor is not closed.
 					{
-						bool tentativeIsBetter = false;
-						const ScoreT tentativeScoreG = m_getScoreG( best ) + m_nodeDistance( best, neighbor );
+						const ScoreT tentativeScoreG = bestG + m_nodeDistance( best, neighbor );
+                        
+                        if( tentativeScoreG < m_getScoreG( neighbor ))
+                        {
+                            const ScoreT hScore = m_heuristicEstimate( neighbor, m_goal );
+                            
+                            m_setPriorPathNode( neighbor, best );
+                            m_setScoreG( neighbor, tentativeScoreG );
+                            m_setScoreH( neighbor, hScore );
+                            m_setScoreF( neighbor, tentativeScoreG + hScore );
 
-						if( m_openSet.find( neighbor ) == m_openSet.end() )		// Neighbor is not open.
-						{
-							m_openSet.insert( neighbor );
-							tentativeIsBetter = true;
-						}
-						else
-						{
-							tentativeIsBetter = tentativeScoreG < m_getScoreG( neighbor );
-						}
-
-						if( tentativeIsBetter )
-						{
-							const ScoreT hScore = m_heuristicEstimate( neighbor, m_goal );
-
-							m_setPriorPathNode( neighbor, best );
-							m_setScoreG( neighbor, tentativeScoreG );
-							m_setScoreH( neighbor, hScore );
-							m_setScoreF( neighbor, tentativeScoreG + hScore );
-						}
+                            if( m_openSet.find( neighbor ) == m_openSet.end() )        // Neighbor is not open.
+                            {
+                                m_openSet.insert( neighbor );
+                            }
+                        }
 					}
 
 				}	// End initializing neighbors.
