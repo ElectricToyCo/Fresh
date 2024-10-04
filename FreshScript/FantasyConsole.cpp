@@ -19,6 +19,7 @@
 #include "Dispatch.h"
 #include "CommandProcessor.h"
 #include "FreshXML.h"
+
 using namespace luacpp;
 
 namespace

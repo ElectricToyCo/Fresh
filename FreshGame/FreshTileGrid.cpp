@@ -821,7 +821,7 @@ namespace fr
 			// Is one of these paths blocked? If so the cost is infinite.
 			//
 			fr::Direction dir = direction( from, to );
-			if( !tileGrid->isInBounds( to ) || !tile( to ).isNavigable( dir ))
+			if( !tileGrid->isInBounds( to ) || !tile( to ).isNavigable( dir ) || !tile( from ).isNavigable( dir ))
 			{
 				return std::numeric_limits< Cost >::infinity();
 			}

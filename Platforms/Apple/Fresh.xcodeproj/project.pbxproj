@@ -673,6 +673,7 @@
 		295A3C5B51D345C1B6811B99 /* EdManipulator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EdManipulator.h; path = FreshEditor/EdManipulator.h; sourceTree = SOURCE_ROOT; };
 		29AFCD4AB7F448718C341EEF /* SmartPtr.inl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SmartPtr.inl.h; path = FreshCore/SmartPtr.inl.h; sourceTree = SOURCE_ROOT; };
 		2A75B1796D4A42C88A95207C /* DisplayPackage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DisplayPackage.h; path = FreshScene2D/DisplayPackage.h; sourceTree = SOURCE_ROOT; };
+		2BEFADAD2CB03FC8001CAAE0 /* FindPath_Simple.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = FindPath_Simple.h; path = /Users/jeffwofford/Development/electrictoy/fresh.ly/Fresh/FreshCore/FindPath_Simple.h; sourceTree = "<absolute>"; };
 		2C436516240C43EC8C322290 /* SubjectObserver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SubjectObserver.h; path = FreshCore/SubjectObserver.h; sourceTree = SOURCE_ROOT; };
 		2C905B58B439408ABC891E71 /* FreshCloth.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FreshCloth.h; path = FreshCore/FreshCloth.h; sourceTree = SOURCE_ROOT; };
 		2E499EA720F14672B80D1441 /* PropertyPane.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = PropertyPane.cpp; path = FreshEditor/PropertyPane.cpp; sourceTree = SOURCE_ROOT; };
@@ -1437,6 +1438,7 @@
 				1FEFF9F21CAF853500E131F8 /* Dispatch.h */,
 				20D7ABAB4273462093A20872 /* escaped_string.h */,
 				BFEE594753494D8399FAFA79 /* FindPath.h */,
+				2BEFADAD2CB03FC8001CAAE0 /* FindPath_Simple.h */,
 				2C905B58B439408ABC891E71 /* FreshCloth.h */,
 				2116193A57A34C82BE80EC70 /* FreshDebug.cpp */,
 				262804D5179D4248876BB0BE /* FreshDebug.h */,
