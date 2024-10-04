@@ -1284,34 +1284,25 @@ namespace fr
 					 goal, 
 					 NULL_TILE_LOCATION,
 					 std::bind( TileGridNavigationHelper::setPriorPathNode, _1, _2 ),
+                     std::bind( TileGridNavigationHelper::getScore, _1, 0 ),
 					 std::bind( TileGridNavigationHelper::getScore, _1, 1 ),
 					 std::bind( TileGridNavigationHelper::getScore, _1, 2 ),
 					 std::bind( TileGridNavigationHelper::setScoreF, _1, _2 ),
 					 std::bind( TileGridNavigationHelper::setScoreG, _1, _2 ),
 					 std::bind( TileGridNavigationHelper::setScoreH, _1, _2 ),
-					 std::bind( TileGridNavigationHelper::getHeuristicEstimate, _1, _2 )
+					 std::bind( TileGridNavigationHelper::getHeuristicEstimate, _1, _2 ),
+                     std::bind( TileGridNavigationHelper::isInClosedSet, _1, _2 ),
+                     std::bind( TileGridNavigationHelper::addToClosedSet, _1, _2 ),
+                     std::bind( TileGridNavigationHelper::getNeighborRange, _1 ),
+                     std::bind( TileGridNavigationHelper::nodeDistance, _1, _2 ),
+                     []() { return fr::getAbsoluteTimeClocks(); }
 					 );
 		
 		bool needsMoreTime = true;
 		bool foundPath = false;
 		while( needsMoreTime )
 		{
-			foundPath = pathFinder.findPath( needsMoreTime,
-											std::bind( TileGridNavigationHelper::setPriorPathNode, _1, _2 ),
-											std::bind( TileGridNavigationHelper::getScore, _1, 0 ),
-											std::bind( TileGridNavigationHelper::getScore, _1, 1 ),
-											std::bind( TileGridNavigationHelper::getScore, _1, 2 ),
-											std::bind( TileGridNavigationHelper::setScoreF, _1, _2 ),
-											std::bind( TileGridNavigationHelper::setScoreG, _1, _2 ),
-											std::bind( TileGridNavigationHelper::setScoreH, _1, _2 ),
-											std::bind( TileGridNavigationHelper::betterScoreF, _1, _2 ),
-											std::bind( TileGridNavigationHelper::isInClosedSet, _1, _2 ),
-											std::bind( TileGridNavigationHelper::addToClosedSet, _1, _2 ),
-											std::bind( TileGridNavigationHelper::getNeighborRange, _1 ),
-											std::bind( TileGridNavigationHelper::nodeDistance, _1, _2 ),
-											std::bind( TileGridNavigationHelper::getHeuristicEstimate, _1, _2 ),
-											fr::getAbsoluteTimeClocks											
-											);
+			foundPath = pathFinder.findPath( needsMoreTime );
 		}
 		
 		outPath.clear();
