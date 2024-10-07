@@ -237,35 +237,40 @@ namespace fr
 		return m_templates.back();
 	}
 
+    void FreshTileGrid::addStockTemplates()
+    {
+        if( m_hasAddedStockTemplates ) return;
+        
+        // Null template
+        //
+        m_templates.push_back( createObject< TileTemplate >( name() + "null template" ));
+        m_templates.back()->isSolid( m_nullTemplateIsSolid );
+        m_templates.back()->doesRender( false );
+        m_templates.back()->doesBlockLight( false );
+
+        // Set the null tile.
+        //
+        if( !m_nullTile )
+        {
+            m_nullTile = createTile( name() + "null tile" );
+            m_nullTile->tileTemplate( m_templates.back() );
+        }
+
+        // "Empty" template blocks movement but not light.
+        //
+        m_templates.push_back( createObject< TileTemplate >( name() + "empty template" ));
+        m_templates.back()->isSolid( true );
+        m_templates.back()->doesRender( false );
+        m_templates.back()->doesBlockLight( false );
+        
+        m_hasAddedStockTemplates = true;
+    }
+
 	void FreshTileGrid::postLoad()
 	{
 		Super::postLoad();
 
-		//
-		// Add stock templates.
-		//
-
-		// Null template
-		//
-		m_templates.push_back( createObject< TileTemplate >( name() + "null template" ));
-		m_templates.back()->isSolid( m_nullTemplateIsSolid );
-		m_templates.back()->doesRender( false );
-		m_templates.back()->doesBlockLight( false );
-
-		// Set the null tile.
-		//
-		if( !m_nullTile )
-		{
-			m_nullTile = createTile( name() + "null tile" );
-			m_nullTile->tileTemplate( m_templates.back() );
-		}
-
-		// "Empty" template blocks movement but not light.
-		//
-		m_templates.push_back( createObject< TileTemplate >( name() + "empty template" ));
-		m_templates.back()->isSolid( true );
-		m_templates.back()->doesRender( false );
-		m_templates.back()->doesBlockLight( false );
+        addStockTemplates();
 
 		if( m_creationGridImage )
 		{
@@ -280,6 +285,7 @@ namespace fr
 
 	TileTemplate::ptr FreshTileGrid::nullTemplate() const
 	{
+        const_cast< FreshTileGrid* >( this )->addStockTemplates();
 		return m_templates.at( m_templates.size() - 2 );
 	}
 

@@ -1021,8 +1021,6 @@ namespace fr
             return;
 		}
         
-        m_tileGrid = createObject< FreshTileGrid >();
-
 		size_t layer = 0;
 		for( auto layerElement = rootElement->FirstChildElement( "layer" );
 			 layerElement;
@@ -1076,8 +1074,14 @@ namespace fr
         
         if( layer == 0 )
         {
+            if( !m_tileGrid )
+            {
+                m_tileGrid = createObject< FreshTileGrid >();
+            }
+
             m_tileGrid->resize( size );
-            
+            m_spriteTileTemplates.clear();
+
             if( m_baseSpriteSizeInTexels.x != m_baseSpriteSizeInTexels.y )
             {
                 console_trace( "Sprite size x != y (" << m_baseSpriteSizeInTexels.x << " != " << m_baseSpriteSizeInTexels.y << "). Using x value for map cell size." );
@@ -1095,18 +1099,24 @@ namespace fr
             {
                 // Ensure that a TileGrid TileTemplate exists for this tile index.
                 //
-                while( tileIndex >= m_tileGrid->numTileTemplates() )
+                const auto iter = m_spriteTileTemplates.find( tileIndex );
+                
+                TileTemplate::ptr tileTemplate;
+                
+                if( iter == m_spriteTileTemplates.end() )
                 {
-                    m_tileGrid->addTileTemplate();
+                    tileTemplate = m_tileGrid->addTileTemplate();
+                    m_spriteTileTemplates[ tileIndex ] = tileTemplate;
+                    tileTemplate->isSolid( false );     // Tiles are assumed to be navigable.
+                }
+                else
+                {
+                    tileTemplate = iter->second;
                 }
                 
                 // Assign this tile template to the Fresh TileGrid tile.
                 //
-                const auto& tileTemplate = m_tileGrid->tileTemplate( tileIndex );
                 ASSERT( tileTemplate );
-                
-                tileTemplate->isSolid( false );     // Tiles are assumed to be navigable.
-                
                 m_tileGrid->getTile( tilePos ).tileTemplate( tileTemplate );
             }
             

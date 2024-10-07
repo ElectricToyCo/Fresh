@@ -224,7 +224,8 @@ namespace fr
 		FantasyConsoleScreen::ptr m_screen;
         
         FreshTileGrid::ptr m_tileGrid;
-
+        std::unordered_map< int, TileTemplate::ptr > m_spriteTileTemplates;
+        
 		vec2i m_userSpriteAreaDimensions;	// Size in texels of the sprite sheet provided by the user (sprites.png).
 		vec2ui m_fontTexelDimensions;		// Size in texels of the area within the sprite sheet where fonts live.
 		vec2i m_fontsBaseTexelPos;			// Texel position of the UL corner of the topmost font in the spritesheet.

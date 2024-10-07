@@ -281,6 +281,8 @@ namespace fr
 		
 		void fillNullTiles();
         
+        void addStockTemplates();
+        
 	private:
 		
 		typedef std::vector< TileTemplate::ptr > TileTemplates;
@@ -303,6 +305,8 @@ namespace fr
 		DVAR( uint, m_collisionRefusalMask, 0 );
 
 		Tiles m_tiles;
+        
+        bool m_hasAddedStockTemplates = false;
 		
 		bool m_dirty = true;
 	};

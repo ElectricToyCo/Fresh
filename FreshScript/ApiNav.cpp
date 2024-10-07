@@ -16,7 +16,7 @@ namespace fr
     {
         DEFAULT( solid, true );
         
-        if( static_cast< size_t >( sprite ) >= m_tileGrid->numTileTemplates() )
+        if( !m_tileGrid || static_cast< size_t >( sprite ) >= m_tileGrid->numTileTemplates() )
         {
             return;
         }
@@ -27,6 +27,8 @@ namespace fr
 	LUA_FUNCTION( navdest, 5 )
 	std::tuple< bool, real, real > FantasyConsole::navdest( real desiredDestinationX, real desiredDestinationY, real radius, real originX, real originY )
 	{
+        if( !m_tileGrid ) return { false, 0, 0 };
+        
         vec2 destination;
         bool found = m_tileGrid->findValidDestination( destination, vec2( desiredDestinationX, desiredDestinationY), radius, vec2( originX, originY ));
         
@@ -36,6 +38,8 @@ namespace fr
 	LUA_FUNCTION( nav, 4 )
 	std::vector< std::tuple< real, real >> FantasyConsole::nav( real fromX, real fromY, real toX, real toY, real actorRadius, bool smooth )
 	{
+        if( !m_tileGrid ) return {};
+        
         DEFAULT( actorRadius, 1.0f );
         DEFAULT( smooth, false );
         
