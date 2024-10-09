@@ -11,17 +11,44 @@
 
 namespace fr
 {
+    LUA_FUNCTION( solid, 0 )
+    bool FantasyConsole::solid( int sprite )
+    {
+        if( !m_tileGrid )
+        {
+            return false;
+        }
+        
+        const auto iter = m_spriteTileTemplates.find( sprite );
+        if( iter == m_spriteTileTemplates.end() )
+        {
+            return false;
+        }
+        else
+        {
+            return iter->second->isSolid();
+        }
+    }
+
     LUA_FUNCTION( ssolid, 1 )
     void FantasyConsole::ssolid( int sprite, bool solid )
     {
         DEFAULT( solid, true );
         
-        if( !m_tileGrid || static_cast< size_t >( sprite ) >= m_tileGrid->numTileTemplates() )
+        if( !m_tileGrid )
         {
             return;
         }
         
-        m_tileGrid->tileTemplate( sprite )->isSolid( solid );
+        const auto iter = m_spriteTileTemplates.find( sprite );
+        if( iter != m_spriteTileTemplates.end() )
+        {
+            iter->second->isSolid( solid );
+        }
+        else
+        {
+            console_trace( "WARNING: ssolid( " << sprite << " ): this sprite was not configured at map-load time to be associated with solidity data." );
+        }
     }
 
 	LUA_FUNCTION( navdest, 5 )
