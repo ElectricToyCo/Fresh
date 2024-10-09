@@ -998,7 +998,7 @@ namespace fr
 		{
 			m_touchPos.set( -1, -1 );
 		}
-
+        
 		updateVirtualTrackball();
 	}
 
@@ -1436,7 +1436,7 @@ namespace fr
 	void FantasyConsole::onWheelMove( const EventTouch& event )
 	{
 		Super::onWheelMove( event );
-		// TODO
+        m_wheelDelta = event.wheelDelta();
 	}
 
 	void FantasyConsole::onDragBegin( const EventTouch& event )

@@ -70,6 +70,18 @@ namespace fr
 		return !m_touchDown ? m_touchPos.y : -1;
 	}
 
+    LUA_FUNCTION( wheelx, 0 )
+    real FantasyConsole::wheelx()
+    {
+        return m_wheelDelta.x;
+    }
+
+    LUA_FUNCTION( wheely, 0 )
+    real FantasyConsole::wheely()
+    {
+        return m_wheelDelta.y;
+    }
+
 	LUA_FUNCTION( btn, 1 )
 	bool FantasyConsole::btn( int button, int player )
 	{

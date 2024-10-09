@@ -12,6 +12,8 @@ int touchx();
 int touchy();
 int touchupx();
 int touchupy();
+real wheelx();
+real wheely();
 
 bool btn( int button, int player );
 bool btnp( int button, int player );
@@ -43,6 +45,7 @@ private:
 
 bool m_touchDown = false;
 vec2i m_touchPos;
+vec2 m_wheelDelta;
 
 std::vector< std::vector< bool >> m_buttonsDown;
 std::vector< std::vector< bool >> m_buttonsDownPrev;
