@@ -999,6 +999,8 @@ namespace fr
 			m_touchPos.set( -1, -1 );
 		}
         
+        m_wheelDelta.setToZero();
+        
 		updateVirtualTrackball();
 	}
 
