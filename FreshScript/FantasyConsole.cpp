@@ -1644,6 +1644,11 @@ namespace fr
 
 	FRESH_DEFINE_CALLBACK( FantasyConsole, onStageTouchBegin, EventTouch )
 	{
+        if( !m_virtualTrackball )
+        {
+            return;
+        }
+        
 		const auto button = buttonForTouchLocation( event.location() );
 		if( button >= 0 )
 		{
@@ -1654,7 +1659,12 @@ namespace fr
 
 	FRESH_DEFINE_CALLBACK( FantasyConsole, onStageTouchEnd, EventTouch )
 	{
-		// Update console buttons based on touch movements.
+        if( !m_virtualTrackball )
+        {
+            return;
+        }
+
+        // Update console buttons based on touch movements.
 		//
 		const auto iter = m_touchForVirtualButton.find( event.touchId() );
 		if( iter != m_touchForVirtualButton.end() )
